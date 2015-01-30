@@ -1,0 +1,946 @@
+[
+  {
+    "message":"Warren McGuirk Alumni Stadium",
+    "lng":-72.53598690032959,
+    "lat":42.37740972143305
+  },
+  {
+    "message":"Berkshire Dining Hall",
+    "lng":-72.52995729446411,
+    "lat":42.381911311120696
+  },
+  {
+    "message":"Cance Dorm",
+    "lng":-72.52995729446411,
+    "lat":42.381087100524596
+  },
+  {
+    "message":"Pierpont Dorm",
+    "lng":-72.53098726272583,
+    "lat":42.381499207175054
+  },
+  {
+    "message":"Moore Dorm",
+    "lng":-72.53081560134886,
+    "lat":42.382196612267784
+  },
+  {
+    "message":"Washington Hall",
+    "lng":-72.52933502197266,
+    "lat":42.38159430832567
+  },
+  {
+    "message":"Adams Dorm",
+    "lng":-72.5288414955139,
+    "lat":42.381847910689736
+  },
+  {
+    "message":"John Quincy Adams Dorm",
+    "lng":-72.52913117408752,
+    "lat":42.38227586235633
+  },
+  {
+    "message":"Hampden Dining Hall",
+    "lng":-72.52969980239868,
+    "lat":42.3828306101754
+  },
+  {
+    "message":"MacKimmie Dorm",
+    "lng":-72.5286054611206,
+    "lat":42.38282664770835
+  },
+  {
+    "message":"Crampton Dorm",
+    "lng":-72.52903997898102,
+    "lat":42.383270442462496
+  },
+  {
+    "message":"Prince Dorm",
+    "lng":-72.52889513969421,
+    "lat":42.38406688768139
+  },
+  {
+    "message":"Kennedy Dorm",
+    "lng":-72.52967834472656,
+    "lat":42.384090662010244
+  },
+  {
+    "message":"Coolidge Dorm",
+    "lng":-72.52981781959534,
+    "lat":42.38366668512784
+  },
+  {
+    "message":"Thoreau Dorm",
+    "lng":-72.53021478652954,
+    "lat":42.38441557693553
+  },
+  {
+    "message":"Melville Dorm",
+    "lng":-72.53075659275055,
+    "lat":42.3847167160965
+  },
+  {
+    "message":"James Dorm",
+    "lng":-72.53117501735687,
+    "lat":42.38416198494277
+  },
+  {
+    "message":"Hampshire Dining Hall",
+    "lng":-72.53047227859496,
+    "lat":42.383821219089484
+  },
+  {
+    "message":"Emerson Dorm",
+    "lng":-72.53137350082397,
+    "lat":42.383436864686544
+  },
+  {
+    "message":"Rudd Field",
+    "lng":-72.53592252731323,
+    "lat":42.38248983709581
+  },
+  {
+    "message":"Lincoln Apartments #11",
+    "lng":-72.52600371837616,
+    "lat":42.38387273032551
+  },
+  {
+    "message":"Lincoln Apartments #10",
+    "lng":-72.52636849880219,
+    "lat":42.383686497195455
+  },
+  {
+    "message":"Lincoln Apartments #9",
+    "lng":-72.5259393453598,
+    "lat":42.38360328646944
+  },
+  {
+    "message":"Lincoln Apartments #8",
+    "lng":-72.52565503120422,
+    "lat":42.383777632626
+  },
+  {
+    "message":"Lincoln Apartments #7",
+    "lng":-72.5253278017044,
+    "lat":42.383833106301545
+  },
+  {
+    "message":"Lincoln Apartments #6",
+    "lng":-72.5249844789505,
+    "lat":42.38373800854201
+  },
+  {
+    "message":"Lincoln Apartments #5",
+    "lng":-72.52470016479492,
+    "lat":42.3834883762379
+  },
+  {
+    "message":"Lincoln Apartments #4",
+    "lng":-72.52475380897522,
+    "lat":42.38316345651407
+  },
+  {
+    "message":"Lincoln Apartments #3",
+    "lng":-72.52545654773711,
+    "lat":42.3831753438507
+  },
+  {
+    "message":"Lincoln Apartments #2",
+    "lng":-72.52586960792542,
+    "lat":42.383270442462496
+  },
+  {
+    "message":"Lincoln Apartments #1",
+    "lng":-72.526153922081,
+    "lat":42.383123832042486
+  },
+  {
+    "message":"Robsham Visitors Center",
+    "lng":-72.52525806427002,
+    "lat":42.38516842212959
+  },
+  {
+    "message":"Isenberg School of Management",
+    "lng":-72.52489328384398,
+    "lat":42.386721632107964
+  },
+  {
+    "message":"Newman Center",
+    "lng":-72.5231659412384,
+    "lat":42.38664238763121
+  },
+  {
+    "message":"Mahar Auditorium",
+    "lng":-72.52419590950012,
+    "lat":42.38657899197777
+  },
+  {
+    "message":"Whitmore Administration Building",
+    "lng":-72.5266420841217,
+    "lat":42.38591333375151
+  },
+  {
+    "message":"Herter Hall",
+    "lng":-72.52724289894104,
+    "lat":42.38739520612153
+  },
+  {
+    "message":"Fine Arts Center",
+    "lng":-72.525794506073,
+    "lat":42.38815593984599,
+    "shortname":"FAC"
+  },
+  {
+    "message":"Curry Hicks Physical Education Building",
+    "lng":-72.52797245979309,
+    "lat":42.38733181122835
+  },
+  {
+    "message":"Curry Hicks Education Cage",
+    "lng":-72.52834796905518,
+    "lat":42.38711785299124
+  },
+  {
+    "message":"Munson Hall Annex",
+    "lng":-72.52802610397339,
+    "lat":42.38651559626034
+  },
+  {
+    "message":"Munson Hall",
+    "lng":-72.52760767936707,
+    "lat":42.38659484089713
+  },
+  {
+    "message":"Middlesex House",
+    "lng":-72.52849817276,
+    "lat":42.38559635116298
+  },
+  {
+    "message":"Berkshire House",
+    "lng":-72.52890586853027,
+    "lat":42.38554087904542
+  },
+  {
+    "message":"Hampshire House",
+    "lng":-72.52858400344849,
+    "lat":42.38514464820887
+  },
+  {
+    "message":"Army ROTC Building",
+    "lng":-72.52966761589049,
+    "lat":42.38520804531078
+  },
+  {
+    "message":"Boyden Gymnasium",
+    "lng":-72.53047227859496,
+    "lat":42.38638880463336
+  },
+  {
+    "message":"Linden House",
+    "lng":-72.53109455108643,
+    "lat":42.386943516110705
+  },
+  {
+    "message":"Oak House",
+    "lng":-72.53048300743103,
+    "lat":42.38740313047869
+  },
+  {
+    "message":"Elm House",
+    "lng":-72.53000020980835,
+    "lat":42.38798160584841
+  },
+  {
+    "message":"Tobin Hall",
+    "lng":-72.52956032752991,
+    "lat":42.387490298341255
+  },
+  {
+    "message":"Bartlett",
+    "lng":-72.52864837646484,
+    "lat":42.38770425530897
+  },
+  {
+    "message":"Central Facility",
+    "lng":-72.5295066833496,
+    "lat":42.387918211547415
+  },
+  {
+    "message":"Maple House",
+    "lng":-72.53120183944702,
+    "lat":42.38737935740425
+  },
+  {
+    "message":"Birch House",
+    "lng":-72.53149151802063,
+    "lat":42.38801330297487
+  },
+  {
+    "message":"Sycamore House",
+    "lng":-72.53066539764404,
+    "lat":42.388282727903764
+  },
+  {
+    "message":"Memorial Hall",
+    "lng":-72.52758622169495,
+    "lat":42.388417439934535
+  },
+  {
+    "message":"W.E.B Du Bois Library",
+    "lng":-72.5282084941864,
+    "lat":42.38982001272745
+  },
+  {
+    "message":"South College",
+    "lng":-72.52885222434998,
+    "lat":42.389558518481856
+  },
+  {
+    "message":"Goodell Building",
+    "lng":-72.52890586853027,
+    "lat":42.38877402920884
+  },
+  {
+    "message":"Goodell Building Addition",
+    "lng":-72.5292706489563,
+    "lat":42.38864724214339
+  },
+  {
+    "message":"Dickinson Hall",
+    "lng":-72.53034353256226,
+    "lat":42.389075147462925
+  },
+  {
+    "message":"Recreation Center",
+    "lng":-72.5316846370697,
+    "lat":42.38882949846944
+  },
+  {
+    "message":"Mullins Memorial Center",
+    "lng":-72.53334760665894,
+    "lat":42.38940796069477
+  },
+  {
+    "message":"Practice Rink",
+    "lng":-72.53401279449463,
+    "lat":42.39046185762082
+  },
+  {
+    "message":"Central Heating Plant",
+    "lng":-72.53720998764038,
+    "lat":42.38984378487756
+  },
+  {
+    "message":"CHP Tank Farm",
+    "lng":-72.53714561462402,
+    "lat":42.39035092193555
+  },
+  {
+    "message":"Physical Plant Building",
+    "lng":-72.53244638442992,
+    "lat":42.39115916315282
+  },
+  {
+    "message":"Physical Plant Building Addition",
+    "lng":-72.53195285797119,
+    "lat":42.391095772060936
+  },
+  {
+    "message":"Textbook Annex",
+    "lng":-72.5316846370697,
+    "lat":42.391064076490984
+  },
+  {
+    "message":"Art Barn",
+    "lng":-72.53129839897154,
+    "lat":42.39147611765197
+  },
+  {
+    "message":"Plant & Soils Greenhouse #9",
+    "lng":-72.53188848495483,
+    "lat":42.39170987056959
+  },
+  {
+    "message":"Research/Education Greenhouse",
+    "lng":-72.5318455696106,
+    "lat":42.39207040302384
+  },
+  {
+    "message":"Bowditch Hall Greenhouse",
+    "lng":-72.53197431564331,
+    "lat":42.3923992385114
+  },
+  {
+    "message":"Bowditch Hall",
+    "lng":-72.53194749355316,
+    "lat":42.39270033937455
+  },
+  {
+    "message":"Agricultural Engineering Annex B",
+    "lng":-72.53111064434052,
+    "lat":42.39149988917488
+  },
+  {
+    "message":"Agricultural Engineering South",
+    "lng":-72.53084778785706,
+    "lat":42.391690061034055
+  },
+  {
+    "message":"Cold Storage Building",
+    "lng":-72.53044545650482,
+    "lat":42.39155535602666
+  },
+  {
+    "message":"Chenoweth Lab",
+    "lng":-72.53021478652954,
+    "lat":42.39157516560469
+  },
+  {
+    "message":"Chenoweth Lab Addition",
+    "lng":-72.53019869327545,
+    "lat":42.39211002184856
+  },
+  {
+    "message":"Agricultural Engineering North",
+    "lng":-72.53097653388976,
+    "lat":42.3922169925504
+  },
+  {
+    "message":"Agricultural Engineering Annex A",
+    "lng":-72.53135204315186,
+    "lat":42.3922130306758
+  },
+  {
+    "message":"Agricultural Engineering Center",
+    "lng":-72.5310730934143,
+    "lat":42.391979279632075
+  },
+  {
+    "message":"Flint Laboratory",
+    "lng":-72.52956569194792,
+    "lat":42.39171383247595
+  },
+  {
+    "message":"Stockbridge Hall",
+    "lng":-72.5294691324234,
+    "lat":42.392232840046276
+  },
+  {
+    "message":"Hatch Laboratory",
+    "lng":-72.5303167104721,
+    "lat":42.39253394170769
+  },
+  {
+    "message":"Holdsworth Hall",
+    "lng":-72.53090679645538,
+    "lat":42.392906354922296
+  },
+  {
+    "message":"Campus Center Parking Garage",
+    "lng":-72.5290024280548,
+    "lat":42.39121463030571
+  },
+  {
+    "message":"Machmer Hall",
+    "lng":-72.52899169921875,
+    "lat":42.39034299795055
+  },
+  {
+    "message":"Thompson Hall",
+    "lng":-72.52975344657898,
+    "lat":42.39015282200995
+  },
+  {
+    "message":"George Parks Marching Band",
+    "lng":-72.53067076206207,
+    "lat":42.38967341760272
+  },
+  {
+    "message":"Photo Laboratory",
+    "lng":-72.53037571907043,
+    "lat":42.39050147746088
+  },
+  {
+    "message":"Blaisdell House",
+    "lng":-72.53068149089813,
+    "lat":42.39004980980156
+  },
+  {
+    "message":"Steam and Condensate Building",
+    "lng":-72.53094434738159,
+    "lat":42.390283568030995
+  },
+  {
+    "message":"Horse Barn",
+    "lng":-72.53121256828308,
+    "lat":42.38997056952619
+  },
+  {
+    "message":"Grinnell Arena",
+    "lng":-72.53107845783234,
+    "lat":42.38954267031073
+  },
+  {
+    "message":"Studio Arts Building ",
+    "lng":-72.52286553382874,
+    "lat":42.38757350391536
+  },
+  {
+    "message":"Hills House",
+    "lng":-72.52201795578003,
+    "lat":42.387450676600544
+  },
+  {
+    "message":"Gorman Hall",
+    "lng":-72.52100944519043,
+    "lat":42.38751407137369
+  },
+  {
+    "message":"Research Administration",
+    "lng":-72.52098798751831,
+    "lat":42.387022760207316
+  },
+  {
+    "message":"Fernald Hall",
+    "lng":-72.52243638038634,
+    "lat":42.38851253060576
+  },
+  {
+    "message":"Franklin Dining Commons",
+    "lng":-72.52253293991089,
+    "lat":42.389186085402926
+  },
+  {
+    "message":"Clark Hall",
+    "lng":-72.52368092536926,
+    "lat":42.389241554299396
+  },
+  {
+    "message":"Morrill III",
+    "lng":-72.52432465553284,
+    "lat":42.38936834016445
+  },
+  {
+    "message":"Stockbridge House",
+    "lng":-72.52367556095123,
+    "lat":42.389760582312746
+  },
+  {
+    "message":"Wilder Hall",
+    "lng":-72.52369701862335,
+    "lat":42.390311302000455
+  },
+  {
+    "message":"Morrill II",
+    "lng":-72.52444803714752,
+    "lat":42.38986359499581
+  },
+  {
+    "message":"Morrill IV",
+    "lng":-72.5246250629425,
+    "lat":42.39050940142588
+  },
+  {
+    "message":"Morrill I",
+    "lng":-72.52403497695923,
+    "lat":42.39091748427174
+  },
+  {
+    "message":"Integrated Learning Center",
+    "lng":-72.52585887908936,
+    "lat":42.390945217961104,
+    "shortname":"ILC"
+  },
+  {
+    "message":"Hasbrouck Laboratory",
+    "lng":-72.52588033676146,
+    "lat":42.39208625055673
+  },
+  {
+    "message":"Hasbrouck Laboratory Additon",
+    "lng":-72.52571940422057,
+    "lat":42.39155535602666
+  },
+  {
+    "message":"Campus Center",
+    "lng":-72.52698540687561,
+    "lat":42.39172175628791
+  },
+  {
+    "message":"Student Union",
+    "lng":-72.52754867076874,
+    "lat":42.39085409293578
+  },
+  {
+    "message":"Draper Hall Annex",
+    "lng":-72.52840161323547,
+    "lat":42.39261714059624
+  },
+  {
+    "message":"Draper Hall",
+    "lng":-72.52838015556335,
+    "lat":42.392323963069934
+  },
+  {
+    "message":"Knowles Engineering Building",
+    "lng":-72.5288414955139,
+    "lat":42.39329065134833
+  },
+  {
+    "message":"Paige Lab",
+    "lng":-72.52986073493958,
+    "lat":42.39333819301066
+  },
+  {
+    "message":"West Experiment Station",
+    "lng":-72.52654552459715,
+    "lat":42.393385734637
+  },
+  {
+    "message":"Goessmann Laboratory Addition",
+    "lng":-72.52771496772766,
+    "lat":42.39328272773443
+  },
+  {
+    "message":"Goessman Laboratory",
+    "lng":-72.52745747566223,
+    "lat":42.39284692742984
+  },
+  {
+    "message":"Lederle Graduate Research Center",
+    "lng":-72.52692103385925,
+    "lat":42.394083007685744
+  },
+  {
+    "message":"Lederle Graduate Research Tower",
+    "lng":-72.527596950531,
+    "lat":42.39386114891961
+  },
+  {
+    "message":"Conte Polymer Research Center",
+    "lng":-72.52797245979309,
+    "lat":42.39428901869489
+  },
+  {
+    "message":"Marcus Hall",
+    "lng":-72.52853035926819,
+    "lat":42.39391661368467
+  },
+  {
+    "message":"Marston Hall",
+    "lng":-72.52930283546448,
+    "lat":42.39404339010645
+  },
+  {
+    "message":"Thayer Lab",
+    "lng":-72.53012895584106,
+    "lat":42.39363136579935
+  },
+  {
+    "message":"Engineering Lab II",
+    "lng":-72.53115892410278,
+    "lat":42.39429694218174
+  },
+  {
+    "message":"Duda",
+    "lng":-72.53028988838196,
+    "lat":42.39446333517446
+  },
+  {
+    "message":"Engineering Lab",
+    "lng":-72.53052592277527,
+    "lat":42.39478819641257
+  },
+  {
+    "message":"Gunness Laboratory",
+    "lng":-72.52958178520203,
+    "lat":42.394526722865166
+  },
+  {
+    "message":"Astronomy Building",
+    "lng":-72.52969980239868,
+    "lat":42.3948278135217
+  },
+  {
+    "message":"Computer Science",
+    "lng":-72.5313413143158,
+    "lat":42.39507343904005
+  },
+  {
+    "message":"Transit Facility",
+    "lng":-72.53337979316711,
+    "lat":42.39333819301066
+  },
+  {
+    "message":"PVTA Bus Garage",
+    "lng":-72.5334334373474,
+    "lat":42.394138472254724
+  },
+  {
+    "message":"Wheeler House",
+    "lng":-72.52130448818207,
+    "lat":42.38887308142554
+  },
+  {
+    "message":"Brett Hall",
+    "lng":-72.52159416675568,
+    "lat":42.38960210093176
+  },
+  {
+    "message":"University Health Services ",
+    "lng":-72.52155125141144,
+    "lat":42.39042619974335,
+    "shortname":"UHS"
+  },
+  {
+    "message":"Brooks Hall",
+    "lng":-72.52102017402649,
+    "lat":42.38990717723389
+  },
+  {
+    "message":"New Africa House",
+    "lng":-72.52073585987091,
+    "lat":42.388940436843605
+  },
+  {
+    "message":"Baker Hall",
+    "lng":-72.51981317996979,
+    "lat":42.38957436664895
+  },
+  {
+    "message":"Chadbourne Hall",
+    "lng":-72.51910507678986,
+    "lat":42.38936437811003
+  },
+  {
+    "message":"Greenough Hall",
+    "lng":-72.5193303823471,
+    "lat":42.390010189676374
+  },
+  {
+    "message":"Van Meter Hall",
+    "lng":-72.51831650733948,
+    "lat":42.38983982285317
+  },
+  {
+    "message":"Butterfield Hall",
+    "lng":-72.51820385456085,
+    "lat":42.38857196220212
+  },
+  {
+    "message":"David Grayson House",
+    "lng":-72.51870274543762,
+    "lat":42.39163855621242
+  },
+  {
+    "message":"Noah Webster House",
+    "lng":-72.51943230628967,
+    "lat":42.39151573685182
+  },
+  {
+    "message":"Eugene Field House",
+    "lng":-72.51879394054413,
+    "lat":42.39224472566556
+  },
+  {
+    "message":"Emily E. Dickinson House",
+    "lng":-72.51963615417479,
+    "lat":42.39218133567005
+  },
+  {
+    "message":"Chancellor's House",
+    "lng":-72.52118110656738,
+    "lat":42.39152366068879
+  },
+  {
+    "message":"French Hall Greenhouses",
+    "lng":-72.52238810062408,
+    "lat":42.39006169583422
+  },
+  {
+    "message":"French Hall",
+    "lng":-72.52290844917297,
+    "lat":42.38994283540618
+  },
+  {
+    "message":"Durfee Conservatory",
+    "lng":-72.52251148223877,
+    "lat":42.39065203262508
+  },
+  {
+    "message":"Life Science Laboratories",
+    "lng":-72.5238311290741,
+    "lat":42.39199116529937
+  },
+  {
+    "message":"Skinner Hall",
+    "lng":-72.52465724945068,
+    "lat":42.39153158452476
+  },
+  {
+    "message":"Integrated Sciences Building",
+    "lng":-72.52492010593414,
+    "lat":42.39233981053881,
+    "shortname":"ISB"
+  },
+  {
+    "message":"Worcester Dining Commons",
+    "lng":-72.52424418926239,
+    "lat":42.39356401541501
+  },
+  {
+    "message":"Knowlton Hall",
+    "lng":-72.52567112445831,
+    "lat":42.393821531200295
+  },
+  {
+    "message":"Crabtree Hall",
+    "lng":-72.52506494522095,
+    "lat":42.39403150482779
+  },
+  {
+    "message":"Arnold House",
+    "lng":-72.5260466337204,
+    "lat":42.394407870892564
+  },
+  {
+    "message":"Hamlin Hall",
+    "lng":-72.52641141414642,
+    "lat":42.39505759226142
+  },
+  {
+    "message":"Leach Hall",
+    "lng":-72.52577304840088,
+    "lat":42.395220021552625
+  },
+  {
+    "message":"Mary Lyon Hall",
+    "lng":-72.52448558807373,
+    "lat":42.39419789852424
+  },
+  {
+    "message":"Dwight Hall",
+    "lng":-72.52524733543396,
+    "lat":42.39540622046685
+  },
+  {
+    "message":"Totman Hall",
+    "lng":-72.52596616744995,
+    "lat":42.39610347106762
+  },
+  {
+    "message":"Montague House",
+    "lng":-72.5268030166626,
+    "lat":42.39777525629313
+  },
+  {
+    "message":"Furcolo Hall",
+    "lng":-72.52650260925293,
+    "lat":42.3982347913475
+  },
+  {
+    "message":"North C",
+    "lng":-72.52503275871277,
+    "lat":42.39764056434637
+  },
+  {
+    "message":"North A",
+    "lng":-72.52405643463135,
+    "lat":42.3974821028624
+  },
+  {
+    "message":"North D",
+    "lng":-72.52508640289307,
+    "lat":42.39682448342782
+  },
+  {
+    "message":"North B",
+    "lng":-72.52411007881165,
+    "lat":42.39666601988308
+  },
+  {
+    "message":"Brown House",
+    "lng":-72.52295136451721,
+    "lat":42.397434564339164
+  },
+  {
+    "message":"McNamara House",
+    "lng":-72.52229690551758,
+    "lat":42.397902024920114
+  },
+  {
+    "message":"Cahin House",
+    "lng":-72.52174973487854,
+    "lat":42.3974821028624
+  },
+  {
+    "message":"Patterson Dorm",
+    "lng":-72.52832651138306,
+    "lat":42.381847910689736
+  },
+  {
+    "message":"Alfond Hall",
+    "lng":-72.52486109733582,
+    "lat":42.38631748423067
+  },
+  {
+    "message":"Commonwealth Honors College",
+    "lng":-72.5307834148407,
+    "lat":42.38801330297487
+  },
+  {
+    "message":"Toddler House",
+    "lng":-72.53428101539612,
+    "lat":42.38122182799637
+  },
+  {
+    "message":"Bowditch Lodge",
+    "lng":-72.53450632095337,
+    "lat":42.38142788121759
+  },
+  {
+    "message":"Farley Lodge",
+    "lng":-72.53468871116638,
+    "lat":42.38114257657741
+  },
+  {
+    "message":"Parking Office",
+    "lng":-72.53515005111694,
+    "lat":42.392569598387716
+  },
+  {
+    "message":"Lorden Field",
+    "lng":-72.53546118736267,
+    "lat":42.39013697398888
+  },
+  {
+    "message":"Lower Tennis Court",
+    "lng":-72.53570795059204,
+    "lat":42.38905929916977
+  },
+  {
+    "message":"Thatcher House",
+    "lng":-72.52384185791016,
+    "lat":42.39446333517446
+  },
+  {
+    "message":"Lewis House",
+    "lng":-72.52391695976257,
+    "lat":42.394978358308265
+  },
+  {
+    "message":"Johnson House",
+    "lng":-72.52445340156555,
+    "lat":42.39554091720936
+  },
+  {
+    "message":"Garber Field",
+    "lng":-72.52914726734161,
+    "lat":42.386622576496386
+  },
+  {
+    "message":"Old Chapel",
+    "lng":-72.5278490781784,
+    "lat":42.38895826620686
+  }
+]

@@ -1,0 +1,56 @@
+body {
+	background-color: #446CB3;
+  cursor: none;
+}
+
+#title {
+	font-family: 'Roboto', sans-serif; 
+  	font-weight: 400;
+  	font-size: 13px;
+  	color: #FFF;
+  	padding-left: 50px;
+}
+
+#build {
+	font-family: 'Roboto', sans-serif; 
+  	font-weight: 300;
+  	font-size: 9px;
+  	color: #FFF;
+  	padding-left: 50px;
+}
+
+#logo {
+	background-image: url("../src/whiteicon.png");
+	background-repeat: no-repeat;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	left: 25px;
+	background-size: 100%;
+}
+
+.section {
+	font-family: 'Roboto', sans-serif; 
+  	font-weight: 300;
+  	font-size: 15px;
+  	color: #FFF;
+  	padding-left: 100px;
+}
+
+.value {
+	font-family: 'Roboto', sans-serif; 
+  	font-weight: 400;
+  	font-size: 30px;
+  	color: #FFF;
+  	padding-left: 100px;
+}
+
+#sidebar {
+	-webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    position: absolute;
+    top: 255px;
+    right: 157px;
+}

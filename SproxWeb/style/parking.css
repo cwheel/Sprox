@@ -1,0 +1,120 @@
+.parking {
+	position: absolute;
+	right: 0;
+	left: 0;
+	margin-bottom: 0;
+	margin-left: 0;
+	margin-right: 0;
+	padding-bottom: 0;
+	padding-right: 0;
+	padding-left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#permit {
+	background-color: #F5F5F5;
+	width: 400px;
+	height: 300px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 250px;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+#permitTop {
+	width: 400px;
+	height: 110px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 250px;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+}
+
+#permitNumber {
+	width: 400px;
+	height: 110px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 250px;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: 'Roboto', sans-serif; 
+  	font-weight: 700;
+  	font-size: 35px;
+	color: #FFF;
+	padding-top: 31px;
+	text-align: center;
+}
+
+#days {
+	width: 400px;
+	height: 110px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 175px;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: 'Roboto', sans-serif; 
+  	font-weight: 400;
+  	font-size: 25px;
+	color: #595959;
+	text-align: center;
+}
+
+#spinner {
+	background-image: url("../src/loader.gif");
+	width: 38px;
+	height: 38px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 210px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#spinnerText {
+	width: 120px;
+	height: 60px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 150px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-family: 'Roboto', sans-serif; 
+  	font-weight: 400;
+  	font-size: 20px;
+  	color: #595959;
+}
+
+.Red {
+	background-color: #f44336;
+}
+
+.Yellow {
+	background-color: #ffc107;
+}
+
+.Green {
+	background-color: #4caf50;
+}
+
+.Blue {
+	background-color: #2196f3;
+}
+
+.Purple {
+	background-color: #9c27b0;
+}

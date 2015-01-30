@@ -1,0 +1,41 @@
+<html ng-app="demoapp">
+  <head>
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+	<script src="angular-leaflet-directive.js"></script>
+ 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script>
+        var app = angular.module("demoapp", ['leaflet-directive']);
+        app.controller("DemoController", ["$scope", function($scope) {
+        angular.extend($scope, {
+        center: {
+            lat: 42.3900,
+            lng: -72.5270,
+            zoom: 17
+        },
+        tiles: {
+          url: "https://sprox.net/maps/{z}/{x}/{y}.png",
+        },
+        maxBounds: {            
+          southWest: {
+                lat: 42.3605,a
+                lng: -72.5458
+            },
+            northEast: {
+                lat: 42.4000,
+                lng: -72.5124
+            }
+        },
+        defaults: {
+            zoomControl:false,
+            maxZoom:18,
+            minZoom:16,
+        }
+      });
+        }]);
+    </script>
+  </head>
+  <body ng-controller="DemoController">
+  <leaflet maxbounds="maxBounds" center="center" tiles="tiles" defaults="defaults" style="height:100%;width:100%"></leaflet>
+  </body>
+</html>

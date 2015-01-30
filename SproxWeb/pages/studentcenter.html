@@ -1,0 +1,67 @@
+<title>Sprox</title>
+
+<div class="page" ng-controller="studentCenterController">
+	<script type="text/ng-template" id="dataCaching">
+    <div class="contentContainerTitleColor">Allow Data Caching</div>
+    	<div class="ngdialogInterior">
+		    <p>Before you insinctively click no because you heard that anything storing data must be evil, hold up for a second. Did you notice that it took you quite literally <i>forever</i> to login? If you&#39;d like it to go faster, way faster (around 2 seconds), we&#39;d be happy to do that for you. But for us to do that, you&#39;ll need to let us &#39;cache&#39;, your data. We ask because we feel that as the user, it&#39;s up to you what happens with your data. We won&#39;t keep your password around, and nothing in our databse will be able to identify you, or that you ever came in contact with Sprox. We care about security, and encrypt all data using the industry standard AES-256 algorithm. When we store your information, it&#39;s physically impossible for us to decrypt the data, we can&#39;t, nor will we ever, give the infromation to anyone else. If you accept, the next time you login we&#39;ll cache and encrypt your information.</p>
+		    <input type="button" value="Get Lost" class="ngdialog-button" ng-click="noCache(); closeThisDialog('')"/>
+		    <input type="button" value="Sounds Great!" class="ngdialog-button ngdialog-button-primary" ng-click="cache(); closeThisDialog('')"/>
+	    </div>
+	</script>
+
+	<script type="text/ng-template" id="notifs">
+    <div class="contentContainerTitleColor">Desktop Notifications</div>
+    	<div class="ngdialogInterior">
+		    <p>As you go through your day, Sprox can send you desktop notifications for changing classes. Sprox will only send one notificaton, 15 minutes prior to each class. Would you like Sprox to send these notifcations?</p>
+		    <input type="button" value="Get Lost" class="ngdialog-button" ng-click="closeThisDialog('')"/>
+		    <input type="button" value="Sure" class="ngdialog-button ngdialog-button-primary" ng-click="enableNotifs(); closeThisDialog('')"/>
+		</div>
+	</script>
+
+	<br><br><br><br><br><br>
+		
+	<div ng-show="classesToday">
+		<br><br>
+		<div class="contentContainer">
+			<div class="dayTitle">{{ classesDay }} Classes</div>
+			<br>
+			<div id="dailySchedule" >
+				<div class="{{ class.type }}" ng-repeat="class in ct">
+					{{ class.name }} 
+					<br> 
+					<b>{{ class.time }}</b>
+					<br>
+					<div class="scheduleClassLocation">{{ class.location }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br>
+	<br>
+
+	<div id="columns">
+		<div id="leftColumn">
+			<div class="contentContainerTitle contentContainerTitleColor">Student Information <br> <div class="contentContainterTitleSub">Graduating in {{ gradYear }}</div></div>
+			<br>
+			<div class="subTitle">Home Address</div>
+			<div class="subText">{{ homeAddress }}</div>
+			<br>
+			<div class="subTitle">School Address</div>
+			<div class="subText">{{ schoolAddress }}</div>
+			<br>
+			<div class="subTitle">Mail Box Combination</div>
+			<div class="subText">{{ mailBox }}</div>
+		</div>
+		<div id="rightColumn">
+			<div class="contentContainerTitle contentContainerTitleColor">Housing at {{ building }} <br> <div class="contentContainterTitleSub">Room {{ roomNumber }} - {{ roomType }}</div></div>
+			<br>
+			<div class="subTitle">Roomate</div>
+			<div class="subText">{{ roomate }}</div>
+			<div class="subText">{{ roomateEmail }}</div>
+			<br>
+			<div class="subText">{{ roomateAddress }}</div>
+		</div>
+	</div>
+</div>

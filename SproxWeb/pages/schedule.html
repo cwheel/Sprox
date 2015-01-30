@@ -1,0 +1,29 @@
+<div class="schedule">
+	<br><br><br><br><br><br>
+
+	<div class="classRow" ng-repeat="sDay in weeklySchedule">
+		<div class="contentContainer" style="height: 120px;">
+			<div class="dayTitle">{{ sDay.day }}</div>
+			<br>
+				<div class="scheduleClass {{ class.type }}" ng-repeat="class in sDay.classes">
+					{{ class.name }} 
+					<br> 
+					<b>{{ class.time }}</b>
+					<br>
+					<div class="scheduleClassLocation">{{ class.location }}</div>
+				</div>
+			</div>
+		</div>
+		<div class="contentContainer" style="height: 120px;">
+			<div class="FinalTitle">Finals</div>
+			<br>
+				<div class="finalClass" ng-repeat="class in finals">
+					{{ class.name }} 
+					<br> 
+					<b>{{ class.day }}. {{ class.time }}</b>
+					<br>
+					<div class="scheduleClassLocation">{{ class.location }}</div>
+			</div>
+	</div>
+	<br>
+</div>

@@ -1,0 +1,474 @@
+body {
+	overflow: hidden;
+}
+
+
+#loginBox {
+	background-color: #ecf0f1;
+	border-radius: 10px;
+	width: 375px;
+	height: 200px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#loginBoxForm {
+	width: 375px;
+	height: 125px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 220px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#loginBoxTitle {
+	width: 375px;
+	height: 125px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 350px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#loginBoxCorner {
+  background-color: #ecf0f1;
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  left: 0;
+  right: 325px;
+  top: 225px;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+#loginBoxIcon {
+	background-image: url("../src/whiteicon.png");
+  background-repeat: no-repeat;
+	width: 70px;
+	height: 70px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 225px;
+  padding-right: 525px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#loginBoxSubtext {
+  width: 100px;
+  height: 70px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 300px;
+  padding-right: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Roboto', sans-serif; 
+  font-weight: 400;
+  font-size: 12px;
+  color: #fff;
+}
+
+#loginBoxLoader {
+  background-image: url("../src/loader.gif");
+	width: 38px;
+	height: 38px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 425px;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 2;
+}
+
+input[type=text],[type=password] {
+	width:325px;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 15px;
+  outline: none;
+  border-width: 0px; 
+  background-color: #ffffff;
+	color: #494949;
+}
+
+#loginButton {
+  width: 305px;
+  height: 20px;
+  border-radius: 4px;
+  padding: 10px;
+  font-family: 'Roboto', sans-serif; 
+  font-weight: 400;
+  font-size: 15px;
+  background-color: #446CB3;
+  color: #ffffff;
+}
+
+#loginButton:hover {
+  background-color: #4183D7;
+  cursor: pointer;
+}
+
+#build {
+  position: absolute;
+  left: 20px;
+  bottom: 23px;
+}
+
+#disclaimer {
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+
+}
+#slide-in{
+  position: absolute;
+  left: 5px;
+  bottom: 10px;
+  width: 450px;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
+    font-size: 10px;
+    color: #FFF;
+}
+.am-fade-and-slide-top {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-fill-mode: backwards;
+  animation-fill-mode: backwards;
+}
+.am-fade-and-slide-top.am-fade-and-slide-top-add,
+.am-fade-and-slide-top.ng-hide-remove,
+.am-fade-and-slide-top.ng-move {
+  -webkit-animation-name: fadeAndSlideFromTop;
+  animation-name: fadeAndSlideFromTop;
+}
+.am-fade-and-slide-top.am-fade-and-slide-top-remove,
+.am-fade-and-slide-top.ng-hide {
+  -webkit-animation-name: fadeAndSlideToTop;
+  animation-name: fadeAndSlideToTop;
+}
+.am-fade-and-slide-top.ng-enter {
+  visibility: hidden;
+  -webkit-animation-name: fadeAndSlideFromTop;
+  animation-name: fadeAndSlideFromTop;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+.am-fade-and-slide-top.ng-enter.ng-enter-active {
+  visibility: visible;
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+.am-fade-and-slide-top.ng-leave {
+  -webkit-animation-name: fadeAndSlideToTop;
+  animation-name: fadeAndSlideToTop;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+.am-fade-and-slide-top.ng-leave.ng-leave-active {
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+.am-fade-and-slide-right {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-fill-mode: backwards;
+  animation-fill-mode: backwards;
+}
+.am-fade-and-slide-right.am-fade-and-slide-right-add,
+.am-fade-and-slide-right.ng-hide-remove,
+.am-fade-and-slide-right.ng-move {
+  -webkit-animation-name: fadeAndSlideFromRight;
+  animation-name: fadeAndSlideFromRight;
+}
+.am-fade-and-slide-right.am-fade-and-slide-right-remove,
+.am-fade-and-slide-right.ng-hide {
+  -webkit-animation-name: fadeAndSlideToRight;
+  animation-name: fadeAndSlideToRight;
+}
+.am-fade-and-slide-right.ng-enter {
+  visibility: hidden;
+  -webkit-animation-name: fadeAndSlideFromRight;
+  animation-name: fadeAndSlideFromRight;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+.am-fade-and-slide-right.ng-enter.ng-enter-active {
+  visibility: visible;
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+.am-fade-and-slide-right.ng-leave {
+  -webkit-animation-name: fadeAndSlideToRight;
+  animation-name: fadeAndSlideToRight;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+.am-fade-and-slide-right.ng-leave.ng-leave-active {
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+.am-fade-and-slide-bottom {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-fill-mode: backwards;
+  animation-fill-mode: backwards;
+}
+.am-fade-and-slide-bottom.am-fade-and-slide-bottom-add,
+.am-fade-and-slide-bottom.ng-hide-remove,
+.am-fade-and-slide-bottom.ng-move {
+  -webkit-animation-name: fadeAndSlideFromBottom;
+  animation-name: fadeAndSlideFromBottom;
+}
+.am-fade-and-slide-bottom.am-fade-and-slide-bottom-remove,
+.am-fade-and-slide-bottom.ng-hide {
+  -webkit-animation-name: fadeAndSlideToBottom;
+  animation-name: fadeAndSlideToBottom;
+}
+.am-fade-and-slide-bottom.ng-enter {
+  visibility: hidden;
+  -webkit-animation-name: fadeAndSlideFromBottom;
+  animation-name: fadeAndSlideFromBottom;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+.am-fade-and-slide-bottom.ng-enter.ng-enter-active {
+  visibility: visible;
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+.am-fade-and-slide-bottom.ng-leave {
+  -webkit-animation-name: fadeAndSlideToBottom;
+  animation-name: fadeAndSlideToBottom;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+.am-fade-and-slide-bottom.ng-leave.ng-leave-active {
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+.am-fade-and-slide-left {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-fill-mode: backwards;
+  animation-fill-mode: backwards;
+}
+.am-fade-and-slide-left.am-fade-and-slide-left-add,
+.am-fade-and-slide-left.ng-hide-remove,
+.am-fade-and-slide-left.ng-move {
+  -webkit-animation-fill-mode: backwards;
+  animation-fill-mode: backwards;
+  -webkit-animation-name: fadeAndSlideFromLeft;
+  animation-name: fadeAndSlideFromLeft;
+}
+.am-fade-and-slide-left.am-fade-and-slide-left-remove,
+.am-fade-and-slide-left.ng-hide {
+  -webkit-animation-name: fadeAndSlideToLeft;
+  animation-name: fadeAndSlideToLeft;
+}
+.am-fade-and-slide-left.ng-enter {
+  visibility: hidden;
+  -webkit-animation-name: fadeAndSlideFromLeft;
+  animation-name: fadeAndSlideFromLeft;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+.am-fade-and-slide-left.ng-enter.ng-enter-active {
+  visibility: visible;
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+.am-fade-and-slide-left.ng-leave {
+  -webkit-animation-name: fadeAndSlideToLeft;
+  animation-name: fadeAndSlideToLeft;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+.am-fade-and-slide-left.ng-leave.ng-leave-active {
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+@-webkit-keyframes fadeAndSlideFromTop {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-20%);
+    transform: translateY(-20%);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeAndSlideFromTop {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-20%);
+    transform: translateY(-20%);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeAndSlideToTop {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateY(-20%);
+    transform: translateY(-20%);
+  }
+}
+@keyframes fadeAndSlideToTop {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateY(-20%);
+    transform: translateY(-20%);
+  }
+}
+@-webkit-keyframes fadeAndSlideFromRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(20%);
+    transform: translateX(20%);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeAndSlideFromRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(20%);
+    transform: translateX(20%);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeAndSlideToRight {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateX(20%);
+    transform: translateX(20%);
+  }
+}
+@keyframes fadeAndSlideToRight {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateX(20%);
+    transform: translateX(20%);
+  }
+}
+@-webkit-keyframes fadeAndSlideFromBottom {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(20%);
+    transform: translateY(20%);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeAndSlideFromBottom {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(20%);
+    transform: translateY(20%);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeAndSlideToBottom {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateY(20%);
+    transform: translateY(20%);
+  }
+}
+@keyframes fadeAndSlideToBottom {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateY(20%);
+    transform: translateY(20%);
+  }
+}
+@-webkit-keyframes fadeAndSlideFromLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(-20%);
+    transform: translateX(-20%);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeAndSlideFromLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(-20%);
+    transform: translateX(-20%);
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeAndSlideToLeft {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateX(-20%);
+    transform: translateX(-20%);
+  }
+}
+@keyframes fadeAndSlideToLeft {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateX(-20%);
+    transform: translateX(-20%);
+  }
+}

@@ -1,0 +1,12 @@
+<div class="clubSearch">
+	<br><br><br><br><br><br><br><br>
+
+	<input id="searchField" ng-model="searchQuery" ng-change="search()">
+	<br><br><br>
+	<a target="_blank" href="{{ value.url }}" ng-repeat="(key, value) in clubs">
+		<div class="searchResult">
+			{{ key }}
+			<div class="searchResultDescription" >{{ value.desc }}</div>
+		</div>
+	</a>
+</div>

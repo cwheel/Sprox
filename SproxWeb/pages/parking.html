@@ -1,0 +1,15 @@
+<div class="page">
+	<br><br><br><br><br><br>
+
+	<div id="permit">
+		<div id="permitContent" ng-show="showPermit">
+			<div id="days">{{ daysLeft }}</div>
+		</div>
+		<div id="permitLoading" ng-show="showLoading">
+			<div id="spinner"></div>
+			<div id="spinnerText">Loading...</div>
+		</div>
+	</div>
+	<div id="permitTop" class="{{ permitColor }}"></div>
+	<div id="permitNumber">{{ permitNumber }}</div>
+</div>

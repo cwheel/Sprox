@@ -1,0 +1,59 @@
+<div class="notes">
+	<br><br><br><br><br><br>
+
+	<script type="text/ng-template" id="delete">
+    	<div class="notesHeader">Delete {{ deleteItemTitle }}?</div>
+   		<div class="ngdialogInterior">
+	    	<p>It&#39;ll be gone forever (a really long time).</p><br>
+	    	<input type="button" value="Cancel" class="ngdialog-button" ng-click="closeThisDialog('')"/>
+	    	<input type="button" value="Delete" class="ngdialog-button ngdialog-button-primary" ng-click="deleteItem(); closeThisDialog('')"/>
+	    </div>
+	</script>
+
+	<script type="text/ng-template" id="recovery">
+    	<div class="notesHeader">Recover {{ recoveryNoteTitle }}?</div>
+   		<div class="ngdialogInterior">
+	    	<p>Oh no! It seems you wern&#39;t able to save {{ recoveryNoteTitle }} last time. Do you want to recover it?</p><br>
+	    	<input type="button" value="Cancel" class="ngdialog-button" ng-click="closeThisDialog('')"/>
+	    	<input type="button" value="Recover" class="ngdialog-button ngdialog-button-primary" ng-click="recoverItem(); closeThisDialog('')"/>
+	    </div>
+	</script>
+
+	<script type="text/ng-template" id="share">
+    	<div class="notesHeader">Share {{ shareItemTitle }}</div>
+   		<div class="ngdialogInterior">
+	    	<div class="shareText">Share With</div>
+	    	<input id="netid" placeholder="NetID" class="noteInput" ng-model="shareUser" ng-change="shareUserUpdated()">
+	    	<div class="shareText">Share Into Section</div>
+
+	    	<select id="notesSection" ng-model="shareSection" ng-options="item.id as item.title for item in shareSections"></select>
+	    	
+	    	<br><br>
+	    	<input type="button" value="Cancel" class="ngdialog-button" ng-click="shareEnded(); closeThisDialog('')"/>
+	    	<input type="button" value="Share" class="ngdialog-button ngdialog-button-primary" ng-click="shareItem(); closeThisDialog('');"/>
+	    </div>
+	</script>
+
+	<div id="notesContainer">
+		<div id="notesManager">
+			<div class="notesHeader" style="background: {{ sectionColor(notebookPosition) }}">
+				{{ notebookPosition }}
+				<div class="sectionsButton sectionsAddButton" ng-click="add()"></div>
+				<div class="sectionsButton sectionsBackButton" ng-click="back()" ng-show="showBack"></div>
+			</div>
+			<div id="notesList" showscroll="showNotesScroller" scroll="onScroll()" style="">
+				<div class="notesItem slide-down" selectedrow="key == writerTitle" state="" sglclick="clickItem(key)" ng-dblclick="editItem(value, key)" ng-mouseover="showDeleteButton(key)" ng-mouseleave="hideDeleteButton()" ng-repeat="(key, value) in currentNotebook">
+					<div class="sectionIndicator" style="background: {{ sectionColor(key) }}" ng-show="!showBack" ng-click="changeSectionColor(key)"></div>
+					<input class="editorFieldBox {{ editorClass() }}" ng-show="value == curEditing" ng-model="key" ng-blur="doneEditing(key)" ng-keyup="$event.keyCode == 13 && doneEditing(key)" show-focus="value == curEditing" autofocus/>
+					<div ng-show="value != curEditing" class="{{ editorClass() }}"> {{ key }} </div>
+
+					<div class="deleteButton" ng-click="deleteItemDialog(key)" ng-show="curDeleteButton == key"></div>
+					<div class="shareButton" ng-click="shareItemDialog(key)" ng-show="curDeleteButton == key && curSection != 'Sections'"></div>
+				</div>
+			</div>
+		</div>
+		<div id="notesWriter">
+			<textarea ckeditor="editorOptions" ckreadonly="true" ng-model="editorContent"></textarea>
+		</div>
+	</div>
+</div>

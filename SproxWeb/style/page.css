@@ -1,0 +1,39 @@
+.contentContainer {
+	background-color: #ecf0f1;
+	
+	position: relative;
+	
+	margin-left: 30px;
+	margin-right: 30px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	right: 0;
+	left: 0;
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	z-index: 2;
+	padding-bottom: 20px;
+}
+
+.contentContainerTitle {
+	font-family: 'Roboto', sans-serif; 
+  	font-weight: 400;
+  	font-size: 16px;
+  	padding-left: 20px;
+  	color: #666;
+}
+
+.contentContainerTitleColor {
+  	color: #FFF;
+  	padding-bottom: 10px;
+  	padding-top: 10px;
+  	padding-left: 10px;
+  	box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+	background: #FFC107;
+}
+
+.contentContainterTitleSub {
+	font-family: 'Roboto', sans-serif; 
+  	font-weight: 300;
+  	font-size: 11px;
+  	color: #FFF;
+}
