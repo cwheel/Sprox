@@ -440,6 +440,10 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', 'hotkeys'
 		var selection = $scope.curSection;
 
 		if (!$scope.editorDisabled) {
+			if ($scope.editorContent == "") {
+				return;
+			}
+
 			$scope.saveStatus = "Saving...";
 
 			if ($scope.writerTitle in $scope.notebook[$scope.curSection]) {
@@ -468,7 +472,13 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', 'hotkeys'
 					if (event.data.substring(0, "[notes_save_reply]".length) === "[notes_save_reply]") {
 						if (event.data.replace("[notes_save_reply]", "") == "[save_complete]") {
 							var now = new Date();
-							$scope.saveStatus = "Saved last at " + now.getHours() + ":" + now.getMinutes();
+							var min = now.getMinutes();
+
+							if (min < 10) { 
+								min = "0" + min
+							}
+
+							$scope.saveStatus = "Saved last at " + now.getHours() + ":" + min;
 							$scope.$apply();
 						}
 
