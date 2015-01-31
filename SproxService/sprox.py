@@ -21,6 +21,7 @@ import logger
 whitelist = None
 authTokens = multiprocessing.Manager().dict() #Thread-safe
 frontend = "frontend"
+version = "1620"
 
 def printArt():
 	print ""
@@ -36,7 +37,7 @@ def printArt():
 	print "           @@@@@@@@@              / ___|  ___ _ ____   _(_) ___ ___"
 	print "            @@@@                  \___ \ / _ \ '__\ \ / / |/ __/ _ \\"
 	print "            @@@@                   ___) |  __/ |   \ V /| | (_|  __/"
-	print "  @@@@      @@@@                  |____/ \___|_|    \_/ |_|\___\___| v1620"
+	print "  @@@@      @@@@                  |____/ \___|_|    \_/ |_|\___\___| v" + version
 	print " @@@@@      @@@@                         Running modules: spire, get, parking, clubSearch, authFailure, cacheManager, notes"
 	print " @@@@@     @@@@@                         stats and logger"
 	print " @@@@      @@@@@       					"
@@ -264,10 +265,10 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
 class httpHandler(tornado.web.RequestHandler):
     def get(self):
-        self.redirect(self.request.full_url().replace("http", "https"))
+        self.redirect(self.request.full_url().replace("http", "https"), permanent=True)
 
 class httpsHandler(tornado.web.RequestHandler):
-	types = {".html" : "text/html", ".png" : "image/png", ".js" : "text/javascript", ".ico" : "image/x-icon", ".css" : "text/css", ".json" : "text/json", ".gif" : "image/gif"}
+	types = {".html" : "text/html", ".png" : "image/png", ".js" : "text/javascript", ".ico" : "image/x-icon", ".css" : "text/css", ".json" : "text/json", ".gif" : "image/gif", ".map" : "text/json"}
 
 	def sendPage(client, path):
 		ext = os.path.splitext(path)[1]
@@ -275,7 +276,9 @@ class httpsHandler(tornado.web.RequestHandler):
 		with open (path, "r") as page:
 			pageContent = page.read()
 
+		client.set_header("Server", "Sprox " + version)
 		client.set_header("Content-Type", httpsHandler.types[ext])
+		client.set_header("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
 		client.write(pageContent)
 
 	def get(self):
