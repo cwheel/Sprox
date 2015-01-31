@@ -22,6 +22,10 @@ mimeTypes = {".html" : "text/html",
 #WebSocket port
 port = 8181
 
+#HTTP Ports
+httpPort = 80
+httpsPort = 443
+
 #SSL Certificate
 sslKeyFile = "decssl.key"
 sslCertFile = "cert.crt"

@@ -328,8 +328,8 @@ if __name__ == "__main__":
 			whitelist = f.readlines()
 			whitelist = [netid.strip('\n') for netid in whitelist]
 
-	logger.info('Starting HTTP server on :80 (Redirects only)...')
-	tornado.httpserver.HTTPServer(http).listen(80)
+	logger.info('Starting HTTP server on :' + str(config.httpPort) + ' (Redirects only)...')
+	tornado.httpserver.HTTPServer(http).listen(config.httpPort)
 	httpsServer = tornado.httpserver.HTTPServer(https,
 		ssl_options={ 
         	"certfile": config.sslCertFile,
@@ -337,8 +337,8 @@ if __name__ == "__main__":
     	}
 	)
 
-	logger.info('Starting HTTPS server on :443...')
-	httpsServer.listen(443)
+	logger.info('Starting HTTPS server on :' + str(config.httpsPort) + '...')
+	httpsServer.listen(config.httpsPort)
 
 	logger.info('Starting WebSocket server on :' + str(config.port) +'...')
 	logger.info('Using TLS, connect via wss:// protocol...')
