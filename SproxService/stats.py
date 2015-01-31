@@ -1,10 +1,10 @@
 import MySQLdb
 import json
+import config
 
 def statsDB():
 	#Connect to the SAS DB
-	db = MySQLdb.connect(host="localhost", user="root", passwd="7145a7dfd5a6cfad8cf7c2221590cc24567e171dc9c7bfb62", db="Sprox")
-	db.autocommit(True)
+	db = MySQLdb.connect(host=config.sqlHost, user=config.sqlUser, passwd=config.sqlPassword, db=config.sqlDB)
 	return db.cursor()
 
 def incrementCounter(counterKey):

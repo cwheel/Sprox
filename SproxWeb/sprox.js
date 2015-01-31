@@ -1,8 +1,11 @@
 var sprox = angular.module('sprox', ['oc.lazyLoad','ngRoute', 'ngAnimate', 'ngDialog','cfp.hotkeys']);
+
+//Globals
 var sasAuth;
 var user;
 var userData;
 var uuid;
+var baseSelectOffset;
 var developer = false;
 var username;
 var funds = null;

@@ -128,6 +128,16 @@ body{
   float: left;
 }
 
+#tabSelectBar {
+  width: 103px;
+  height: 2px;
+  top: 35px;
+  left: 45px;
+  background-color: #666;
+  z-index: 5;
+  position: absolute;
+}
+
 #userMenu {
   float: right;
   height: 110px;

@@ -17,11 +17,10 @@ import cacheManager
 import notes
 import stats
 import logger
+import config
 
 whitelist = None
 authTokens = multiprocessing.Manager().dict() #Thread-safe
-frontend = "frontend"
-version = "1620"
 
 def printArt():
 	print ""
@@ -37,7 +36,7 @@ def printArt():
 	print "           @@@@@@@@@              / ___|  ___ _ ____   _(_) ___ ___"
 	print "            @@@@                  \___ \ / _ \ '__\ \ / / |/ __/ _ \\"
 	print "            @@@@                   ___) |  __/ |   \ V /| | (_|  __/"
-	print "  @@@@      @@@@                  |____/ \___|_|    \_/ |_|\___\___| v" + version
+	print "  @@@@      @@@@                  |____/ \___|_|    \_/ |_|\___\___| v" + config.version
 	print " @@@@@      @@@@                         Running modules: spire, get, parking, clubSearch, authFailure, cacheManager, notes"
 	print " @@@@@     @@@@@                         stats and logger"
 	print " @@@@      @@@@@       					"
@@ -268,41 +267,39 @@ class httpHandler(tornado.web.RequestHandler):
         self.redirect(self.request.full_url().replace("http", "https"), permanent=True)
 
 class httpsHandler(tornado.web.RequestHandler):
-	types = {".html" : "text/html", ".png" : "image/png", ".js" : "text/javascript", ".ico" : "image/x-icon", ".css" : "text/css", ".json" : "text/json", ".gif" : "image/gif", ".map" : "text/json"}
-
 	def sendPage(client, path):
 		ext = os.path.splitext(path)[1]
 
 		with open (path, "r") as page:
 			pageContent = page.read()
 
-		client.set_header("Server", "Sprox " + version)
-		client.set_header("Content-Type", httpsHandler.types[ext])
+		client.set_header("Server", "Sprox v" + config.version)
+		client.set_header("Content-Type", config.mimeTypes[ext])
 		client.set_header("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
 		client.write(pageContent)
 
 	def get(self):
-		req = frontend + self.request.uri
+		req = config.frontend + self.request.uri
 
 		if "?" in req:
 			req = req.split("?")[0]
 
 		if ".." in req or "./" in req or "\\" in req:
-			sendPage(self, frontend + "/errors/503.html")
+			sendPage(self, config.frontend + "/errors/503.html")
 		
 		if (req[-1:] == "/"):
 			if (os.path.isdir(req)):
 				if (os.path.exists(req + "index.html")):
-					httpsHandler.sendPage(self, frontend + self.request.uri + "index.html")
+					httpsHandler.sendPage(self, config.frontend + self.request.uri + "index.html")
 				else:
-					httpsHandler.sendPage(self, frontend + "/errors/404.html")
+					httpsHandler.sendPage(self, config.frontend + "/errors/404.html")
 			else:
-				httpsHandler.sendPage(self, frontend + "/errors/404.html")
+				httpsHandler.sendPage(self, config.frontend + "/errors/404.html")
 		else:
 			if (os.path.exists(req)):
 				httpsHandler.sendPage(self, req)
 			else:
-				httpsHandler.sendPage(self, frontend + "/errors/404.html")
+				httpsHandler.sendPage(self, config.frontend + "/errors/404.html")
 
 http = tornado.web.Application([
     (r'/.*', httpHandler),
@@ -331,25 +328,25 @@ if __name__ == "__main__":
 			whitelist = f.readlines()
 			whitelist = [netid.strip('\n') for netid in whitelist]
 
-	logger.info('Starting HTTP server on :80...')
+	logger.info('Starting HTTP server on :80 (Redirects only)...')
 	tornado.httpserver.HTTPServer(http).listen(80)
 	httpsServer = tornado.httpserver.HTTPServer(https,
 		ssl_options={ 
-        	"certfile": "cert.crt",
-        	"keyfile": "decssl.key",
+        	"certfile": config.sslCertFile,
+        	"keyfile": config.sslKeyFile,
     	}
 	)
 
 	logger.info('Starting HTTPS server on :443...')
 	httpsServer.listen(443)
 
-	logger.info('Starting WebSocket server on :8181...')
+	logger.info('Starting WebSocket server on :' + str(config.port) +'...')
 	logger.info('Using TLS, connect via wss:// protocol...')
-	logger.info("Listening on eth0 at " + netifaces.ifaddresses('eth0')[2][0]['addr'] + ":8181, waiting for clients...")
+	logger.info("Listening on eth0 at " + netifaces.ifaddresses('eth0')[2][0]['addr'] + ":" + str(config.port) + ", waiting for clients...")
 
-	sockets.listen(8181, ssl_options={ 
-        "certfile": "cert.crt",
-        "keyfile": "decssl.key",
+	sockets.listen(config.port, ssl_options={ 
+        "certfile": config.sslCertFile,
+        "keyfile": config.sslKeyFile,
     })
 
 	tornado.ioloop.IOLoop.instance().start()

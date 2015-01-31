@@ -3,11 +3,12 @@ import json
 import hashlib
 import base64
 import zlib
+import config
 from SimpleAES import SimpleAES
 
 def notesDB():
 	#Connect to the SAS DB
-	db = MySQLdb.connect(host="localhost", user="root", passwd="7145a7dfd5a6cfad8cf7c2221590cc24567e171dc9c7bfb62", db="Sprox")
+	db = MySQLdb.connect(host=config.sqlHost, user=config.sqlUser, passwd=config.sqlPassword, db=config.sqlDB)
 	db.autocommit(True)
 	return db.cursor()
 

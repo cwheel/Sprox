@@ -53,7 +53,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 					lockAnimation = false;
 			}, 1000);
 		}
-	};
+	};œ
 
 	$scope.tabClass = function(tabTitle) {
 		if (tabTitle == "Map") {
@@ -89,3 +89,16 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		}
 	}
 }]);
+
+function select(item) {
+	if (typeof baseSelectOffset === 'undefined') {
+		baseSelectOffset = $("#tabSelectBar").position().left
+	}
+
+	$("#tabSelectBar").animate({
+		width: $($(".tabBox")[item]).width(),
+		left: baseSelectOffset + $($(".tabBox")[item]).position().left
+	});
+
+	console.log($($(".tabBox")[item]).position().left);
+}
