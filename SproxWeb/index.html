@@ -85,12 +85,17 @@
 	<body>
 	<div class="body">
 		<div id="topBar" ng-show="showTopbar" class="slide-down">
+			<div id="tabs">
+				<div class="tabBox" ng-click="clickTab(tab.path)" ng-show="showTab(tab.dev)" ng-repeat="tab in tabs">
+					<div class="{{ tabClass(tab.title) }}">{{ tab.title }}</div>
+				</div>
+			</div>
 			<div id="gear" ng-click="userMenu=!userMenu"></div>
 			<div id="icon"></div>
 			<div id="studentName">{{ studentName }}</div>
 		</div>
 
-		<div class="tab slide-down" ng-click="clickTab(tab.path)" ng-show="showTab(tab.dev)" ng-repeat="tab in tabs">{{ tab.title }}</div>
+		
 		<div id="userMenu" ng-show="userMenu">
 			<div id='borderAvatar'>
 			<img ng-src="https://secure.gravatar.com/avatar/{{ userEmail }}?d=identicon&s=50" class="avatar">

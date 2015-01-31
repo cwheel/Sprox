@@ -55,6 +55,14 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		}
 	};
 
+	$scope.tabClass = function(tabTitle) {
+		if (tabTitle == "Map") {
+			return "tab tabLast";
+		} else {
+			return "tab";
+		}
+	};
+
 	$scope.logout = function() {
 		var logout = new WebSocket(sproxSrv);
 		

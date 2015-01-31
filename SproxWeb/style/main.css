@@ -84,32 +84,48 @@ body{
 
 .tab {
   float: left;
-  height: 25px;
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-  top: 35px;
+  height: 20px;
   font-family: 'Roboto', sans-serif; 
   font-weight: 300;
   font-size: 13px;
-  background-color: #ecf0f1;
   position: relative;
-  box-shadow:0 12px 15px 0 rgba(0, 0, 0, 0.24);
 
   z-index: 4;
-  padding-left: 10px;
+  padding-left: 3px;
   padding-right: 10px;
-  padding-top: 10px;
-  margin-right: 5px;
+  padding-top: 5px;
   margin-left: 5px;
   cursor: pointer;
-
-  -webkit-transition: padding-top 0.25s;
-  -moz-transition: padding-top 0.25s;
-  transition: padding-top 0.25s;
+  margin-top: 9px;
 
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+}
+
+.tabLast {
+  border: none;
+}
+
+.tabBox {
+  float: left;
+  height: 45px;
+  -webkit-transition: background-color 0.25s;
+  -moz-transition: background-color 0.25s;
+  transition: background-color 0.25s;
+}
+
+.tabBox:hover {
+  background-color: #D2D2D2;
+}
+
+#tabs {
+  left: 45px;
+  position: absolute;
+}
+
+.tabHolder {
+  float: left;
 }
 
 #userMenu {
@@ -143,7 +159,7 @@ body{
   right: 0;
   float: right;
   display: inline;
-  width:121;
+  width: 121;
 }
 #borderAvatar{
   position: absolute;
@@ -186,10 +202,6 @@ body{
   bottom: 0;
   width: 100%;
   height: 100%;
-}
-
-.tab:hover {
-  padding-top: 15px;
 }
 
 /* BASE STYLES
