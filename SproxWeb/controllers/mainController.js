@@ -6,15 +6,16 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	$scope.showTopbar = false;
 	$scope.showTabs = false;
 	$scope.showDropDown = false;
+	$scope.selectedIndex = 0;
 	var currentIndex = 0;
 	$scope.userMenu = false;
-	$scope.tabs = [{"path" : "sc", "title" : "Student Center", "dev" : false},
-	 			{"path" : "sh", "title" : "Schedule", "dev" : false},
-	 			{"path" : "nb", "title" : "Notebook", "dev" : false},
-	 			{"path" : "cs", "title" : "Club Search", "dev" : false}, 
-	 			{"path" : "uc", "title" : "UCard", "dev" : false}, 
-	 			{"path" : "pk", "title" : "Parking", "dev" : true}, 
-	 			{"path" : "mp", "title" : "Map", "dev" : false}];
+	$scope.tabs = [{"path" : "sc", "title" : "Student Center", "dev" : false, "color" : "#FFC107"},
+	 			{"path" : "sh", "title" : "Schedule", "dev" : false, "color" : "#4caf50"},
+	 			{"path" : "nb", "title" : "Notebook", "dev" : false, "color" : "#9C27B0"},
+	 			{"path" : "cs", "title" : "Club Search", "dev" : false, "color" : "#666"}, 
+	 			{"path" : "uc", "title" : "UCard", "dev" : false, "color" : "#f44336"}, 
+	 			{"path" : "pk", "title" : "Parking", "dev" : true, "color" : "#666"}, 
+	 			{"path" : "mp", "title" : "Map", "dev" : false, "color" : "#666"}];
 	$ocLazyLoad.load([{
     	name: 'ngCkeditor',
     	files: ['lib/ng-ckeditor/ng-ckeditor.css','lib/ng-ckeditor/ng-ckeditor.min.js','lib/ng-ckeditor/libs/ckeditor/ckeditor.js']
@@ -34,6 +35,8 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		$timeout(function() {
 			$scope.$apply('showTabs = true');
 			$scope.developerStatus = developer;
+
+			select(0, "#FFC107", true);
 		}, 500);
 
 		$scope.studentName = userData.studentName;
@@ -44,6 +47,12 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 
 	$scope.clickTab = function(path, args) {
 		$scope.$apply('userMenu = false');
+
+		for (var i = 0; i < $scope.tabs.length; i++) {
+			if (path == $scope.tabs[i].path) { $scope.selectedIndex = i; }
+		}
+
+		select($scope.selectedIndex, $scope.tabs[$scope.selectedIndex].color, false);
 		
 		if (lockAnimation == false){
 			lockAnimation = true;
@@ -53,7 +62,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 					lockAnimation = false;
 			}, 1000);
 		}
-	};œ
+	};
 
 	$scope.tabClass = function(tabTitle) {
 		if (tabTitle == "Map") {
@@ -78,7 +87,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	};
 	
 	$scope.showTab = function(tabState) {
-		if ($scope.showTabs) {
+		if ($scope.showTabs) { 
 	 		if (!tabState) {
 				return true;
 			} else if (tabState && developer) {
@@ -90,15 +99,23 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	}
 }]);
 
-function select(item) {
-	if (typeof baseSelectOffset === 'undefined') {
-		baseSelectOffset = $("#tabSelectBar").position().left
+//Temporary
+//Make it into a directive at some point
+function select(item, color, ignore) {
+	//This padding calculation is terrible and should be thrown away as soon as physically possible.
+	//It lacks any and all device support, but it works locally and thats good enought for now.
+	var padding = 8;
+
+	if (!lockAnimation || ignore) {
+		if (typeof baseSelectOffset === 'undefined') {
+			baseSelectOffset = $("#tabSelectBar").position().left
+		}
+
+		$("#tabSelectBar").css("background-color", color);
+
+		$("#tabSelectBar").animate({
+			width: $($(".tabBox")[item]).width()-((padding*2)+1),
+			left: (baseSelectOffset+padding) + $($(".tabBox")[item]).position().left
+		}, 1000);
 	}
-
-	$("#tabSelectBar").animate({
-		width: $($(".tabBox")[item]).width(),
-		left: baseSelectOffset + $($(".tabBox")[item]).position().left
-	});
-
-	console.log($($(".tabBox")[item]).position().left);
 }

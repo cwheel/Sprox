@@ -115,12 +115,12 @@ input[type=text],[type=password] {
   font-family: 'Roboto', sans-serif; 
   font-weight: 400;
   font-size: 15px;
-  background-color: #446CB3;
+  background-color: #446C95;
   color: #ffffff;
 }
 
 #loginButton:hover {
-  background-color: #4183D7;
+  background-color: #5F98D1;
   cursor: pointer;
 }
 

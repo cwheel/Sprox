@@ -129,13 +129,16 @@ body{
 }
 
 #tabSelectBar {
-  width: 103px;
+  width: 86px;
   height: 2px;
   top: 35px;
   left: 45px;
-  background-color: #666;
   z-index: 5;
   position: absolute;
+  background-color: #FFC107;
+  -webkit-transition: background-color 1s;
+  -moz-transition: background-color 1s;
+  transition: background-color 1s;
 }
 
 #userMenu {
