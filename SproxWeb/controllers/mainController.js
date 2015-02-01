@@ -37,6 +37,18 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 			$scope.developerStatus = developer;
 
 			select(0, "#FFC107", true);
+			var w = $("#fname").width();
+       		console.log(w);
+
+			while(w > 110){
+		   		var currentFontSize = $('#fname').css('font-size');
+		  		var currentFontSizeNum = parseFloat(currentFontSize, 10);
+		   		var newFontSize = currentFontSizeNum*0.98;
+		   		$('#fname').css('font-size', newFontSize);
+		   		w = $("#fname").width();
+		   		console.log(w);
+   			}
+   			$('#fname').css('width', "120px");
 		}, 500);
 
 		$scope.studentName = userData.studentName;
@@ -44,7 +56,11 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		$scope.major = userData.major;
 		$scope.fullName = userData.studentFullname;
 	});
-
+	$scope.invertMenuZIndex = function() {
+          	var zindex = $("#userMenu").css('z-index');
+          	zindex = zindex * -1;
+          	$("#userMenu").css('z-index', zindex);
+    };
 	$scope.clickTab = function(path, args) {
 		$scope.$apply('userMenu = false');
 
@@ -116,6 +132,8 @@ function select(item, color, ignore) {
 		$("#tabSelectBar").animate({
 			width: $($(".tabBox")[item]).width()-((padding*2)+1),
 			left: (baseSelectOffset+padding) + $($(".tabBox")[item]).position().left
+		
 		}, 1000);
 	}
 }
+
