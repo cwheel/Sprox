@@ -1,8 +1,4 @@
 sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog','$ocLazyLoad', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad) {
-	/*if (document.location.protocol == "http:") {
-		window.location = "https://sprox.net";
-	}*/
-
 	$scope.showTopbar = false;
 	$scope.showTabs = false;
 	$scope.showDropDown = false;

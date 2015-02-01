@@ -1,24 +1,26 @@
-<title>Sprox Login</title>
-<div class="login"><br>
-	<div id="loginBoxContainer">
-		<div id="loginBox"></div>
-		<div id="loginBoxIcon"></div>
-		<div id="loginBoxSubtext"><b>Welcome</b> to<br> Sprox</div>
-		<div id="loginBoxCorner"></div>
-
-		<div id="loginBoxForm">
-			<center>
-				<form>
-					<input type="text" name="username" placeholder="NetID" id="username" ng-model="netid"/><br><br>
-					<input type="password" name="password" placeholder="Password" id="password" ng-keyup="$event.keyCode == 13 && login()" ng-model="pass"/>
-				</form>
-				<div id="loginButton" ng-click="login()">{{ loginStatus }}</div>
-				<canvas id="loginProgress" width="350" height="300" ng-show="loading" loginanimation></canvas>
-			</center>
+<div class="container" id="loginIcon">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3" id="loginTitle">
+			<img src="src/whiteicon.png"></img>
 		</div>
-	<div id="slide-in" class="am-fade-and-slide-left" ng-show="showLegal">
-	<div id="build">Sprox build {{ build }}</div>
-	<div id="disclaimer">Sprox has absolutely no association with Spire or the University of Massachusetts Amherst.</div>
 	</div>
-	</div>
+</div>
+
+<div class="container" id="loginContainer">
+	<div class="row">
+		<div class="well col-md-6 col-md-offset-3">
+			<div class="form-group">
+		      	<input class="form-control floating-label" id="user" placeholder="NetID" ng-model="netid" material-input>
+	   		</div>
+
+	   		<div class="form-group">
+		      	<input type="password" class="form-control floating-label" id="pass" placeholder="Password" ng-keyup="$event.keyCode == 13 && login()" ng-model="pass" material-input>
+	   		</div>
+		   		<button class="btn btn-primary" id="loginButton" ng-click="login()" material-ripple>{{ loginStatus }}<div class="ripple-wrapper"></button>
+	   	</div>
+   	</div> 
+</div>
+
+<div id="loginBottomText">
+Sprox build {{ build }} <br> Sprox has absolutely no association with Spire or the University of Massachusetts Amherst.
 </div>

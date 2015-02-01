@@ -36,7 +36,7 @@ def getCounter(statKey):
 	sdb.execute('SELECT * FROM stats WHERE skey="' + statKey + '"')
 	return sdb.fetchone()[2]
 
-def sendStats(socket):
+def sendStats(user, socket):
 	sdb = statsDB()
 	sdb.execute('SELECT * FROM notes')
 

@@ -1,4 +1,4 @@
-var sprox = angular.module('sprox', ['oc.lazyLoad','ngRoute', 'ngAnimate', 'ngDialog','cfp.hotkeys']);
+var sprox = angular.module('sprox', ['oc.lazyLoad','ngRoute', 'ngAnimate', 'ngDialog','cfp.hotkeys', 'ngBootstrapMaterial']);
 
 //Globals
 var sasAuth;

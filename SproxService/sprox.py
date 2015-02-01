@@ -18,6 +18,7 @@ import notes
 import stats
 import logger
 import config
+if config.compileSass: import sass
 
 whitelist = None
 authTokens = multiprocessing.Manager().dict() #Thread-safe
@@ -174,14 +175,21 @@ class httpHandler(tornado.web.RequestHandler):
         self.redirect(self.request.full_url().replace("http", "https"), permanent=True)
 
 class httpsHandler(tornado.web.RequestHandler):
-	def sendPage(client, path):
+	def sendPage(client, path, scss):
 		ext = os.path.splitext(path)[1]
 
 		with open (path, "r") as page:
 			pageContent = page.read()
 
+
 		client.set_header("Server", "Sprox v" + config.version)
-		client.set_header("Content-Type", config.mimeTypes[ext])
+
+		if scss:
+			pageContent = sass.compile(string=pageContent);
+			client.set_header("Content-Type", config.mimeTypes[".css"])
+		else:
+			client.set_header("Content-Type", config.mimeTypes[ext])
+
 		client.set_header("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
 		client.write(pageContent)
 
@@ -192,21 +200,23 @@ class httpsHandler(tornado.web.RequestHandler):
 			req = req.split("?")[0]
 
 		if ".." in req or "./" in req or "\\" in req:
-			sendPage(self, config.frontend + "/errors/503.html")
+			sendPage(self, config.frontend + "/errors/503.html", False)
 		
 		if (req[-1:] == "/"):
 			if (os.path.isdir(req)):
 				if (os.path.exists(req + "index.html")):
-					httpsHandler.sendPage(self, config.frontend + self.request.uri + "index.html")
+					httpsHandler.sendPage(self, config.frontend + self.request.uri + "index.html", False)
 				else:
-					httpsHandler.sendPage(self, config.frontend + "/errors/404.html")
+					httpsHandler.sendPage(self, config.frontend + "/errors/404.html", False)
 			else:
-				httpsHandler.sendPage(self, config.frontend + "/errors/404.html")
+				httpsHandler.sendPage(self, config.frontend + "/errors/404.html", False)
 		else:
-			if (os.path.exists(req)):
-				httpsHandler.sendPage(self, req)
+			if config.compileSass and (os.path.exists(req.replace("css", "scss"))) and not os.path.exists(req):
+				httpsHandler.sendPage(self, req.replace("css", "scss"), True)
+			elif (os.path.exists(req)):
+				httpsHandler.sendPage(self, req, False)
 			else:
-				httpsHandler.sendPage(self, config.frontend + "/errors/404.html")
+				httpsHandler.sendPage(self, config.frontend + "/errors/404.html", False)
 
 http = tornado.web.Application([
     (r'/.*', httpHandler),
@@ -248,7 +258,7 @@ if __name__ == "__main__":
 	registerProtocolFunction("notes_share_page", True, False, notes.loadNotesLayout)
 	registerProtocolFunction("notes_update_color", True, False, notes.loadNotesLayout)
 	registerProtocolFunction("notes_get_user_sections", True, True, notes.updateSectionColor)
-	registerProtocolFunction("stats", False, False, stats.sendStats)
+	registerProtocolFunction("stats", False, True, stats.sendStats)
 	registerProtocolFunction("club_search", True, True, clubSearch.query)
 
 	logger.info('Starting HTTP server on :' + str(config.httpPort) + ' (Redirects only)...')
@@ -262,6 +272,9 @@ if __name__ == "__main__":
 
 	logger.info('Starting HTTPS server on :' + str(config.httpsPort) + '...')
 	httpsServer.listen(config.httpsPort)
+
+	if config.compileSass:
+		logger.info('SASS compilation enabled. Files ending in .scss will be treated as .css')
 
 	logger.info('Starting WebSocket server on :' + str(config.port) +'...')
 	logger.info('Using TLS, connect via wss:// protocol...')

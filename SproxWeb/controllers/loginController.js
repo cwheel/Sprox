@@ -152,7 +152,6 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 	};
 }]);
 
-
 //http://www.reddit.com/r/gifs/comments/2on8si/connecting_to_server_so_mesmerizing/cmow0sz
 //And http://codepen.io/anon/pen/OPMvOb
 

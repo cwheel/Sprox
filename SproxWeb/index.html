@@ -1,21 +1,7 @@
 <html ng-app="sprox">
 	<head>
-		<!-- Global CSS -->
-		<link rel="stylesheet" type="text/css" href="style/main.css">
-		<link rel="stylesheet" type="text/css" href="style/page.css">
-		<link rel="stylesheet" type="text/css" href="style/ng-animations.css">
-		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
-
-		<!-- Page specific CSS (Prevents loading errors) -->
-		<link rel="stylesheet" type="text/css" href="../style/map.css">
-		<link rel="stylesheet" type="text/css" href="../style/login.css">
-		<link rel="stylesheet" type="text/css" href="../style/parking.css">
-		<link rel="stylesheet" type="text/css" href="../style/settings.css">
-		<link rel="stylesheet" type="text/css" href="../style/schedule.css">
-		<link rel="stylesheet" type="text/css" href="../style/studentCenter.css">
-		<link rel="stylesheet" type="text/css" href="../style/uc.css">
-		<link rel="stylesheet" type="text/css" href="../style/notes.css">
-		<link rel="stylesheet" type="text/css" href="../style/clubSearch.css">
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 		<!-- Angular -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.js"></script>
@@ -24,13 +10,24 @@
 
 	  	<!-- Bootstrap -->
 	  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+		<!-- Bootstrap Theme -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.2/css/material.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.2/css/ripples.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.2/js/material.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.2.2/js/ripples.js"></script>
+
+		<script src="lib/ngBootstrapMaterial.js"></script>
 
 		<!-- CryptoJS -->
 		<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
 
-		<!-- jQuery -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<!-- Global CSS -->
+	 	<link rel="stylesheet" type="text/css" href="style/main.css">
+	 	<link rel="stylesheet" type="text/css" href="style/login.css">
 
 		<!-- ngDialog -->
 		<script src="lib/ngDialog/ngDialog.js"></script>
@@ -85,6 +82,6 @@
 	</head>
 
 	<body ng-controller="mainController">
-	
+		<div class="{{ pageClass }} view" ng-view></div>
 	</body>
 </html>

@@ -17,7 +17,11 @@ mimeTypes = {".html" : "text/html",
 	".ico" : "image/x-icon", ".css" : 
 	"text/css", ".json" : "text/json", 
 	".gif" : "image/gif", 
-	".map" : "text/json"}
+	".map" : "text/json",
+	".scss" : "text/plain"}
+
+#Should we compile SASS (.scss) files before sending them?
+compileSass = True
 
 #WebSocket port
 port = 8181

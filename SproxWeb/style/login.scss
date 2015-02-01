@@ -1,0 +1,42 @@
+@import "frontend/style/partials/animation";
+
+$login-padding: 75px;
+$login-text-padding: 10px;
+
+#loginContainer {
+  padding-right: 50px;
+  padding-left: 50px;
+  margin-top: $login-padding;
+}
+
+#loginButton {
+  width: 100%;
+}
+
+#loginTitle {
+  text-align: center;
+}
+
+#loginIcon {
+  padding-top: $login-padding; 
+}
+
+#loginBottomText {
+  color: #FFF;
+  font-size: 9px;
+
+  position: absolute;
+  bottom: $login-text-padding;
+
+  @include animation(0s, 2s, slideFromLeft)
+}
+
+@include keyframe(slideFromLeft) {
+    0% {
+        left: -100%;
+    }
+ 
+    100% {
+        left: $login-text-padding;
+    }
+}
