@@ -7,7 +7,7 @@ def clubsDB():
 	db.autocommit(True)
 	return db.cursor()
 
-def query(query, socket):
+def query(user, query, socket):
 	results = {}
 
 	cdb = clubsDB()

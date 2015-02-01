@@ -21,6 +21,7 @@ import config
 
 whitelist = None
 authTokens = multiprocessing.Manager().dict() #Thread-safe
+protocol = {}
 
 def printArt():
 	print ""
@@ -57,13 +58,12 @@ def userTokenValid(user, token):
 		return False
 
 
+def registerProtocolFunction(command, needsAuth, needsSocket, function):
+	protocol[command] = {"function" : function, "auth" : needsAuth, "socket" : needsSocket};
+
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
 	def open(self):
 		pass
-
-############################################
-# Socket Command Processing
-############################################
 
 	def on_message(self, message):
 		if "[authenticate]" in message:
@@ -107,25 +107,6 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 				else:
 					self.write_message("[authentication_failure_whitelist]")
 
-		elif "[enable_cache]" in message: 
-			#Enable caching for the user
-			message = message.replace("[enable_cache]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-
-			if userTokenValid(user, token):
-				cacheManager.userRequestedCaching(user)
-
-		elif "[disable_cache]" in message: 
-			#Disable caching for the user
-			message = message.replace("[disable_cache]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-
-			#Ensure token validity prior changing the cache state
-			if userTokenValid(user, token):
-				cacheManager.userRequestedNeverCaching(user)
-
 		elif "[logout]" in message:
 			#Deauth the user
 			message = message.replace("[logout]", "")
@@ -138,120 +119,46 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 			if userTokenValid(user, token):
 				del authTokens[user]
 
-		elif "[notes_save]" in message:
-			#Save the specified note
-			message = message.replace("[notes_save]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			notebookSection = message.split(",")[2]
-			page = message.split(",")[3]
-			pageContents = message.split(",")[4]
-			
-			#Check the users auth state
-			if userTokenValid(user, token):
-				notes.saveNote(user, notebookSection, page, pageContents, self)
+		#Protocol Command Running
+		for command in protocol:
+			#Check if our message starts with the command
+			if (message.startswith("[" + command + "]")):
+				#Convert the argument string to a list
+				args = message.replace("[" + command + "]", "").split(",")
 
-		elif "[notes_load_layout]" in message:
-			#Load the notebook skeleton layout
-			message = message.replace("[notes_load_layout]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			
-			#Check the users auth state
-			if userTokenValid(user, token):
-				notes.loadNotesLayout(user, self)
+				#Check for auth
+				if protocol[command]["auth"]:
+					if userTokenValid(args[0], args[1]):
 
-		elif "[notes_load_page]" in message:
-			#Load a specific note
-			message = message.replace("[notes_load_page]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			notebookSection = message.split(",")[2]
-			notebookPage = message.split(",")[3]
-			
-			#Check the users auth state
-			if token in authTokens[user]:
-				notes.loadNotesPage(user, notebookSection, notebookPage, self)
+						#Remove the authtoken, lower functions never use it
+						try:
+							args.remove(authTokens[args[0]])
+						except:
+							pass
+						
+						#Add the socket to the list if needed
+						if protocol[command]["socket"]:
+							args.append(self)
 
-		elif "[notes_rename_section]" in message:
-			#Rename a notebook section
-			message = message.replace("[notes_rename_section]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			notebookSectionNew = message.split(",")[2]
-			notebookSectionOld = message.split(",")[3]
+						#Convert the arguments to a tuple
+						args = tuple(args)
 
-			#Check the users auth state
-			if userTokenValid(user, token):
-				notes.renameSection(user, notebookSectionOld, notebookSectionNew)
+						#Call the function with the tuple of args
+						protocol[command]["function"](*args)
 
-		elif "[notes_remove_page]" in message:
-			#Remove a specified page in a notebook
-			message = message.replace("[notes_remove_page]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			notebookSection = message.split(",")[2]
-			page = message.split(",")[3]
+				#Run if auth isn't needed
+				else:
+					try:
+						args.remove(authTokens[args[0]])
+					except:
+						pass
 
-			#Check the users auth state
-			if userTokenValid(user, token):
-				notes.removeSectionPage(user, notebookSection, page)
-		elif "[notes_remove_section]" in message:
-			#Remove a specified page in a notebook
-			message = message.replace("[notes_remove_section]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			notebookSection = message.split(",")[2]
+					if protocol[command]["socket"]:
+						args.append(self)
 
-			#Check the users auth state
-			if userTokenValid(user, token):
-				notes.removeSection(user, notebookSection)
-		elif "[notes_share_page]" in message:
-			#Share the specified page with the specified netid
-			message = message.replace("[notes_share_page]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			notebookPage = message.split(",")[2]
-			pageSection = message.split(",")[3]
-			withUser = message.split(",")[4]
-			intoSection = message.split(",")[5]
-			
-			#Check the users auth state
-			if userTokenValid(user, token):
-				notes.sharePage(user, notebookPage, pageSection, withUser, intoSection)
-		elif "[notes_get_user_sections]" in message:
-			#Get the sections for the specified user
-			message = message.replace("[notes_get_user_sections]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			qUser = message.split(",")[2]
-			
-			#Check the users auth state
-			if userTokenValid(user, token):
-				notes.sectionsForUser(qUser, self)
-		elif "[notes_update_color]" in message:
-			#Change the color of a users section
-			message = message.replace("[notes_update_color]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			section = message.split(",")[2]
-			color = message.split(",")[3]
-			
-			#Check the users auth state
-			if userTokenValid(user, token):
-				notes.updateSectionColor(user, section, color)
-		elif "[stats]" in message:
-			stats.sendStats(self)
-		elif "[club_search]" in message:
-			#Query the clubs db for the specified term
-			message = message.replace("[club_search]", "")
-			user = message.split(",")[0]
-			token = message.split(",")[1]
-			query = message.split(",")[2]
+					args = tuple(args)
+					protocol[command]["function"](*args)
 
-			#Check the users auth state
-			if userTokenValid(user, token):
-				clubSearch.query(query, self)
 	def on_close(self):
 		pass
 
@@ -327,6 +234,22 @@ if __name__ == "__main__":
 		with open("whitelist") as f:
 			whitelist = f.readlines()
 			whitelist = [netid.strip('\n') for netid in whitelist]
+
+	logger.info('Building WebSocket protocol...')
+
+	registerProtocolFunction("notes_load_layout", True, True, notes.loadNotesLayout)
+	registerProtocolFunction("enable_cache", True, False, cacheManager.userRequestedCaching)
+	registerProtocolFunction("disable_cache", True, False, cacheManager.userRequestedNeverCaching)
+	registerProtocolFunction("notes_save", True, True, notes.saveNote)
+	registerProtocolFunction("notes_load_page", True, True, notes.loadNotesPage)
+	registerProtocolFunction("notes_rename_section", True, False, notes.renameSection)
+	registerProtocolFunction("notes_remove_page", True, False, notes.removeSectionPage)
+	registerProtocolFunction("notes_remove_section", True, False, notes.removeSection)
+	registerProtocolFunction("notes_share_page", True, False, notes.loadNotesLayout)
+	registerProtocolFunction("notes_update_color", True, False, notes.loadNotesLayout)
+	registerProtocolFunction("notes_get_user_sections", True, True, notes.updateSectionColor)
+	registerProtocolFunction("stats", False, False, stats.sendStats)
+	registerProtocolFunction("club_search", True, True, clubSearch.query)
 
 	logger.info('Starting HTTP server on :' + str(config.httpPort) + ' (Redirects only)...')
 	tornado.httpserver.HTTPServer(http).listen(config.httpPort)

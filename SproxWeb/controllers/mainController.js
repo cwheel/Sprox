@@ -118,4 +118,17 @@ function select(item, color, ignore) {
 			left: (baseSelectOffset+padding) + $($(".tabBox")[item]).position().left
 		}, 1000);
 	}
+
+sprox.directive('invertZIndex', ['$parse', function($parse) {
+    return {
+        link: function(scope, element, attr) {          
+          element.onclick(function () {
+          	var zindex = element.zIndex();
+          	zindex = zindex * -1;
+          	console.log(zindex);
+          	element.css('z-index', zindex);
+          });
+        }
+    };
+}]);
 }
