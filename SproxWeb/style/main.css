@@ -167,12 +167,11 @@ body{
 }
 
 #fname {
-  font-size: 16px;
-  font-size: .8vw;
+  font-size: 20px;
+  white-space:nowrap;
   right: 0;
   float: right;
-  display: inline;
-  width: 121;
+  display: block;
 }
 #borderAvatar{
   position: absolute;
