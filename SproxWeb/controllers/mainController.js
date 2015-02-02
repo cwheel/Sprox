@@ -16,6 +16,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	 			{"path" : "uc", "title" : "UCard", "dev" : false, "color" : "#f44336"}, 
 	 			{"path" : "pk", "title" : "Parking", "dev" : true, "color" : "#666"}, 
 	 			{"path" : "mp", "title" : "Map", "dev" : false, "color" : "#666"}];
+	$scope.$apply();
 	$ocLazyLoad.load([{
     	name: 'ngCkeditor',
     	files: ['bower_components/ng-ckeditor/ng-ckeditor.css','bower_components/ng-ckeditor/ng-ckeditor.min.js','bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js']
@@ -32,35 +33,12 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 			$scope.$apply('showTopbar = true');
 		}, 100);
 
-		$timeout(function() {
-			$scope.$apply('showTabs = true');
-			$scope.developerStatus = developer;
-
-			select(0, "#FFC107", true);
-			var w = $("#fname").width();
-       		console.log(w);
-
-			while(w > 110){
-		   		var currentFontSize = $('#fname').css('font-size');
-		  		var currentFontSizeNum = parseFloat(currentFontSize, 10);
-		   		var newFontSize = currentFontSizeNum*0.98;
-		   		$('#fname').css('font-size', newFontSize);
-		   		w = $("#fname").width();
-		   		console.log(w);
-   			}
-   			$('#fname').css('width', "120px");
-		}, 500);
-
 		$scope.studentName = userData.studentName;
 		$scope.spireID = userData.spireId;
 		$scope.major = userData.major;
 		$scope.fullName = userData.studentFullname;
 	});
-	$scope.invertMenuZIndex = function() {
-          	var zindex = $("#userMenu").css('z-index');
-          	zindex = zindex * -1;
-          	$("#userMenu").css('z-index', zindex);
-    };
+
 	$scope.clickTab = function(path, args) {
 		$scope.$apply('userMenu = false');
 
@@ -114,26 +92,3 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		}
 	}
 }]);
-
-//Temporary
-//Make it into a directive at some point
-function select(item, color, ignore) {
-	//This padding calculation is terrible and should be thrown away as soon as physically possible.
-	//It lacks any and all device support, but it works locally and thats good enought for now.
-	var padding = 8;
-
-	if (!lockAnimation || ignore) {
-		if (typeof baseSelectOffset === 'undefined') {
-			baseSelectOffset = $("#tabSelectBar").position().left
-		}
-
-		$("#tabSelectBar").css("background-color", color);
-
-		$("#tabSelectBar").animate({
-			width: $($(".tabBox")[item]).width()-((padding*2)+1),
-			left: (baseSelectOffset+padding) + $($(".tabBox")[item]).position().left
-		
-		}, 1000);
-	}
-}
-

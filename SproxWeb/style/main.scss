@@ -1,4 +1,15 @@
+@import "frontend/style/partials/colors";
+
+$padding-logo: 10px;
+
 body {
-  background-color: #3D3D3D;
+  background-color: $background-color;
   background-image: url(../src/squares.png);
+}
+
+#sproxLogo{
+	margin-left: $padding-logo/2;
+	padding-top: $padding-logo;
+	height: 50px;
+	width: 40px;
 }

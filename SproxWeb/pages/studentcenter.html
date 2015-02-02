@@ -1,45 +1,86 @@
-<title>Sprox</title>
+<div ng-controller="studentCenterController">
+	<div id="modal-content" class="modal fade" tabindex="-1" role="dialog" show-model="model" data-model-state=false>
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal">×</button>
+	                <h3>Modal header</h3>
+	            </div>
+	            <div class="modal-body">
+	                <p>
+	                    <input type="text" id="txtname" />
+	                </p>
+	            </div>
+	            <div class="modal-footer"> 
+	                <a href="#" class="btn" data-dismiss="modal">Close</a>
+	                 <a href="#" class="btn btn-primary">Save changes</a>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
-<div class="page" ng-controller="studentCenterController">
-
-	<div ng-show="classesToday" class="container">
-		<div class="row">
-			<div class="well col-md-12" id="loginTitle">
-				<div class="dayTitle">{{ classesDay }} Classes</div>
-				<div class="{{ class.type }}" ng-repeat="class in ct">
-					{{ class.name }} 
-					<br> 
-					<b>{{ class.time }}</b>
-					<br>
-				<div class="scheduleClassLocation">{{ class.location }}</div>
+	<div class="container">
+		<div class="row" ng-show="classesToday">
+			<div class="col-md-12">
+				<div class="panel panel-material-cyan" edgeless-panel>
+					<div class="panel-heading">
+					    <div class="dayTitle">{{ classesDay }} Classes</div>
+					</div>
+					
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-4" ng-repeat="class in ct">
+								<div class="{{ class.type }}">
+									{{ class.name }}
+									<br> 
+									<b>{{ class.time }}</b>
+									<br>
+									<div>{{ class.location }}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-md-6">
-				<div class="well">
-					<div class="contentContainerTitle contentContainerTitleColor">Student Information <br> <div class="contentContainterTitleSub">Graduating in {{ gradYear }}</div></div>
-					<br>
-					<div class="subTitle">Home Address</div>
-					<div class="subText">{{ homeAddress }}</div>
-					<br>
-					<div class="subTitle">School Address</div>
-					<div class="subText">{{ schoolAddress }}</div>
-					<br>
-					<div class="subTitle">Mail Box Combination</div>
-					<div class="subText">{{ mailBox }}</div>
+				<div class="panel panel-material-light-green" edgeless-panel>
+					<div class="panel-heading">
+					    Student Information
+					    <br> 
+					    <div class="scPanelHeaderSubText">Graduating in {{ gradYear }}</div>
+					</div>
+
+					<div class="panel-body">
+						<div class="subTitle">Home Address</div>
+						<div class="scPanelSubText">{{ homeAddress }}</div>
+						<br>
+						<div class="subTitle">School Address</div>
+						<div class="scPanelSubText">{{ schoolAddress }}</div>
+						<br>
+						<div class="subTitle">Mail Box Combination</div>
+						<div class="scPanelSubText">{{ mailBox }}</div>
+					</div>
 				</div>
 			</div>
-		
+		 
 			<div class="col-md-6">
-				<div class="well">
-					<div class="contentContainerTitle contentContainerTitleColor">Housing at {{ building }} <br> <div class="contentContainterTitleSub">Room {{ roomNumber }} - {{ roomType }}</div></div>
-					<br>
-					<div class="subTitle">Roomate</div>
-					<div class="subText">{{ roomate }}</div>
-					<div class="subText">{{ roomateEmail }}</div>
-					<br>
-					<div class="subText">{{ roomateAddress }}</div>
+				<div class="panel panel-material-light-green" edgeless-panel>
+					<div class="panel-heading">
+					    Housing at {{ building }}
+					    <br>
+					    <div class="scPanelHeaderSubText">Room {{ roomNumber }} - {{ roomType }}</div>
+					</div>
+					
+					<div class="panel-body">
+						<div class="subTitle">Roomate</div>
+						<div class="scPanelSubText">{{ roomate }}</div>
+						<div class="scPanelSubText">{{ roomateEmail }}</div>
+						<br>
+						<div class="scPanelSubText">{{ roomateAddress }}</div>
+					</div>
 				</div>
 			</div>
 		</div>

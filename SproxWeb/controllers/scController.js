@@ -20,6 +20,8 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.roomateAddress = userData.roomateAddress;
 	$scope.gradYear = userData.gradTerm;
 
+	$scope.model = true;
+
 	switch(new Date().getDay()) {
 		case 0:
 			$scope.ct = userData.classesWeekly.Su;
@@ -101,7 +103,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 				$scope.ct[i].type = "scheduleClass";
 
 				if (parseInt(time) < $scope.ct[i].tfh_s && !foundFirst) {
-					$scope.ct[i].type = "scheduleClassNext";
+					$scope.ct[i].type = "scheduleClass scheduleClassNext";
 					if (lastClassNotif != $scope.ct[i].name && (parseInt(time) > ($scope.ct[i].tfh_s - 15))) {
 						lastClassNotif = $scope.ct[i].name;
 						var notification = new Notification('Upcoming Class', {body: 'You have ' + $scope.ct[i].name + ' in 15 minutes.', icon: "favicons/favicon.ico"});
@@ -111,9 +113,8 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 					
 				} else if (parseInt(time) > $scope.ct[i].tfh_s && time < $scope.ct[i].tfh_e) {
 					if ((i + 1) <= ($scope.length - 1)) {
-						$scope.ct[i+1].type = "scheduleClassNext";
+						$scope.ct[i+1].type = "scheduleClass scheduleClassNext";
 					}
-					
 				}
 			}
 		}
