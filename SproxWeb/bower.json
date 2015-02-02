@@ -14,7 +14,9 @@
     "jquery" : "latest",
     "angular" : "1.3.x",
     "angular-route" : "1.3.x",
-    "angular-animate" : "1.3.x"
+    "angular-animate" : "1.3.x",
+    "ng-bootstrap-material" : "latest",
+    "cryptojslib" : "latest"
   },
   "private": true
 }

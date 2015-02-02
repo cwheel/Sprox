@@ -142,11 +142,9 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 			};
 		} else {
 			$scope.loginStatus = "Invalid NetID or password";
-			$scope.$apply();
 
 			$timeout(function() {
 				$scope.loginStatus = "Login";
-				$scope.$apply()
 			}, 5000);
 		}
 	};

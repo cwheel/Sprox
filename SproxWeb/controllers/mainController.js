@@ -1,4 +1,8 @@
 sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog','$ocLazyLoad', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad) {
+	/*if (document.location.protocol == "http:") {
+		window.location = "https://sprox.net";
+	}*/
+
 	$scope.showTopbar = false;
 	$scope.showTabs = false;
 	$scope.showDropDown = false;
@@ -14,10 +18,10 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	 			{"path" : "mp", "title" : "Map", "dev" : false, "color" : "#666"}];
 	$ocLazyLoad.load([{
     	name: 'ngCkeditor',
-    	files: ['lib/ng-ckeditor/ng-ckeditor.css','lib/ng-ckeditor/ng-ckeditor.min.js','lib/ng-ckeditor/libs/ckeditor/ckeditor.js']
+    	files: ['bower_components/ng-ckeditor/ng-ckeditor.css','bower_components/ng-ckeditor/ng-ckeditor.min.js','bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js']
 	},{
 		name: 'leaflet-directive',
-		files: ['lib/leaflet/leaflet.js','lib/leaflet/angular-leaflet-directive.js','lib/leaflet/leaflet.css']
+		files: ['bower_components/leaflet/dist/leaflet.js','bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js','bower_components/leaflet/dist/leaflet.css']
 	}]);
 
 	$scope.$on('loginCompleted', function(event, args) {
