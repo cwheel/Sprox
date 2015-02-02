@@ -1,9 +1,6 @@
 sprox.controller('loginController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
 	$scope.pageClass = "toggle";
 	$scope.showLogin = true;
-	$timeout(function() {
-		$scope.$apply('showLegal = true');
-	}, 1500);
 
 	$scope.loginStatus = "Login";
 	$scope.build = version;
@@ -11,7 +8,6 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 	$scope.pass = "";
 
 	$scope.login = function() {
-		aStep = 0;
 		username = $scope.netid;
 		$scope.loginStatus = "Connecting to Login Server...";
 
@@ -153,7 +149,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 //http://www.reddit.com/r/gifs/comments/2on8si/connecting_to_server_so_mesmerizing/cmow0sz
 //And http://codepen.io/anon/pen/OPMvOb
 
-sprox.directive('loginanimation',function() {
+sprox.directive('loginAnimation',function() {
 	return {link: function(scope, element) {
 	  	var aStep = 0;
 		animateBalls();
