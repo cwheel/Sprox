@@ -20,7 +20,8 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.roomateAddress = userData.roomateAddress;
 	$scope.gradYear = userData.gradTerm;
 
-	$scope.model = true;
+	$scope.notifModel = false;
+	$scope.cacheModel = false;
 
 	switch(new Date().getDay()) {
 		case 0:
@@ -123,24 +124,30 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	};
 
 	$scope.noCache = function() {
+		$scope.notifModel = false;
+
 		sasAuth.send("[disable_cache]" + username + "," + uuid);
 		if ("Notification" in window) {
 			if (Notification.permission !== 'denied' && !askCache) {
-				ngDialog.open({ template: 'notifs', className: 'ngdialog-theme-default', showClose: false, scope: $scope, closeByDocument: false, closeByEscape: false});
+				$scope.notifModel = true;
 			}
 		}
 	}
 
 	$scope.cache = function() {
+		$scope.notifModel = false;
+
 		sasAuth.send("[enable_cache]" + username + ","+ uuid);
 		if ("Notification" in window) {
 			if (Notification.permission !== 'denied' && !askCache) {
-				ngDialog.open({ template: 'notifs', className: 'ngdialog-theme-default', showClose: false, scope: $scope, closeByDocument: false, closeByEscape: false});
+				$scope.notifModel = true;
 			}
 		}
 	}
 
 	$scope.enableNotifs = function() {
+		$scope.notifModel = false;
+
 		Notification.requestPermission(function (permission) {
 			if (!('permission' in Notification)) {
 				Notification.permission = permission;
@@ -155,12 +162,12 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	if (askCache) {
 		askCache = false;
 		suppressNotifs = true;
-		ngDialog.open({ template: 'dataCaching', className: 'ngdialog-theme-default', showClose: false, scope: $scope, closeByDocument: false, closeByEscape: false});
+		$scope.cacheModel = false;
 	}
 
 	if ("Notification" in window && Notification.permission !== 'denied' && Notification.permission !== "granted" && !suppressNotifs && !askedForNotif) {
 		askedForNotif = true;
-		ngDialog.open({ template: 'notifs', className: 'ngdialog-theme-default', showClose: false, scope: $scope, closeByDocument: false, closeByEscape: false});
+		$scope.notifModel = true;
 	}
 
 	$scope.setCurrentClass();
@@ -170,3 +177,31 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		$scope.$apply();
 	}
 }]);
+
+sprox.directive('edgelessPanel', function() {
+    return {
+        compile: function(element, attrs, transclude) {
+       		element.css("border-top-right-radius", "20px");
+        	element.css("border-top-left-radius", "20px");
+        }
+    };
+});
+
+//Requires a data attribute, data-model-state to work (init w/ false)
+sprox.directive('showModel', function() {
+    return {
+        link: function(scope, element, attr) {
+        	scope.$watch(attr.showModel, 
+
+        	function (shouldShow) {
+        	    if (shouldShow && !attr['data-model-state']) {
+        	    	$(element[0]).modal({show: true});
+        	    	attr['data-model-state'] = true;
+        	    } else if (!shouldShow && attr['data-model-state']) {
+        	       	$(element[0]).modal({show: false});
+        	       	attr['data-model-state'] = false;
+        	    }
+        	}, true);
+        }
+    };
+});
