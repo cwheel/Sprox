@@ -1,5 +1,5 @@
 sprox.controller('loginController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
-	$scope.pageClass = "toggle";
+	$scope.pageClass = "fadeInAnimation";
 	$scope.showLogin = true;
 
 	$scope.loginStatus = "Login";
