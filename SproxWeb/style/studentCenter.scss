@@ -1,0 +1,29 @@
+@import "frontend/style/partials/colors";
+@import "frontend/style/partials/device";
+
+.scPanelHeaderSubText {
+	font-size: 11px;
+}
+
+.scPanelSubText {
+	font-size: 12px;
+	color: $light-gray;
+}
+
+.scheduleClass {
+	 text-align: center;
+	 background: #B3E5FC;
+	 border-radius: 3px;
+	 color: $dark-gray;
+}
+
+.scheduleClassNext {
+	background: #81D4FA;
+}
+
+@include mobile {  
+	.scheduleClass  {
+    	margin-bottom: 10px;
+    	margin-top: 10px;
+	} 
+}

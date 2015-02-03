@@ -1,67 +1,107 @@
-<title>Sprox</title>
+<div ng-controller="studentCenterController">
+	<div id="cacheModel" class="modal fade" tabindex="-1" role="dialog" show-model="cacheModel" data-model-state=false>
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title">Allow Data Caching?</h4>
+	            </div>
 
-<div class="page" ng-controller="studentCenterController">
-	<script type="text/ng-template" id="dataCaching">
-    <div class="contentContainerTitleColor">Allow Data Caching</div>
-    	<div class="ngdialogInterior">
-		    <p>Before you insinctively click no because you heard that anything storing data must be evil, hold up for a second. Did you notice that it took you quite literally <i>forever</i> to login? If you&#39;d like it to go faster, way faster (around 2 seconds), we&#39;d be happy to do that for you. But for us to do that, you&#39;ll need to let us &#39;cache&#39;, your data. We ask because we feel that as the user, it&#39;s up to you what happens with your data. We won&#39;t keep your password around, and nothing in our databse will be able to identify you, or that you ever came in contact with Sprox. We care about security, and encrypt all data using the industry standard AES-256 algorithm. When we store your information, it&#39;s physically impossible for us to decrypt the data, we can&#39;t, nor will we ever, give the infromation to anyone else. If you accept, the next time you login we&#39;ll cache and encrypt your information.</p>
-		    <input type="button" value="Get Lost" class="ngdialog-button" ng-click="noCache(); closeThisDialog('')"/>
-		    <input type="button" value="Sounds Great!" class="ngdialog-button ngdialog-button-primary" ng-click="cache(); closeThisDialog('')"/>
-	    </div>
-	</script>
+	            <div class="modal-body">
+	                <p>If you don't like waiting, Sprox can cache some of your information so we don't have to ask Spire for it each time. Your data is encrypted using AES-256.</p>
+	            </div>
 
-	<script type="text/ng-template" id="notifs">
-    <div class="contentContainerTitleColor">Desktop Notifications</div>
-    	<div class="ngdialogInterior">
-		    <p>As you go through your day, Sprox can send you desktop notifications for changing classes. Sprox will only send one notificaton, 15 minutes prior to each class. Would you like Sprox to send these notifcations?</p>
-		    <input type="button" value="Get Lost" class="ngdialog-button" ng-click="closeThisDialog('')"/>
-		    <input type="button" value="Sure" class="ngdialog-button ngdialog-button-primary" ng-click="enableNotifs(); closeThisDialog('')"/>
-		</div>
-	</script>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="cacheModel" ng-click="noCache();">No Thanks</button>
+	                <button type="button" class="btn btn-primary" ng-click="cache();">Allow</button>
+	            </div>
+	        </div>
+    	</div>
+	</div>
 
-	<br><br><br><br>
-		
-	<div ng-show="classesToday">
-		<br><br>
-		<div class="contentContainer">
-			<div class="dayTitle">{{ classesDay }} Classes</div>
-			<br>
-			<div id="dailySchedule" >
-				<div class="{{ class.type }}" ng-repeat="class in ct">
-					{{ class.name }} 
-					<br> 
-					<b>{{ class.time }}</b>
-					<br>
-					<div class="scheduleClassLocation">{{ class.location }}</div>
+	<div id="notifModel" class="modal fade" tabindex="-1" role="dialog" show-model="notifModel" data-model-state=false>
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="notifModel" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Desktop Notifications</h4>
+	            </div>
+
+	            <div class="modal-body">
+	                <p>As you go through your day, Sprox can send you desktop notifications for changing classes. Sprox will only send one notificaton, 15 minutes prior to each class. Would you like Sprox to send these notifcations?</p>
+	            </div>
+
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="notifModel">No Thanks</button>
+	                <button type="button" class="btn btn-primary" ng-click="enableNotifs();">Sure</button>
+	            </div>
+	        </div>
+    	</div>
+	</div>
+
+	<div class="container">
+		<div class="row" ng-show="classesToday">
+			<div class="col-md-12">
+				<div class="panel panel-material-cyan" edgeless-panel>
+					<div class="panel-heading">
+					    <div class="dayTitle">{{ classesDay }} Classes</div>
+					</div>
+					
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-4" ng-repeat="class in ct">
+								<div class="{{ class.type }}">
+									{{ class.name }}
+									<br> 
+									<b>{{ class.time }}</b>
+									<br>
+									<div>{{ class.location }}</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<br>
-	<br>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="panel panel-material-light-green" edgeless-panel>
+					<div class="panel-heading">
+					    Student Information
+					    <br> 
+					    <div class="scPanelHeaderSubText">Graduating in {{ gradYear }}</div>
+					</div>
 
-	<div id="columns">
-		<div id="leftColumn">
-			<div class="contentContainerTitle contentContainerTitleColor">Student Information <br> <div class="contentContainterTitleSub">Graduating in {{ gradYear }}</div></div>
-			<br>
-			<div class="subTitle">Home Address</div>
-			<div class="subText">{{ homeAddress }}</div>
-			<br>
-			<div class="subTitle">School Address</div>
-			<div class="subText">{{ schoolAddress }}</div>
-			<br>
-			<div class="subTitle">Mail Box Combination</div>
-			<div class="subText">{{ mailBox }}</div>
-		</div>
-		<div id="rightColumn">
-			<div class="contentContainerTitle contentContainerTitleColor">Housing at {{ building }} <br> <div class="contentContainterTitleSub">Room {{ roomNumber }} - {{ roomType }}</div></div>
-			<br>
-			<div class="subTitle">Roomate</div>
-			<div class="subText">{{ roomate }}</div>
-			<div class="subText">{{ roomateEmail }}</div>
-			<br>
-			<div class="subText">{{ roomateAddress }}</div>
+					<div class="panel-body">
+						<div class="subTitle">Home Address</div>
+						<div class="scPanelSubText">{{ homeAddress }}</div>
+						<br>
+						<div class="subTitle">School Address</div>
+						<div class="scPanelSubText">{{ schoolAddress }}</div>
+						<br>
+						<div class="subTitle">Mail Box Combination</div>
+						<div class="scPanelSubText">{{ mailBox }}</div>
+					</div>
+				</div>
+			</div>
+		 
+			<div class="col-md-6">
+				<div class="panel panel-material-light-green" edgeless-panel>
+					<div class="panel-heading">
+					    Housing at {{ building }}
+					    <br>
+					    <div class="scPanelHeaderSubText">Room {{ roomNumber }} - {{ roomType }}</div>
+					</div>
+					
+					<div class="panel-body">
+						<div class="subTitle">Roomate</div>
+						<div class="scPanelSubText">{{ roomate }}</div>
+						<div class="scPanelSubText">{{ roomateEmail }}</div>
+						<br>
+						<div class="scPanelSubText">{{ roomateAddress }}</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -634,7 +634,7 @@ sprox.directive('scroll', ['$parse', function($parse) {
     };
 }]);
 
-sprox.directive('showscroll', ['$parse', function($parse) {
+sprox.directive('showscroll', function() {
     return {
         link: function(scope, element, attr) {
         	scope.$watch(attr.showscroll, 
@@ -648,7 +648,7 @@ sprox.directive('showscroll', ['$parse', function($parse) {
         	},true);
         }
     };
-}]);
+});
 
 sprox.directive('selectedrow', ['$parse', function($parse) {
     return {

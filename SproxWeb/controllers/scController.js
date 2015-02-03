@@ -20,6 +20,9 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.roomateAddress = userData.roomateAddress;
 	$scope.gradYear = userData.gradTerm;
 
+	$scope.notifModel = false;
+	$scope.cacheModel = false;
+
 	switch(new Date().getDay()) {
 		case 0:
 			$scope.ct = userData.classesWeekly.Su;
@@ -101,7 +104,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 				$scope.ct[i].type = "scheduleClass";
 
 				if (parseInt(time) < $scope.ct[i].tfh_s && !foundFirst) {
-					$scope.ct[i].type = "scheduleClassNext";
+					$scope.ct[i].type = "scheduleClass scheduleClassNext";
 					if (lastClassNotif != $scope.ct[i].name && (parseInt(time) > ($scope.ct[i].tfh_s - 15))) {
 						lastClassNotif = $scope.ct[i].name;
 						var notification = new Notification('Upcoming Class', {body: 'You have ' + $scope.ct[i].name + ' in 15 minutes.', icon: "favicons/favicon.ico"});
@@ -111,9 +114,8 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 					
 				} else if (parseInt(time) > $scope.ct[i].tfh_s && time < $scope.ct[i].tfh_e) {
 					if ((i + 1) <= ($scope.length - 1)) {
-						$scope.ct[i+1].type = "scheduleClassNext";
+						$scope.ct[i+1].type = "scheduleClass scheduleClassNext";
 					}
-					
 				}
 			}
 		}
@@ -122,24 +124,30 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	};
 
 	$scope.noCache = function() {
+		$scope.notifModel = false;
+
 		sasAuth.send("[disable_cache]" + username + "," + uuid);
 		if ("Notification" in window) {
 			if (Notification.permission !== 'denied' && !askCache) {
-				ngDialog.open({ template: 'notifs', className: 'ngdialog-theme-default', showClose: false, scope: $scope, closeByDocument: false, closeByEscape: false});
+				$scope.notifModel = true;
 			}
 		}
 	}
 
 	$scope.cache = function() {
+		$scope.notifModel = false;
+
 		sasAuth.send("[enable_cache]" + username + ","+ uuid);
 		if ("Notification" in window) {
 			if (Notification.permission !== 'denied' && !askCache) {
-				ngDialog.open({ template: 'notifs', className: 'ngdialog-theme-default', showClose: false, scope: $scope, closeByDocument: false, closeByEscape: false});
+				$scope.notifModel = true;
 			}
 		}
 	}
 
 	$scope.enableNotifs = function() {
+		$scope.notifModel = false;
+
 		Notification.requestPermission(function (permission) {
 			if (!('permission' in Notification)) {
 				Notification.permission = permission;
@@ -154,12 +162,12 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	if (askCache) {
 		askCache = false;
 		suppressNotifs = true;
-		ngDialog.open({ template: 'dataCaching', className: 'ngdialog-theme-default', showClose: false, scope: $scope, closeByDocument: false, closeByEscape: false});
+		$scope.cacheModel = false;
 	}
 
 	if ("Notification" in window && Notification.permission !== 'denied' && Notification.permission !== "granted" && !suppressNotifs && !askedForNotif) {
 		askedForNotif = true;
-		ngDialog.open({ template: 'notifs', className: 'ngdialog-theme-default', showClose: false, scope: $scope, closeByDocument: false, closeByEscape: false});
+		$scope.notifModel = true;
 	}
 
 	$scope.setCurrentClass();
@@ -169,3 +177,31 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		$scope.$apply();
 	}
 }]);
+
+sprox.directive('edgelessPanel', function() {
+    return {
+        compile: function(element, attrs, transclude) {
+       		element.css("border-top-right-radius", "20px");
+        	element.css("border-top-left-radius", "20px");
+        }
+    };
+});
+
+//Requires a data attribute, data-model-state to work (init w/ false)
+sprox.directive('showModel', function() {
+    return {
+        link: function(scope, element, attr) {
+        	scope.$watch(attr.showModel, 
+
+        	function (shouldShow) {
+        	    if (shouldShow && !attr['data-model-state']) {
+        	    	$(element[0]).modal({show: true});
+        	    	attr['data-model-state'] = true;
+        	    } else if (!shouldShow && attr['data-model-state']) {
+        	       	$(element[0]).modal({show: false});
+        	       	attr['data-model-state'] = false;
+        	    }
+        	}, true);
+        }
+    };
+});
