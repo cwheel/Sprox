@@ -1,16 +1,13 @@
 @import "frontend/style/partials/colors";
 
-<<<<<<< HEAD
-$padding-logo: 5px;
-=======
 $padding-logo: 10px;
->>>>>>> 527fec33e301763cc60835d9fc385baa0a2eee48
+$theme-dropdown-padding: 3px 20px;
 
 body {
   background-color: $background-color;
   background-image: url(../src/squares.png);
 }
-<<<<<<< HEAD
+
 @media screen and (max-width:1199px){
 	#sproxLogo{
 		margin-right: $padding-logo;
@@ -21,19 +18,32 @@ body {
 	}
 }
 
-	@media screen and (min-width:1200px){
-		#sproxLogo{
-			margin-left: $padding-logo;
-			padding-top: $padding-logo*2;
-			height: 50px;
-			width: 40px;
-		}
-=======
+@media screen and (min-width:1200px){
+	#sproxLogo{
+		margin-left: $padding-logo;
+		padding-top: $padding-logo*2;
+		height: 50px;
+		width: 40px;
+	}
+}
 
 #sproxLogo{
 	margin-left: $padding-logo/2;
 	padding-top: $padding-logo;
 	height: 50px;
 	width: 40px;
->>>>>>> 527fec33e301763cc60835d9fc385baa0a2eee48
+}
+
+#userStatusRow {
+	padding: $theme-dropdown-padding;
+}
+
+#logout {
+	padding: $theme-dropdown-padding;
+	cursor: pointer;
+	color: #333;
+}
+
+#logout:hover {
+	color: #009587;
 }
