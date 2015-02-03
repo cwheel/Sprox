@@ -4,7 +4,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	}*/
 
 	$scope.showTopbar = false;
-	$scope.showTabs = false;
+	$scope.showSearch = false;
 	$scope.showDropDown = false;
 	$scope.selectedIndex = 0;
 	var currentIndex = 0;

@@ -1,4 +1,26 @@
+@import "frontend/style/partials/colors";
+
+$padding-logo: 5px;
+
 body {
-  background-color: #3D3D3D;
+  background-color: $background-color;
   background-image: url(../src/squares.png);
+}
+@media screen and (max-width:1199px){
+	#sproxLogo{
+		margin-right: $padding-logo;
+		margin-left: $padding-logo;
+		padding-top: $padding-logo;
+		height: 50px;
+		width: 40px;
+	}
+}
+
+	@media screen and (min-width:1200px){
+		#sproxLogo{
+			margin-left: $padding-logo;
+			padding-top: $padding-logo*2;
+			height: 50px;
+			width: 40px;
+		}
 }

@@ -30,6 +30,8 @@
 		<!-- Global CSS -->
 	 	<link rel="stylesheet" type="text/css" href="style/main.css">
 	 	<link rel="stylesheet" type="text/css" href="style/login.css">
+	 	<link rel="stylesheet" type="text/css" href="style/studentCenter.css">
+	 	<link rel="stylesheet" type="text/css" href="style/ng-animation.css">
 
 		<!-- ngDialog -->
 		<script src="bower_components/ngDialog/js/ngDialog.js"></script>
@@ -81,6 +83,33 @@
 	</head>
 
 	<body ng-controller="mainController">
+	<div ng-show="showTopbar" class="navbar navbar-default">
+    	<div class="navbar-header">
+        	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            	<span class="icon-bar"></span>
+            	<span class="icon-bar"></span>
+            	<span class="icon-bar"></span>
+        	</button>
+        	<a id="sproxLogo" class="pull-left" href="javascript:void(0)">
+        		<img class="img-responsive" src="src/whiteicon.png">
+        	</a>
+   		</div>
+	<div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li id="{{ tab.path }}" material-ripple-navigation data-ripple=false ng-click="clickTab(tab.path)" ng-repeat="tab in tabs"><a href="javascript:void(0)">{{ tab.title }}</a></li>
+        </ul>
+        <form ng-show="showSearch" class="navbar-form navbar-left">
+            <input type="text" class="form-control col-lg-8" placeholder="Search">
+        </form>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="javascript:void(0)" data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{studentName}} <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                </ul>
+            </li>
+        </ul>
+    </div>
+	</div>
 		<div class="{{ pageClass }} view" ng-view></div>
 	</body>
 </html>
