@@ -108,21 +108,21 @@
         </form>
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown" material-ripple-navigation data-ripple=false id="userMenu">
-                <a href="javascript:void(0)" data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{studentName}} <b class="caret"></b></a>
+                <a href="javascript:void(0)" data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{ fullName }} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                 	<li>
                 		<div id="userStatusRow">
-                			<img ng-src="https://secure.gravatar.com/avatar/{{ userEmail }}?d=identicon&s=25" class="avatar umSub">
-                			<div class="s">
-                				<div class="umSub">{{ major }}</div>
-								<div class="umSub">{{ spireID }}</div>
+                			<img ng-src="https://secure.gravatar.com/avatar/{{ userEmail }}?d=identicon&s=35" class="avatar"></img>
+                			<div id="userMenuText">
+                				<div class="userMenuSubText">{{ major }}</div>
+								<div class="userMenuSubText">{{ spireID }}</div>
                 			</div>
                 		</div>
                 	</li>
 
-                	<li>
-                		<div id="logout" ng-click="logout()">Logout</div>
-                	</li>
+                	<li class="divider"></li>
+                	<li><div id="settings" class="userMenuItem" material-ripple-navigation data-ripple=false ng-click="settings()">Settings</div></li>
+                	<li><div id="logout" class="userMenuItem" material-ripple-navigation data-ripple=false ng-click="logout()">Logout</div></li>
                 </ul>
             </li>
         </ul>

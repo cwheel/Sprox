@@ -40,12 +40,6 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 
 	$scope.clickTab = function(path, args) {
 		$scope.$apply('userMenu = false');
-
-		for (var i = 0; i < $scope.tabs.length; i++) {
-			if (path == $scope.tabs[i].path) { $scope.selectedIndex = i; }
-		}
-
-		select($scope.selectedIndex, $scope.tabs[$scope.selectedIndex].color, false);
 		
 		if (lockAnimation == false){
 			lockAnimation = true;
