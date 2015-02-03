@@ -1,7 +1,9 @@
 @import "frontend/style/partials/colors";
+@import "frontend/style/partials/animation";
 
 $padding-logo: 5px;
 $theme-dropdown-padding: 3px 20px;
+$avatar-size: 30px;
 
 body {
   background-color: $background-color;
@@ -45,6 +47,24 @@ body {
 .umSub {
 	color: #333;
 	font-size: 10px;
-	display: inline-block;
-    vertical-align: top;
+}
+
+.avatar {
+	width: $avatar-size;
+	height: $avatar-size;
+	padding-right: $avatar-size+5;
+}
+.fadeInAnimation.ng-enter{
+	opacity:0;
+	vendor-prefix("transition-duration","500ms")
+}
+.fadeInAnimation.ng-enter-active{
+	opacity:1;
+}
+.fadeInAnimation.ng-exit{
+	opacity:1;
+	vendor-prefix("transition-duration","500ms")
+}
+.fadeInAnimation.ng-enter-active{
+	opacity:0;
 }

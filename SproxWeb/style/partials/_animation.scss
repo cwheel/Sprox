@@ -28,3 +28,10 @@
         @content;
     }
 }
+
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: $argument;
+  -ms-#{$name}: $argument;
+  -moz-#{$name}: $argument;
+  #{$name}: $argument;
+}
