@@ -16,7 +16,6 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	 			{"path" : "uc", "title" : "UCard", "dev" : false, "color" : "#f44336"}, 
 	 			{"path" : "pk", "title" : "Parking", "dev" : true, "color" : "#666"}, 
 	 			{"path" : "mp", "title" : "Map", "dev" : false, "color" : "#666"}];
-	$scope.$apply();
 	$ocLazyLoad.load([{
     	name: 'ngCkeditor',
     	files: ['bower_components/ng-ckeditor/ng-ckeditor.css','bower_components/ng-ckeditor/ng-ckeditor.min.js','bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js']

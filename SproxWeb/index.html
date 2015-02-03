@@ -24,9 +24,6 @@
 		<!-- ng-Bootstrap-Material -->
 		<script src="bower_components/ng-bootstrap-material/ngBootstrapMaterial.js"></script>
 
-		<!-- Directives for working with bootstrap and or the theme -->
-		<script src="bootstrapDirectives.js"></script>
-
 		<!-- CryptoJS -->
 		<script src="bower_components/cryptojslib/rollups/md5.js"></script>
 
@@ -116,6 +113,8 @@
                 	<li>
                 		<div id="userStatusRow">
                 			<img ng-src="https://secure.gravatar.com/avatar/{{ userEmail }}?d=identicon&s=25" class="avatar">
+                			<div class="umSub">{{ major }}</div>
+							<div class="umSub">{{ spireID }}</div>
                 		</div>
                 	</li>
 
