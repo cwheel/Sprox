@@ -22,7 +22,7 @@
 	background: #81D4FA;
 }
 
-@include mobile {  
+@include mobileCollapsed {
 	.scheduleClass  {
     	margin-bottom: 10px;
     	margin-top: 10px;
