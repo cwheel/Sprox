@@ -42,7 +42,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 					$scope.pageClass = "scale-fade-in";
 					$scope.$apply();
 					$scope.$emit('loginCompleted', null);
-
+					$scope.showLogin = false;
 					$scope.loading = false;
 					$scope.loginStatus = "";
 					$scope.$apply();
