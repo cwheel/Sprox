@@ -1,13 +1,8 @@
 @import "frontend/style/partials/colors";
-@import "frontend/style/partials/animation";
-
+@import "frontend/style/partials/device";
 $padding-logo: 5px;
 $theme-dropdown-padding: 3px 20px;
-<<<<<<< HEAD
 $avatar-size: 35px;
-=======
-$avatar-size: 30px;
->>>>>>> 553353bd55afe0f7c6dd6a4c8b50ac6bd89c11a6
 
 body {
   background-color: $background-color;
@@ -22,6 +17,7 @@ body {
 		height: 50px;
 		width: 40px;
 	}
+
 }
 
 @media screen and (min-width:1200px){
@@ -30,6 +26,35 @@ body {
 		padding-top: $padding-logo*2;
 		height: 50px;
 		width: 40px;
+	}
+
+}
+
+@include mobileCollapsed {
+	.userMenuSubText{
+		color:#FFF;
+	}
+
+	.userMenuItem {
+		color: #FFF;
+	}
+
+	.userMenuItem:hover {
+		color: #DADADA;
+	}
+}
+
+@include mobileNotCollapsed {
+	.userMenuSubText{
+		color:#333;
+	}
+
+	.userMenuItem {
+		color: #333;
+	}
+
+	.userMenuItem:hover {
+		color: #009587;
 	}
 }
 
@@ -41,47 +66,21 @@ body {
 .userMenuItem {
 	padding: $theme-dropdown-padding;
 	cursor: pointer;
-	color: #333;
-}
-
-.userMenuItem:hover {
-	color: #009587;
 }
 
 .userMenuSubText {
-	color: #333;
-<<<<<<< HEAD
 	font-size: 12px;
 	white-space: nowrap;
 }
 
 #userMenuText {
 	margin-left: $avatar-size+10;
-=======
 	font-size: 10px;
->>>>>>> 553353bd55afe0f7c6dd6a4c8b50ac6bd89c11a6
 }
 
 .avatar {
 	width: $avatar-size;
 	height: $avatar-size;
-<<<<<<< HEAD
 	float: left;
-=======
-	padding-right: $avatar-size+5;
-}
-.fadeInAnimation.ng-enter{
-	opacity:0;
-	vendor-prefix("transition-duration","500ms")
-}
-.fadeInAnimation.ng-enter-active{
-	opacity:1;
-}
-.fadeInAnimation.ng-exit{
-	opacity:1;
-	vendor-prefix("transition-duration","500ms")
-}
-.fadeInAnimation.ng-enter-active{
-	opacity:0;
->>>>>>> 553353bd55afe0f7c6dd6a4c8b50ac6bd89c11a6
+
 }

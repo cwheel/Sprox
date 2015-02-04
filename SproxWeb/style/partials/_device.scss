@@ -1,5 +1,35 @@
-@mixin mobile {
+//The switch between rows and columns to exclusivly columns
+@mixin columnLayout {
 	@media screen and (max-width:990px) { 
    		@content;
   	}
+}
+@mixin nonColumnLayout {
+	@media screen and (min-width:991px) { 
+   		@content;
+  	}
+}
+
+//Top navbar transition from thick to thin
+@mixin maximizedDesktop {
+	@media screen and (min-width:1200px){
+		@content;
+	}
+}
+@mixin shrunkDesktop{
+	@media screen and (max-width:1199px){
+		@content;
+	}
+}
+
+//The mobile transition from navbar to hamburger
+@mixin mobileCollapsed{
+	@media screen and (max-width:767px){
+		@content;
+	}
+}
+@mixin mobileNotCollapsed{
+	@media screen and (min-width:768px){
+		@content;
+	}
 }
