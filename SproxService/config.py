@@ -18,7 +18,8 @@ mimeTypes = {".html" : "text/html",
 	"text/css", ".json" : "text/json", 
 	".gif" : "image/gif", 
 	".map" : "text/json",
-	".scss" : "text/plain"}
+	".scss" : "text/plain",
+	".txt": "text/plain"}
 
 #Should we compile SASS (.scss) files before sending them?
 compileSass = True

@@ -10,7 +10,7 @@ import logger
 
 def authGet(user, passwd, socket):
 	#Authenticate against GET website
-	get = Ghost(download_images=False, wait_timeout=20)
+	get = Ghost(download_images=False, wait_timeout=40)
 	userInfo = {}
 
 	#Auth with Shibboleth

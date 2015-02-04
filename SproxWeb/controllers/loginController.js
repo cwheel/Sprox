@@ -1,11 +1,13 @@
 sprox.controller('loginController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
-	$scope.pageClass = "fadeInAnimation";
+	$scope.pageClass = "toggle";
 	$scope.showLogin = true;
 
 	$scope.loginStatus = "Login";
 	$scope.build = version;
 	$scope.netid = "";
 	$scope.pass = "";
+
+	var opened = {"sas" : false, "parking" : false, "get": false};
 
 	$scope.login = function() {
 		username = $scope.netid;
@@ -15,12 +17,15 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 			$scope.loading = true;
 
 			user = $scope.netid;
-			sasAuth = new WebSocket(sproxSrv);
+			var sasAuth = new WebSocket(sproxSrv);
 			var sasParking = new WebSocket(sproxSrv);
 			var sasGet = new WebSocket(sproxSrv);
 
 			sasAuth.onopen = function(event) {
-				sasAuth.send("[authenticate],[spire]," + $scope.netid + "," + $scope.pass);
+				if (!opened.sas) {
+					opened.sas = !opened.sas;
+					sasAuth.send("[authenticate],[spire]," + $scope.netid + "," + $scope.pass);
+				}
 			};
 
 			sasAuth.onerror = function(event) {
@@ -37,9 +42,8 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 				if (event.data.substring(0, "[user_data_reply]".length) === "[user_data_reply]") {
 					userData = angular.fromJson(event.data.replace("[user_data_reply]", ""));
 					isAuthed = true;
-
 					$location.path('/sc');
-					$scope.pageClass = "scale-fade-in";
+					$scope.pageClass = "toggle";
 					$scope.$apply();
 					$scope.$emit('loginCompleted', null);
 
@@ -116,7 +120,10 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 			};
 
 			sasGet.onopen = function(event) {
-				sasGet.send("[authenticate],[get]," + $scope.netid + "," + $scope.pass);
+				if (!opened.get) {
+					opened.get = !opened.get;
+					sasGet.send("[authenticate],[get]," + $scope.netid + "," + $scope.pass);
+				}
 			};
 
 			sasGet.onmessage = function(event) {
@@ -127,7 +134,10 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 			};
 
 			sasParking.onopen = function(event) {
-				sasParking.send("[authenticate],[parking]," + $scope.netid + "," + $scope.pass);
+				if (!opened.parking) {
+					opened.sas = !opened.parking;
+					sasParking.send("[authenticate],[parking]," + $scope.netid + "," + $scope.pass);
+				}
 			};
 
 			sasParking.onmessage = function(event) {
