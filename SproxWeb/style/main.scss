@@ -4,13 +4,6 @@
 $padding-logo: 5px;
 $theme-dropdown-padding: 3px 20px;
 $avatar-size: 35px;
-=======
-
-$padding-logo: 5px;
-$theme-dropdown-padding: 3px 20px;
-$avatar-size: 35px;
-$avatar-size: 30px;
->>>>>>> ca71cf4480a9a3e2ca89b00667971c35abb0d08d
 
 body {
   background-color: $background-color;
@@ -77,10 +70,6 @@ body {
 }
 
 .userMenuSubText {
-<<<<<<< HEAD
-=======
-	color: #333;
->>>>>>> ca71cf4480a9a3e2ca89b00667971c35abb0d08d
 	font-size: 12px;
 	white-space: nowrap;
 }
@@ -94,9 +83,4 @@ body {
 	width: $avatar-size;
 	height: $avatar-size;
 	float: left;
-<<<<<<< HEAD
-
-=======
-	padding-right: $avatar-size+5;
->>>>>>> ca71cf4480a9a3e2ca89b00667971c35abb0d08d
 }
