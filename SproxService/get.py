@@ -9,6 +9,9 @@ import shibboleth
 import logger
 import sys
 
+def stripNums(string):
+	return (''.join([i for i in string if not i.isdigit()])).rstrip()
+
 def authGet(user, passwd, socket):
 	#Authenticate against GET website
 	get = Ghost(download_images=False, wait_timeout=40)
@@ -56,23 +59,37 @@ def authGet(user, passwd, socket):
 		get.open("https://get.cbord.com/umass/full/history.php")
 		get.wait_for_page_loaded()
 
+		#Prepare the transaction history for regex
 		getHistoryPage = get.content.replace("\n","")
 		getHistoryPage = re.search(r'<tbody class="scrollContent">.*?<\/tbody>', getHistoryPage).group(0)
-		transactions = re.findall(r'<tr class=".*?"><td class="first-child account_name">.*?<\/tr>', getHistoryPage)
+		rawTransactions = re.findall(r'<tr class=".*?"><td class="first-child account_name">.*?<\/tr>', getHistoryPage)
 
-		for item in transactions:
-			planType = re.search(r'<td class="first-child account_name">.*?<\/td>', item).group(0).replace('<td class="first-child account_name">',"").replace('</td>',"")
-			transDate = re.search(r'<span class="date">.*?<\/span>', item).group(0).replace('<span class="date">',"").replace('</span>',"")
-			transTime = re.search(r'<span class="time">.*?<\/span>', item).group(0).replace('<span class="time">',"").replace('</span>',"")
-			transLocation = re.search(r'<td class="activity_details">.*?<\/td>', item).group(0).replace('<td class="activity_details">',"").replace('</td>',"")
+		#Build final array for transport
+		transactions = []
+		for item in rawTransactions:
+			jsonItem = {}
 
-			transCost = "Unknown"
+			#Build the JSON objects
+			jsonItem['planType'] = re.search(r'<td class="first-child account_name">.*?<\/td>', item).group(0).replace('<td class="first-child account_name">',"").replace('</td>',"").lower().title()
+			jsonItem['transDate'] = re.search(r'<span class="date">.*?<\/span>', item).group(0).replace('<span class="date">',"").replace('</span>',"")
+			jsonItem['transTime'] = re.search(r'<span class="time">.*?<\/span>', item).group(0).replace('<span class="time">',"").replace('</span>',"")
+			jsonItem['transLocation'] = re.search(r'<td class="activity_details">.*?<\/td>', item).group(0).replace('<td class="activity_details">',"").replace('</td>',"").lower().title()
+
+			#Strip register numbers
+			jsonItem['transLocation'] = stripNums(jsonItem['transLocation'])
+
+			#Sometimes fetching the cost/swipes fails...
+			jsonItem['transCost'] = "Unknown"
 			try:
-				transCost = re.search(r'<td class="amount_points debit" title="debit">.*?<\/td>', item).group(0).replace('<td class="amount_points debit" title="debit">',"").replace('</td>',"")
+				jsonItem['transCost'] = re.search(r'<td class="amount_points debit" title="debit">.*?<\/td>', item).group(0).replace('<td class="amount_points debit" title="debit">',"").replace('</td>',"").replace("- ", "")
 			except:
 				pass
 
-			print "Found transation on plan: " + planType + " on " + transDate + " at " + transTime + " at " + transLocation + " and it cost " + transCost.replace("- ", "")
+			#Add the JSON item to the array
+			transactions.append(jsonItem)
+
+		#Add the  array to the master dictionary (JSON object)
+		userInfo['transactions'] = transactions
 
 	else:
 		#This should really never be triggered
