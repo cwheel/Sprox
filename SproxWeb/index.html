@@ -83,6 +83,7 @@
 	</head>
 
 	<body ng-controller="mainController">
+	<div class="{{ pageClass }} view page" ng-view></div>
 	<div ng-show="showTopbar" class="navbar navbar-default">
     	<div class="navbar-header">
         	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
@@ -128,6 +129,6 @@
         </ul>
     </div>
 	</div>
-		<div class="{{ pageClass }} view" ng-view></div>
+	</div>
 	</body>
 </html>

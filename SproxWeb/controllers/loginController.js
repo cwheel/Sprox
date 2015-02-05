@@ -1,5 +1,5 @@
 sprox.controller('loginController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
-	$scope.pageClass = "fadeInAnimation";
+	$scope.pageClass = "toggle";
 	$scope.showLogin = true;
 
 	$scope.loginStatus = "Login";
@@ -15,7 +15,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 			$scope.loading = true;
 
 			user = $scope.netid;
-			sasAuth = new WebSocket(sproxSrv);
+			var sasAuth = new WebSocket(sproxSrv);
 			var sasParking = new WebSocket(sproxSrv);
 			var sasGet = new WebSocket(sproxSrv);
 
@@ -37,12 +37,11 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 				if (event.data.substring(0, "[user_data_reply]".length) === "[user_data_reply]") {
 					userData = angular.fromJson(event.data.replace("[user_data_reply]", ""));
 					isAuthed = true;
-
-					$location.path('/sc');
+					$location.path('/sc');						
 					$scope.pageClass = "scale-fade-in";
 					$scope.$apply();
 					$scope.$emit('loginCompleted', null);
-					$scope.showLogin = false;
+
 					$scope.loading = false;
 					$scope.loginStatus = "";
 					$scope.$apply();

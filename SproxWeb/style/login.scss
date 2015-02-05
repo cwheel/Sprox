@@ -44,7 +44,7 @@ $login-text-padding: 10px;
         left: $login-text-padding;
     }
 }
-.fadeinAnimation {
+.fadeInAnimation {
   @include animation (0s, 1s, fadein);
 }
 
