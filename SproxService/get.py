@@ -7,6 +7,7 @@ import gutil
 import hashlib
 import shibboleth
 import logger
+import sys
 
 def authGet(user, passwd, socket):
 	#Authenticate against GET website
@@ -50,6 +51,28 @@ def authGet(user, passwd, socket):
 			userInfo["gswipes"] = re.search(r'Guest Meals<\/td><td class="last-child balance">.*?<\/td>', getPage).group(0).replace('Guest Meals</td><td class="last-child balance">', "").replace('</td>', "")
 		except:
 			logger.warning("Regex failed, could not capture Guest Swipes balance")
+
+		#Load the transaction history from GET
+		get.open("https://get.cbord.com/umass/full/history.php")
+		get.wait_for_page_loaded()
+
+		getHistoryPage = get.content.replace("\n","")
+		getHistoryPage = re.search(r'<tbody class="scrollContent">.*?<\/tbody>', getHistoryPage).group(0)
+		transactions = re.findall(r'<tr class=".*?"><td class="first-child account_name">.*?<\/tr>', getHistoryPage)
+
+		for item in transactions:
+			planType = re.search(r'<td class="first-child account_name">.*?<\/td>', item).group(0).replace('<td class="first-child account_name">',"").replace('</td>',"")
+			transDate = re.search(r'<span class="date">.*?<\/span>', item).group(0).replace('<span class="date">',"").replace('</span>',"")
+			transTime = re.search(r'<span class="time">.*?<\/span>', item).group(0).replace('<span class="time">',"").replace('</span>',"")
+			transLocation = re.search(r'<td class="activity_details">.*?<\/td>', item).group(0).replace('<td class="activity_details">',"").replace('</td>',"")
+
+			transCost = "Unknown"
+			try:
+				transCost = re.search(r'<td class="amount_points debit" title="debit">.*?<\/td>', item).group(0).replace('<td class="amount_points debit" title="debit">',"").replace('</td>',"")
+			except:
+				pass
+
+			print "Found transation on plan: " + planType + " on " + transDate + " at " + transTime + " at " + transLocation + " and it cost " + transCost.replace("- ", "")
 
 	else:
 		#This should really never be triggered
