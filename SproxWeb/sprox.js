@@ -1,7 +1,6 @@
 var sprox = angular.module('sprox', ['oc.lazyLoad','ngRoute', 'ngAnimate', 'ngDialog','ngBootstrapMaterial']);
 
 //Globals
-var sasAuth;
 var user;
 var userData;
 var uuid;

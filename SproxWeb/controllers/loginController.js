@@ -7,6 +7,8 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 	$scope.netid = "";
 	$scope.pass = "";
 
+	var opened = {"sas" : false, "parking" : false, "get": false};
+
 	$scope.login = function() {
 		username = $scope.netid;
 		$scope.loginStatus = "Connecting to Login Server...";
@@ -20,7 +22,10 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 			var sasGet = new WebSocket(sproxSrv);
 
 			sasAuth.onopen = function(event) {
-				sasAuth.send("[authenticate],[spire]," + $scope.netid + "," + $scope.pass);
+				if (!opened.sas) {
+					opened.sas = !opened.sas;
+					sasAuth.send("[authenticate],[spire]," + $scope.netid + "," + $scope.pass);
+				}
 			};
 
 			sasAuth.onerror = function(event) {
@@ -115,7 +120,10 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 			};
 
 			sasGet.onopen = function(event) {
-				sasGet.send("[authenticate],[get]," + $scope.netid + "," + $scope.pass);
+				if (!opened.get) {
+					opened.get = !opened.get;
+					sasGet.send("[authenticate],[get]," + $scope.netid + "," + $scope.pass);
+				}
 			};
 
 			sasGet.onmessage = function(event) {
@@ -126,7 +134,10 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 			};
 
 			sasParking.onopen = function(event) {
-				sasParking.send("[authenticate],[parking]," + $scope.netid + "," + $scope.pass);
+				if (!opened.parking) {
+					opened.sas = !opened.parking;
+					sasParking.send("[authenticate],[parking]," + $scope.netid + "," + $scope.pass);
+				}
 			};
 
 			sasParking.onmessage = function(event) {
