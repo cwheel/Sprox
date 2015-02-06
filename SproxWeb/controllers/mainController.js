@@ -68,10 +68,6 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 
 		window.location.href = "https://sprox.net";
 	};
-
-	$scope.openSettings = function() {		
-		ngDialog.open({ template: 'settingsPane', className: 'settings', showClose: false, scope: $scope, closeByDocument: false, closeByEscape: false});
-	};
 	
 	$scope.showTab = function(tabState) {
 		if ($scope.showTabs) { 
@@ -85,3 +81,15 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		}
 	}
 }]);
+
+sprox.directive('fullViewport', function($timeout) {
+    return {
+        link: function(scope, element, attr) {
+        	$timeout(function() {
+        		if (attr.fullViewport == "false" || attr.fullViewport === ""){
+        			element.css("margin-top","40px");
+        		}
+        	}, 1);
+        }
+    };
+});

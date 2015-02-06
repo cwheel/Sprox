@@ -1,10 +1,3 @@
-<div ng-controller="mapController" class="page">
+<div ng-controller="mapController">
 	<leaflet maxbounds="maxBounds" center="center" tiles="tiles" markers="pointFound" defaults="defaults" class="mapContent"></leaflet>
-	<div class="mapSearchBox">
-			<input class="mapSearchInput" ng-model="searchQuery" ng-change="checkMap()"></input>
-			<div ng-if='searchQuery !=""' class="mapSearchResultBox" ng-click="centerPoint(point.lng,point.lat,point.message)" ng-repeat="point in points |filter:searchQuery as pointFiltered">
-				<div> {{ point.message }} </div>
-			</div> 
-	</div>
 </div>
-r

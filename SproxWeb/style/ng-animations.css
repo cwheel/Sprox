@@ -269,18 +269,3 @@ transform: perspective(300px) rotateY(0deg);
 @-webkit-keyframes slideOutLeft {
   to    { -webkit-transform: translateX(-100%); }
 }
-.page  { 
-  position: absolute;
-  right: 0;
-  left: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: 0;
-  padding-bottom: 0;
-  padding-right: 0;
-  padding-left: 0;
-  top: 100px;
-  width: 100%;
-  height: 90%;
-  opacity: 1 !important;
-}

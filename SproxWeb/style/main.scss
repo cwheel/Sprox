@@ -16,6 +16,11 @@ body {
 		padding-top: $padding-logo;
 		height: 50px;
 		width: 40px;
+	
+	}
+	.page{
+		top:50px;
+		height: calc(100% - 50px);
 	}
 
 }
@@ -26,6 +31,10 @@ body {
 		padding-top: $padding-logo*2;
 		height: 50px;
 		width: 40px;
+	}
+	.page{
+		top: 60px;
+		height: calc(100% - 60px);
 	}
 
 }
@@ -82,4 +91,17 @@ body {
 	width: $avatar-size;
 	height: $avatar-size;
 	float: left;
+}
+.page  { 
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+  padding-left: 0;
+  width: 100%;
+  opacity: 1 !important;
 }
