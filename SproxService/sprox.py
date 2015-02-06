@@ -84,7 +84,6 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 					if not authFailure.isUserBlacklisted(user):
 						#Status updates
 						self.write_message("[auth_status]Authenticating with services...")
-						logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has begun authentication negotiations...")
 
 						#Check if Spire is online
 						#if os.system("ping -c 1 spire.umass.edu") == 1:
@@ -93,14 +92,17 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
 						#Worker processes for Spire, GET and Parking Services
 						if "[get]" in message:
+							logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has begun authentication negotiations...")
 							gi = multiprocessing.Process(target=get.authGet,args=(user, passwd, self))
 							gi.start()
 						elif "[spire]" in message:
+							logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has begun authentication negotiations...")
 							stats.incrementCounter("spire_auths")
 							if user in authTokens: logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has reset auth tokens...")
 							si = multiprocessing.Process(target=spire.authSpire,args=(user, passwd, self, authTokens))
 							si.start()
 						elif "[parking]" in message:
+							logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has begun authentication negotiations...")
 							pi = multiprocessing.Process(target=parking.authParking,args=(user, passwd, self))
 							pi.start()
 					else:

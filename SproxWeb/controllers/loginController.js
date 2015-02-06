@@ -135,7 +135,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 
 			sasParking.onopen = function(event) {
 				if (!opened.parking) {
-					opened.sas = !opened.parking;
+					opened.parking = !opened.parking;
 					sasParking.send("[authenticate],[parking]," + $scope.netid + "," + $scope.pass);
 				}
 			};
