@@ -85,6 +85,9 @@ def authGet(user, passwd, socket):
 			except:
 				pass
 
+			if jsonItem['transCost'] == "1":
+				jsonItem['transCost'] = "One Swipe"
+
 			#Add the JSON item to the array
 			transactions.append(jsonItem)
 

@@ -1,5 +1,7 @@
 sprox.controller('ucController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
 	$scope.pageClass = "page-left";
+	$scope.transactions = null;
+
 	$scope.checkFunds = function() {
 		if (funds !== null) {
 			$scope.showLoading = false;
@@ -10,6 +12,7 @@ sprox.controller('ucController',['$scope', '$location', '$timeout', function($sc
 			$scope.dinningDollars = funds.dd;
 			$scope.dinningSwipes = funds.swipes;
 			$scope.guestSwipes = funds.gswipes;
+			$scope.transactions = funds.transactions;
 
 			if ("CValue" == funds.mealPlanType) {
 				$scope.cvalue = false;

@@ -1,20 +1,52 @@
-<div class="page">
-	<br><br><br><br><br><br>
-		<div id="card">
-			<div class="toggle" id="cardContent" ng-show="showCard">
+<div class="container">
+
+	<div class="col-md-6">
+		<div class="panel panel-material-red" edgeless-panel>
+			<div class="panel-heading">My UCard</div>
+
+			<div class="panel-body">
 				<div id="debitValue">{{ debit }}</div>
-				<div id="debitTitle">Student Debit Account</div>
+				<div class="myCardSubText">Student Debit Account</div>
 				<div id="ddValue">{{ dinningDollars }}</div>
-				<div id="ddTitle">Dining Dollars</div>
-				<div id="swipesValue">{{ dinningSwipes }} <span id="ofinf" ng-show="cvalue"><span id="swipesWord">&nbsp;of&nbsp;</span> ∞</span> <span id="swipesWord">&nbsp;and&nbsp;</span> {{ guestSwipes }} <span id="swipesWord">guests</span></div>
-				<div id="swipesTitle">Dining Swipes</div>
-				<div id="library">{{ ucardLibraryBarcode }}</div>
-			</div>
-			<div class="toggle" id="cardLoading" ng-show="showLoading">
-				<div id="spinner"></div>
-				<div id="spinnerText">Loading...</div>
+				<div class="myCardSubText">Dining Dollars</div>
+				<div id="swipesValue">{{ dinningSwipes }} <span id="ofinf" ng-show="cvalue"><span class="myCardKeyWord">&nbsp;of&nbsp;</span> ∞</span> <span class="myCardKeyWord">&nbsp;and&nbsp;</span> {{ guestSwipes }} <span id="swipesWord">guests</span></div>
+				<div class="myCardSubText">Dining Swipes</div>
+				<div id="cardNumber">{{ ucardLibraryBarcode }}</div>
 			</div>
 		</div>
-		<div id="cardTop"></div>
-		<div id="cardTitle">My UCard</div>
+	</div>
+ 
+	<div class="col-md-6">
+		<div class="panel panel-material-red" edgeless-panel>
+			<div class="panel-heading">UCard Usage</div>
+			
+			<div class="panel-body">
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<div class="panel panel-material-red" edgeless-panel>
+			<div class="panel-heading">uCard Transactions</div>
+			
+			<div class="panel-body">
+				<table class="table table-hover table-condensed bottemless-table">
+					<thead>
+						<tr>
+					   		<th>Location</th>
+					        <th>Date</th>
+					        <th>Time</th>
+					        <th>Cost</th>
+					   	</tr>
+					   	<tr ng-repeat="item in transactions | limitTo:10">
+					   		<td>{{ item.transLocation }}</td>
+					   		<td>{{ item.transDate }}</td>
+					   		<td>{{ item.transTime }}</td>
+					   		<td>{{ item.transCost }}</td>
+					   	</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
