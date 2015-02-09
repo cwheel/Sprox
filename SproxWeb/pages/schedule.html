@@ -1,29 +1,129 @@
 <div class="schedule">
-	<br><br><br><br><br><br>
-
-	<div class="classRow" ng-repeat="sDay in weeklySchedule">
-		<div class="contentContainer" style="height: 120px;">
-			<div class="dayTitle">{{ sDay.day }}</div>
-			<br>
-				<div class="scheduleClass {{ class.type }}" ng-repeat="class in sDay.classes">
-					{{ class.name }} 
-					<br> 
-					<b>{{ class.time }}</b>
-					<br>
-					<div class="scheduleClassLocation">{{ class.location }}</div>
-				</div>
+<div class="col-md-1"></div>
+	<div class="col-md-2">
+		<div class="panel panel-material-light-green" edgeless-panel="">
+			<div class="panel-heading">
+				<div>Monday</div> 
+			</div>
+			<div class="panel-body">
+				<div class="time-block-50">8:00-8:50</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">9:05-9:55</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">10:10-11:00</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">11:15-12:05</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">12:20-1:10</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">1:25-2:15</div>
+				<div class="time-block-15"></div>	
+				<div class="time-block-75">2:30-3:45</div>
+				<div class="time-block-15"></div>	
+				<div class="time-block-75">4:00-5:15</div>	
+				<div class="time-block-15"></div>	
+				<div class="time-block-75">5:30-6:45</div>
 			</div>
 		</div>
-		<div class="contentContainer" style="height: 120px;">
-			<div class="FinalTitle">Finals</div>
-			<br>
-				<div class="finalClass" ng-repeat="class in finals">
-					{{ class.name }} 
-					<br> 
-					<b>{{ class.day }}. {{ class.time }}</b>
-					<br>
-					<div class="scheduleClassLocation">{{ class.location }}</div>
+	</div>		
+	<div class="col-md-2">
+		<div class="panel panel-material-light-green" edgeless-panel="">
+			<div class="panel-heading">
+				<div>Tuesday</div> 
 			</div>
+			<div class="panel-body">
+				<div class="time-block-15"></div>
+				<div class="time-block-15"></div>		
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>
+			</div>
+		</div>
 	</div>
-	<br>
+	<div class="col-md-2">
+		<div class="panel panel-material-light-green" edgeless-panel="">
+			<div class="panel-heading">
+				<div>Wensday</div> 
+			</div>
+			<div class="panel-body">
+				<div class="time-block-50">8:00-8:50</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">9:05-9:55</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">10:10-11:00</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">11:15-12:05</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">12:20-1:10</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">1:25-2:15</div>
+				<div class="time-block-15"></div>	
+				<div class="time-block-75">2:30-3:45</div>
+				<div class="time-block-15"></div>	
+				<div class="time-block-75">4:00-5:15</div>	
+				<div class="time-block-15"></div>	
+				<div class="time-block-75">5:30-6:45</div>
+			</div>
+		</div>
+	</div>		
+	<div class="col-md-2">
+		<div class="panel panel-material-light-green" edgeless-panel="">
+			<div class="panel-heading">
+				<div>Thursday</div> 
+			</div>
+			<div class="panel-body">
+				<div class="time-block-15"></div>
+				<div class="time-block-15"></div>		
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>	
+				<div class="time-block-15"></div>
+				<div class="time-block-75"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="panel panel-material-light-green" edgeless-panel="">
+			<div class="panel-heading">
+				<div>Friday</div> 
+			</div>
+			<div class="panel-body">
+				<div class="time-block-50">8:00-8:50</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">9:05-9:55</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">10:10-11:00</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">11:15-12:05</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">12:20-1:10</div>
+				<div class="time-block-15"></div>
+				<div class="time-block-50">1:25-2:15</div>
+				<div class="time-block-15"></div>	
+				<div class="time-block-75">2:30-3:45</div>
+				<div class="time-block-15"></div>	
+				<div class="time-block-75">4:00-5:15</div>	
+				<div class="time-block-15"></div>	
+				<div class="time-block-75">5:30-6:45</div>
+			</div>
+		</div>
+	</div>			
 </div>

@@ -45,9 +45,6 @@ def calTfh(_time):
 	elif "PM" in end:
 		tfh[1] = int(end.replace("PM", "").replace(":", ""))
 	
-	if tfh[1] < 1200:
-		tfh[1] = tfh[1] + 1200
-
 	return tfh
 
 def spireSemester():

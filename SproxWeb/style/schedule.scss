@@ -1,0 +1,25 @@
+$MINRATIO15 : 10;
+$MINRATIO75 : 2;
+$MINRATIO50 : 3;
+$BLOCKHEIGHTBASE : 240;
+$BLOCK5MIN : 8;
+
+.time-block-50 {
+	height: $BLOCKHEIGHTBASE / $MINRATIO50;
+}
+.time-block-75 {
+	height: $BLOCKHEIGHTBASE / $MINRATIO75;
+}
+.time-block-15 {
+	height: $BLOCKHEIGHTBASE / $MINRATIO15;
+	visibility: hidden;
+}
+.time-block-25 {
+	height: $BLOCKHEIGHTBASE / $MINRATIO25;
+	visibility: hidden;
+}
+.weekDayHeader{
+	height:50px;
+	background-color: green;
+	text-align: center;
+}

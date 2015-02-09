@@ -16,12 +16,13 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	 			{"path" : "uc", "title" : "UCard", "dev" : false, "color" : "#f44336"}, 
 	 			{"path" : "pk", "title" : "Parking", "dev" : true, "color" : "#666"}, 
 	 			{"path" : "mp", "title" : "Map", "dev" : false, "color" : "#666"}];
+
 	$ocLazyLoad.load([{
     	name: 'ngCkeditor',
     	files: ['bower_components/ng-ckeditor/ng-ckeditor.css','bower_components/ng-ckeditor/ng-ckeditor.min.js','bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js']
 	},{
 		name: 'leaflet-directive',
-		files: ['bower_components/leaflet/dist/leaflet.js','bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js','bower_components/leaflet/dist/leaflet.css']
+		files: ['bower_components/leaflet/dist/leaflet.js','bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js','style/leaflet.css']
 	}]);
 
 	$scope.$on('loginCompleted', function(event, args) {

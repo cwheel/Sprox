@@ -30,10 +30,10 @@
 		<!-- Global CSS -->
 	 	<link rel="stylesheet" type="text/css" href="style/main.css">
 	 	<link rel="stylesheet" type="text/css" href="style/login.css">
+	 	<link rel="stylesheet" type="text/css" href="style/schedule.css">
 	 	<link rel="stylesheet" type="text/css" href="style/studentCenter.css">
 	 	<link rel="stylesheet" type="text/css" href="style/map.css">
 	 	<link rel="stylesheet" type="text/css" href="style/uc.css">
-
 	 	<link rel="stylesheet" type="text/css" href="style/ng-animations.css">
 
 		<!-- ngDialog -->
@@ -86,7 +86,7 @@
 
 	<body ng-controller="mainController">
 	<div full-viewport="{{ fullscreen }}" class="{{ pageClass }} view page" ng-view></div>
-	<div ng-show="showTopbar" class="navbar navbar-default">
+	<div ng-show="showTopbar" class="navbar navbar-default noSelect">
     	<div class="navbar-header">
         	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
             	<span class="icon-bar"></span>
