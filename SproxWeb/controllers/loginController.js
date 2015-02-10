@@ -60,6 +60,12 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 					$scope.loginStatus = "Invalid NetID or password";
 					$scope.$apply();
 
+					sasAuth.close();
+					sasParking.close();
+					sasGet.close();
+					
+					opened = {"sas" : false, "parking" : false, "get": false};
+
 					$timeout(function() {
 						$scope.loginStatus = "Login";
 						$scope.$apply();
@@ -73,12 +79,17 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 					$scope.loginStatus = "NetID not on whitelist";
 					$scope.$apply();
 
+					sasAuth.close();
+					sasParking.close();
+					sasGet.close();
+					
+					opened = {"sas" : false, "parking" : false, "get": false};
+
 					$timeout(function() {
 						$scope.loginStatus = "Login";
 						$scope.$apply();
 					}, 5000);
-
-					sasAuth.close();
+					
 					sasAuth = null;
 				} else if (event.data == "[authentication_failure_blacklist]") {
 					$scope.showStatusText = true;
@@ -86,12 +97,17 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 					$scope.loginStatus = "NetID banned from Sprox";
 					$scope.$apply();
 
+					sasAuth.close();
+					sasParking.close();
+					sasGet.close();
+
+					opened = {"sas" : false, "parking" : false, "get": false};
+
 					$timeout(function() {
 						$scope.loginStatus = "Login";
 						$scope.$apply();
 					}, 5000);
 
-					sasAuth.close();
 					sasAuth = null;
 				} else if (event.data.substring(0, "[cache_status]".length) === "[cache_status]") {
 					if (event.data.replace("[cache_status]", "") == "0") {
