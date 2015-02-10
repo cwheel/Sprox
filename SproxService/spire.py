@@ -47,6 +47,19 @@ def calTfh(_time):
 	
 	return tfh
 
+def caltwelveh(_time):
+	twelveh = [None] * 2
+	time = _time.replace(_time.split(' ')[0], "").replace(" ","")
+	start = time.split('-')[0]
+	end = time.split('-')[1]
+	start = start[0:-2] + " " + start[-2:]
+	end = end[0:-2] + " " + end[-2:]
+	twelveh[0] = start
+	twelveh[1] = end	
+
+	return twelveh
+
+
 def spireSemester():
 	month = int(datetime.datetime.now().strftime("%m"))
 	year = datetime.datetime.now().strftime("%Y")
@@ -137,8 +150,11 @@ def authOnSpireWebsite(user, passwd, socket, cstate, tokens):
 
 			for i in xrange(len(userInfo["classesWeekly"][day])):
 				times = calTfh(userInfo["classesWeekly"][day][i]['time'])
+				twelvetimes = caltwelveh(userInfo["classesWeekly"][day][i]['time'])
 				userInfo["classesWeekly"][day][i]['tfh_s'] = times[0]
 				userInfo["classesWeekly"][day][i]['tfh_e'] = times[1]
+				userInfo["classesWeekly"][day][i]['th_s'] = twelvetimes[0]
+				userInfo["classesWeekly"][day][i]['th_e'] = twelvetimes[1]
 
 				userInfo["classesWeekly"][day][i]['time'] = userInfo["classesWeekly"][day][i]['time'].replace(userInfo["classesWeekly"][day][i]['time'].split(' ')[0], "");
 
@@ -273,6 +289,7 @@ def authSpire(user, passwd, socket, tokens):
 
 	#Send the developer status
 	socket.write_message("[dev]" + cacheManager.getDeveloperState(user, "spire"))
+	tokens[user] = str(uuid.uuid4())
 
 	if cacheState == 2:
 		cache = cacheManager.getCacheForUserService(user, "spire", passwd)
@@ -282,9 +299,7 @@ def authSpire(user, passwd, socket, tokens):
 			authOnSpireWebsite(user, passwd, socket, cacheState, tokens)
 		else:
 			socket.write_message("[cache_status]" + str(cacheState))
-			tokens[user] = str(uuid.uuid4())
 			socket.write_message("[uuid]" + tokens[user])
 			socket.write_message("[user_data_reply]" + cache)
 	else:
-		tokens[user] = str(uuid.uuid4())
 		authOnSpireWebsite(user, passwd, socket, cacheState, tokens)
