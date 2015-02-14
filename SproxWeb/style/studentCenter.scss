@@ -12,10 +12,13 @@
 
 .scheduleClass {
 	 text-align: center;
-	 background: #B3E5FC;
+	 position: relative;
+	 background: #B2EBF2;
 	 border-radius: 3px;
 	 color: $dark-gray;
 	 font-size: 10px;
+	 overflow: hidden;
+	 white-space: nowrap;
 }
 
 .scheduleClassNext {
