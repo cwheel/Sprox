@@ -1,4 +1,5 @@
-sprox.controller('loginController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootScope', function($scope, $location, $timeout, $rootScope) {
+	//Initialize Route
 	$scope.pageClass = "toggle";
 	$scope.showLogin = true;
 
@@ -7,20 +8,51 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 	$scope.netid = "";
 	$scope.pass = "";
 
+	//Initialize socket blockers
 	var opened = {"sas" : false, "parking" : false, "get": false};
 
+	//Check if the user has a session
+	if (document.cookie != "") {
+		//Configure the route as if the user is logged in
+		//(Worst Case) They're not and get a broken page...
+		$scope.showLogin = false;	
+		$location.path('/sc');		
+		isAuthed = true;				
+		$scope.$apply();
+
+		sendMessage("restore_session", [document.cookie]);
+
+		//Restore data from the socket back to the view
+		$rootScope.$on('session_restore', function(event, args) {
+			var session = angular.fromJson(args);
+
+			//Move the incoming data to its correct locations
+			userData = angular.fromJson(session.spire);
+			funds = angular.fromJson(session.get);
+			parking = angular.fromJson(session.parking);
+			
+			//Inform the main controller that it should update
+			$rootScope.$broadcast("restoreCompleted", null);
+		});
+	}
+
+	//Triggered when a user attempts to login
 	$scope.login = function() {
 		username = $scope.netid;
 		$scope.loginStatus = "Connecting to Login Server...";
 
+		//Verify that the user entered something
 		if ($scope.netid !== "" && $scope.pass !== "") {
 			$scope.loading = true;
-
 			user = $scope.netid;
+
+			//Initialize the login sockets
 			var sasAuth = new WebSocket(sproxSrv);
 			var sasParking = new WebSocket(sproxSrv);
 			var sasGet = new WebSocket(sproxSrv);
 
+			//SAS(Main Auth) Socket
+			//===============================
 			sasAuth.onopen = function(event) {
 				if (!opened.sas) {
 					opened.sas = !opened.sas;
@@ -39,6 +71,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 			};
 			
 			sasAuth.onmessage = function(event) {
+				//The usual incoming data
 				if (event.data.substring(0, "[user_data_reply]".length) === "[user_data_reply]") {
 					userData = angular.fromJson(event.data.replace("[user_data_reply]", ""));
 					isAuthed = true;
@@ -50,11 +83,15 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 					$scope.loading = false;
 					$scope.loginStatus = "";
 					$scope.$apply();
-				} else if (event.data.substring(0, "[auth_status]".length) === "[auth_status]") {
+				} 
+				//A status update during the authentication process
+				else if (event.data.substring(0, "[auth_status]".length) === "[auth_status]") {
 					$scope.showStatusText = true;
 					$scope.loginStatus = event.data.replace("[auth_status]", "");
 					$scope.$apply();
-				} else if (event.data == "[authentication_failure]") {
+				} 
+				//An authentication failure
+				else if (event.data == "[authentication_failure]") {
 					$scope.showStatusText = true;
 					$scope.loading = false;
 					$scope.loginStatus = "Invalid NetID or password";
@@ -73,7 +110,9 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 
 					sasAuth.close();
 					sasAuth = null;
-				} else if (event.data == "[authentication_failure_whitelist]") {
+				} 
+				//An auth failure due to a whitelist error
+				else if (event.data == "[authentication_failure_whitelist]") {
 					$scope.showStatusText = true;
 					$scope.loading = false;
 					$scope.loginStatus = "NetID not on whitelist";
@@ -91,7 +130,9 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 					}, 5000);
 					
 					sasAuth = null;
-				} else if (event.data == "[authentication_failure_blacklist]") {
+				} 
+				//An auth failure due to being on the blacklist
+				else if (event.data == "[authentication_failure_blacklist]") {
 					$scope.showStatusText = true;
 					$scope.loading = false;
 					$scope.loginStatus = "NetID banned from Sprox";
@@ -109,13 +150,21 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 					}, 5000);
 
 					sasAuth = null;
-				} else if (event.data.substring(0, "[cache_status]".length) === "[cache_status]") {
+				} 
+				//A cache status update
+				else if (event.data.substring(0, "[cache_status]".length) === "[cache_status]") {
+					//The user has no cache and has not told us they don't want one, ask them
 					if (event.data.replace("[cache_status]", "") == "0") {
 						askCache = true;
 					}
-				} else if (event.data.substring(0, "[uuid]".length) === "[uuid]") {
+				} 
+				//The inital UUID comes back
+				else if (event.data.substring(0, "[uuid]".length) === "[uuid]") {
 					uuid = event.data.replace("[uuid]", "");
-				} else if (event.data == "[service_down_spire]") {
+					document.cookie = user + "," + uuid;
+				} 
+				//Looks like SAS had trouble connecting
+				else if (event.data == "[service_down_spire]") {
 					$scope.loginStatus = "Spire appears to be offline...";
 					$scope.$apply();
 
@@ -126,7 +175,9 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 
 					sasAuth.close();
 					sasAuth = null;
-				} else if (event.data.substring(0, "[dev]".length) === "[dev]") {
+				} 
+				//An arbitrary dev flag
+				else if (event.data.substring(0, "[dev]".length) === "[dev]") {
 					if (event.data.replace("[dev]", "") == "0") {
 						developer = false;
 					} else {
@@ -135,6 +186,8 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 				}
 			};
 
+			//Get socket
+			//===============================
 			sasGet.onopen = function(event) {
 				if (!opened.get) {
 					opened.get = !opened.get;
@@ -149,6 +202,8 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 				}
 			};
 
+			//Parking socket
+			//===============================
 			sasParking.onopen = function(event) {
 				if (!opened.parking) {
 					opened.parking = !opened.parking;
@@ -163,6 +218,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', function(
 				} 
 			};
 		} else {
+			//If the user failed out earlier
 			$scope.loginStatus = "Invalid NetID or password";
 
 			$timeout(function() {

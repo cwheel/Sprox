@@ -17,6 +17,9 @@ var askedForNotif = false;
 var suppressNotifs = false;
 var isFirst = true;
 var lockAnimation = false;
+var sproxSocket;
+var sproxSocketOpen = false;
+var sporxSocketQueue = [];
 
 //Super hacky but....
 var curSharePage = "";

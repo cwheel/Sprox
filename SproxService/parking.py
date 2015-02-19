@@ -9,8 +9,9 @@ import time
 import cacheManager
 import hashlib
 import logger
+import sessionManager
 
-def authOnParkingWebsite(user, passwd, socket, cstate):
+def authOnParkingWebsite(user, passwd, socket, cstate, sessions):
 	#Authenticate against parking website
 	parking = Ghost(download_images=False)
 	permit = {"color" : "red", "permit" : "No Permit", "endDate" : ""}
@@ -59,8 +60,9 @@ def authOnParkingWebsite(user, passwd, socket, cstate):
 	
 	#Send back data
 	socket.write_message("[user_data_reply_parking]" + json.dumps(permit))
+	sessionManager.storeSessionValue(sessions, user, "parking", permit)
 
-def authParking(user, passwd, socket):
+def authParking(user, passwd, socket, sessions):
 	#Handle Caching
 	cacheState = cacheManager.userCacheState(user)
 	if cacheState == 2:
@@ -68,8 +70,9 @@ def authParking(user, passwd, socket):
 		if cache is None:
 			#Failed to auth on the local data store, maybe the user changed the university password?
 			cacheState = 1
-			authOnParkingWebsite(user, passwd, socket, cacheState)
+			authOnParkingWebsite(user, passwd, socket, cacheState, sessions)
 		else:
 			socket.write_message("[user_data_reply_parking]" + cache)
+			sessionManager.storeSessionValue(sessions, user, "parking", cache)
 	else:
-		authOnParkingWebsite(user, passwd, socket, cacheState)
+		authOnParkingWebsite(user, passwd, socket, cacheState, sessions)

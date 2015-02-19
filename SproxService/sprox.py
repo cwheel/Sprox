@@ -18,10 +18,12 @@ import notes
 import stats
 import logger
 import config
+import sessionManager
 if config.compileSass: import sass
 
 whitelist = None
 authTokens = multiprocessing.Manager().dict() #Thread-safe
+sessions = multiprocessing.Manager().dict() #Thread-safe
 protocol = {}
 
 def printArt():
@@ -48,19 +50,20 @@ def printArt():
 	print "    @@@@@@@            "
 	print ""
 	         
-def userTokenValid(user, token):
+def userTokenValid(user, token, socket):
 	try:
-		if token in authTokens[user]:
+		if token in authTokens[user]['uuid']:
 			return True
 		else:
 			return False
 	except Exception, e:
-		logger.error("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has attempted auth with an invalid token!")
+		logger.error("User with NetID hash: " + user + " has attempted auth with an invalid token!")
+		socket.write_message("[invalid_session]")
 		return False
 
 
-def registerProtocolFunction(command, needsAuth, needsSocket, function):
-	protocol[command] = {"function" : function, "auth" : needsAuth, "socket" : needsSocket};
+def registerProtocolFunction(command, needsAuth, needsSocket, needsSessions, function):
+	protocol[command] = {"function" : function, "auth" : needsAuth, "socket" : needsSocket, "sessions" : needsSessions};
 
 class WebSocketHandler(tornado.websocket.WebSocketHandler):
 	def open(self):
@@ -85,25 +88,20 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 						#Status updates
 						self.write_message("[auth_status]Authenticating with services...")
 
-						#Check if Spire is online
-						#if os.system("ping -c 1 spire.umass.edu") == 1:
-						#	self.write_message("[service_down_spire]")
-						#	return
-
 						#Worker processes for Spire, GET and Parking Services
 						if "[get]" in message:
-							logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has begun authentication negotiations...")
-							gi = multiprocessing.Process(target=get.authGet,args=(user, passwd, self))
+							logger.info("User with NetID hash: " + user + " has begun authentication negotiations...")
+							gi = multiprocessing.Process(target=get.authGet,args=(user, passwd, self, sessions))
 							gi.start()
 						elif "[spire]" in message:
-							logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has begun authentication negotiations...")
+							logger.info("User with NetID hash: " + user + " has begun authentication negotiations...")
 							stats.incrementCounter("spire_auths")
-							if user in authTokens: logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has reset auth tokens...")
-							si = multiprocessing.Process(target=spire.authSpire,args=(user, passwd, self, authTokens))
+							if user in authTokens: logger.info("User with NetID hash: " + user + " has reset auth tokens...")
+							si = multiprocessing.Process(target=spire.authSpire,args=(user, passwd, self, authTokens, sessions))
 							si.start()
 						elif "[parking]" in message:
-							logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has begun authentication negotiations...")
-							pi = multiprocessing.Process(target=parking.authParking,args=(user, passwd, self))
+							logger.info("User with NetID hash: " + user + " has begun authentication negotiations...")
+							pi = multiprocessing.Process(target=parking.authParking,args=(user, passwd, self, sessions))
 							pi.start()
 					else:
 						self.write_message("[authentication_failure_blacklist]")
@@ -116,10 +114,13 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 			user = message.split(",")[0]
 			token = message.split(",")[1]
 
-			logger.info("User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has logged out")
+			logger.info("User with NetID hash: " + user + " has logged out")
+
+			#End the users session
+			sessionManager.endSession(user, sessions, authTokens)
 
 			#Make sure token is valid prior to destruction
-			if userTokenValid(user, token):
+			if userTokenValid(user, token, self):
 				del authTokens[user]
 
 		#Protocol Command Running
@@ -131,11 +132,11 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
 				#Check for auth
 				if protocol[command]["auth"]:
-					if userTokenValid(args[0], args[1]):
+					if userTokenValid(args[0], args[1], self):
 
 						#Remove the authtoken, lower functions never use it
 						try:
-							args.remove(authTokens[args[0]])
+							args.remove(authTokens[args[0]]['uuid'])
 						except:
 							pass
 						
@@ -143,6 +144,10 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 						if protocol[command]["socket"]:
 							args.append(self)
 
+						#Add the socket to the list if needed
+						if protocol[command]["sessions"]:
+							args.append(sessions)
+							
 						#Convert the arguments to a tuple
 						args = tuple(args)
 
@@ -161,6 +166,7 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
 					args = tuple(args)
 					protocol[command]["function"](*args)
+
 
 	def on_close(self):
 		pass
@@ -249,19 +255,25 @@ if __name__ == "__main__":
 
 	logger.info('Building WebSocket protocol...')
 
-	registerProtocolFunction("notes_load_layout", True, True, notes.loadNotesLayout)
-	registerProtocolFunction("enable_cache", True, False, cacheManager.userRequestedCaching)
-	registerProtocolFunction("disable_cache", True, False, cacheManager.userRequestedNeverCaching)
-	registerProtocolFunction("notes_save", True, True, notes.saveNote)
-	registerProtocolFunction("notes_load_page", True, True, notes.loadNotesPage)
-	registerProtocolFunction("notes_rename_section", True, False, notes.renameSection)
-	registerProtocolFunction("notes_remove_page", True, False, notes.removeSectionPage)
-	registerProtocolFunction("notes_remove_section", True, False, notes.removeSection)
-	registerProtocolFunction("notes_share_page", True, False, notes.loadNotesLayout)
-	registerProtocolFunction("notes_update_color", True, False, notes.loadNotesLayout)
-	registerProtocolFunction("notes_get_user_sections", True, True, notes.updateSectionColor)
-	registerProtocolFunction("stats", False, True, stats.sendStats)
-	registerProtocolFunction("club_search", True, True, clubSearch.query)
+	registerProtocolFunction("notes_load_layout", True, True, False, notes.loadNotesLayout)
+	registerProtocolFunction("enable_cache", True, False, False, cacheManager.userRequestedCaching)
+	registerProtocolFunction("disable_cache", True, False, False, cacheManager.userRequestedNeverCaching)
+	registerProtocolFunction("notes_save", True, True, False, notes.saveNote)
+	registerProtocolFunction("notes_load_page", True, True, False, notes.loadNotesPage)
+	registerProtocolFunction("notes_rename_section", True, False, False, notes.renameSection)
+	registerProtocolFunction("notes_remove_page", True, False, False, notes.removeSectionPage)
+	registerProtocolFunction("notes_remove_section", True, False, False, notes.removeSection)
+	registerProtocolFunction("notes_share_page", True, False, False, notes.loadNotesLayout)
+	registerProtocolFunction("notes_update_color", True, False, False, notes.loadNotesLayout)
+	registerProtocolFunction("notes_get_user_sections", True, True, False, notes.updateSectionColor)
+	registerProtocolFunction("stats", False, True, False, stats.sendStats)
+	registerProtocolFunction("club_search", True, True, False, clubSearch.query)
+	registerProtocolFunction("restore_session", True, True, True, sessionManager.restoreSession)
+
+	#Run the session manager
+	logger.info('Starting session manager...')
+	smProc = multiprocessing.Process(target=sessionManager.manageSessions,args=(sessions, authTokens, 60*60))
+	smProc.start()
 
 	logger.info('Starting HTTP server on :' + str(config.httpPort) + ' (Redirects only)...')
 	tornado.httpserver.HTTPServer(http).listen(config.httpPort)

@@ -9,7 +9,9 @@ body {
   background-color: $background-color;
   background-image: url(../src/squares.png);
   height: 100%;
-  width: 100%
+  width: 100%;
+
+  overflow: hidden;
 }
 
 @media screen and (max-width:1199px){
