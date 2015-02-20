@@ -1,7 +1,7 @@
 var Spooky = require('spooky');
 var SpireMap = require('.././maps/spire.js');
 
-module.exports = function(user,passwd,done) {
+module.exports = function(user,passwd) {
 	var spooky = new Spooky({child: {transport: 'http'}}, function (err) {
 		//Initialize the Spire page
 	    spooky.start(SpireMap.entryURL);
@@ -46,7 +46,6 @@ module.exports = function(user,passwd,done) {
 			                //Obtain the root expression
 			                var exp = map[key].tag.replace(dmStartOperator, "").replace(dmEndOperator, "");
 			                
-
 			                //Find the divs to search
 			                var sdivs = exp.split(",");
 
