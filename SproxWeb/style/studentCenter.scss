@@ -20,6 +20,16 @@
 	 overflow: hidden;
 	 white-space: nowrap;
 }
+.scheduleClassCur {
+	 text-align: center;
+	 position: relative;
+	 background: #29B6F6;
+	 border-radius: 3px;
+	 color: $dark-gray;
+	 font-size: 10px;
+	 overflow: hidden;
+	 white-space: nowrap;
+}
 
 .scheduleClassNext {
 	background: #81D4FA;

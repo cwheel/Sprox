@@ -9,7 +9,8 @@ body {
   background-color: $background-color;
   background-image: url(../src/squares.png);
   height: 100%;
-  width: 100%
+  width: 100%;
+  overflow-x: hidden;
 }
 
 @media screen and (max-width:1199px){
@@ -24,6 +25,9 @@ body {
 	}
 	.page{
 		top:50px;
+		height: calc(100% - 90px);
+	}
+	.pagefullViewPort{
 		height: calc(100% - 50px);
 	}
 
@@ -39,6 +43,9 @@ body {
 	}
 	.page{
 		top: 60px;
+		height: calc(100% - 100px);
+	}
+	.pagefullViewPort{
 		height: calc(100% - 60px);
 	}
 

@@ -39,6 +39,10 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		$scope.fullName = userData.studentFullname;
 	});
 
+	$rootScope.$on('restoreCompleted', function() {
+		$scope.$emit('loginCompleted', null);
+	});
+
 	$scope.clickTab = function(path, args) {
 		$scope.$apply('userMenu = false');
 		
@@ -67,6 +71,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 			logout.send("[logout]" + username + "," + uuid);
 		};
 
+		document.cookie = "";
 		window.location.href = "https://sprox.net";
 	};
 	
@@ -89,6 +94,8 @@ sprox.directive('fullViewport', function($timeout) {
         	$timeout(function() {
         		if (attr.fullViewport == "false" || attr.fullViewport === ""){
         			element.css("margin-top","40px");
+        		}else{
+        			element.addClass("pagefullViewPort")
         		}
         	}, 1);
         }
