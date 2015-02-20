@@ -1,4 +1,4 @@
-sprox.controller('studentCenterController',['$scope', '$location', '$timeout', 'ngDialog', function($scope, $location, $timeout, ngDialog) {
+sprox.controller('studentCenterController',['$scope', '$location', '$timeout', 'ngDialog', '$rootScope', '$route', function($scope, $location, $timeout, ngDialog, $rootScope, $route) {
 	$timeout(function() {
 		$(".tab").removeClass("slide-down");
 	}, 1500);
@@ -9,16 +9,25 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	}else{
 		$scope.pageClass = "page-left";
 	}
-	$scope.homeAddress  = userData.homeAddress;
-	$scope.schoolAddress  = userData.schoolAddress;
-	$scope.mailBox  = userData.mailbox;
-	$scope.building = userData.building;
-	$scope.roomNumber = userData.room;
-	$scope.roomType = userData.roomType;
-	$scope.roomate = userData.roomate;
-	$scope.roomateEmail = userData.roomateEmail;
-	$scope.roomateAddress = userData.roomateAddress;
-	$scope.gradYear = userData.gradTerm;
+
+	try {
+		$scope.homeAddress  = userData.homeAddress;
+		$scope.schoolAddress  = userData.schoolAddress;
+		$scope.mailBox  = userData.mailbox;
+		$scope.building = userData.building;
+		$scope.roomNumber = userData.room;
+		$scope.roomType = userData.roomType;
+		$scope.roomate = userData.roomate;
+		$scope.roomateEmail = userData.roomateEmail;
+		$scope.roomateAddress = userData.roomateAddress;
+		$scope.gradYear = userData.gradTerm;
+	} catch (err) {
+		console.log("Controller should be reloaded...");
+	}
+
+	$rootScope.$on('restoreCompleted', function(event, args) {
+		$route.reload();
+	});
 
 	$scope.notifModel = false;
 	$scope.cacheModel = false;
@@ -124,22 +133,31 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	};
 
 	$scope.noCache = function() {
-		$scope.notifModel = false;
+		$scope.cacheModel = false;
 
-		sasAuth.send("[disable_cache]" + username + "," + uuid);
+		var cacheScoket = new WebSocket(sproxSrv);
+		cacheScoket.onopen = function(event) {
+			cacheScoket.send("[disable_cache]" + username + "," + uuid);
+		};
+		
 		if ("Notification" in window) {
-			if (Notification.permission !== 'denied' && !askCache) {
+			if (Notification.permission !== 'denied') {
 				$scope.notifModel = true;
+
 			}
 		}
 	}
 
 	$scope.cache = function() {
-		$scope.notifModel = false;
+		$scope.cacheModel = false;
 
-		sasAuth.send("[enable_cache]" + username + ","+ uuid);
+		var cacheScoket = new WebSocket(sproxSrv);
+		cacheScoket.onopen = function(event) {
+			cacheScoket.send("[enable_cache]" + username + ","+ uuid);
+		};
+		
 		if ("Notification" in window) {
-			if (Notification.permission !== 'denied' && !askCache) {
+			if (Notification.permission !== 'denied') {
 				$scope.notifModel = true;
 			}
 		}
@@ -160,9 +178,8 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	}
 
 	if (askCache) {
-		askCache = false;
 		suppressNotifs = true;
-		$scope.cacheModel = false;
+		$scope.cacheModel = true;
 	}
 
 	if ("Notification" in window && Notification.permission !== 'denied' && Notification.permission !== "granted" && !suppressNotifs && !askedForNotif) {
@@ -187,19 +204,17 @@ sprox.directive('edgelessPanel', function() {
     };
 });
 
-//Requires a data attribute, data-model-state to work (init w/ false)
+//Directive for controlling Bootstrap model dialogs
 sprox.directive('showModel', function() {
     return {
         link: function(scope, element, attr) {
         	scope.$watch(attr.showModel, 
-
+        	
         	function (shouldShow) {
-        	    if (shouldShow && !attr['data-model-state']) {
-        	    	$(element[0]).modal({show: true});
-        	    	attr['data-model-state'] = true;
-        	    } else if (!shouldShow && attr['data-model-state']) {
-        	       	$(element[0]).modal({show: false});
-        	       	attr['data-model-state'] = false;
+        	    if (shouldShow) {
+        	    	$(element[0]).modal('show');
+        	    } else if (!shouldShow) {
+        	       	$(element[0]).modal('hide');
         	    }
         	}, true);
         }

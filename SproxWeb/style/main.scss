@@ -10,7 +10,12 @@ body {
   background-image: url(../src/squares.png);
   height: 100%;
   width: 100%;
+<<<<<<< HEAD
   overflow-x: hidden;
+=======
+
+  overflow: hidden;
+>>>>>>> 4b74ae207d9dc165ec12719c781eca5643239c17
 }
 
 @media screen and (max-width:1199px){

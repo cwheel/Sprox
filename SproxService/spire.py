@@ -15,6 +15,7 @@ import cacheManager
 import hashlib
 import uuid
 import logger
+import sessionManager
 
 def spireDay(_next):
 	day = datetime.datetime.today().weekday()
@@ -77,7 +78,7 @@ def spireSemester():
 def logout(_spire):
 	_spire.open("https://www.spire.umass.edu/psp/heproda/EMPLOYEE/HRMS/?cmd=logout")
 
-def authOnSpireWebsite(user, passwd, socket, cstate, tokens):
+def authOnSpireWebsite(user, passwd, socket, cstate, tokens, sessions):
 	#Authenticate against Spire website
 	spire = Ghost(download_images=False, wait_timeout=20)
 	userInfo = {}
@@ -94,7 +95,7 @@ def authOnSpireWebsite(user, passwd, socket, cstate, tokens):
 	if not "Your User ID and/or Password are invalid." in spire.content:
 		#Not really Spire's job, but keep it within an authblock for security
 		socket.write_message("[cache_status]" + str(cacheManager.userCacheState(user)))
-		socket.write_message("[uuid]" + tokens[user])
+		socket.write_message("[uuid]" + tokens[user]['uuid'])
 
 		#Set status
 		socket.write_message("[auth_status]Fetching Student Center...")
@@ -275,6 +276,9 @@ def authOnSpireWebsite(user, passwd, socket, cstate, tokens):
 	else:
 		logger.warning("[FAIL] User with NetID hash: " + hashlib.sha256(user).hexdigest() + " has failed Spire authentication negotiations")
 
+		#Remove the token, they don't need it anymore
+		del tokens[user]
+
 		if authFailure.userFailedAuth(user) == 0:
 			socket.write_message("[authentication_failure_blacklist]")
 		else:
@@ -283,23 +287,27 @@ def authOnSpireWebsite(user, passwd, socket, cstate, tokens):
 		return
 
 	socket.write_message("[user_data_reply]" + json.dumps(userInfo))
+	sessionManager.storeSessionValue(sessions, user, "spire", userInfo)
 
-def authSpire(user, passwd, socket, tokens):
+def authSpire(user, passwd, socket, tokens, sessions):
 	cacheState = cacheManager.userCacheState(user)
 
 	#Send the developer status
 	socket.write_message("[dev]" + cacheManager.getDeveloperState(user, "spire"))
-	tokens[user] = str(uuid.uuid4())
+	
+	#Generate a token
+	tokens[user] = {'uuid' : str(uuid.uuid4()), 'issued' : datetime.datetime.now()}
 
 	if cacheState == 2:
 		cache = cacheManager.getCacheForUserService(user, "spire", passwd)
 		if cache is None:
 			#Failed to auth on the local data store, maybe the user changed the university password?
 			cacheState = 1
-			authOnSpireWebsite(user, passwd, socket, cacheState, tokens)
+			authOnSpireWebsite(user, passwd, socket, cacheState, tokens, sessions)
 		else:
 			socket.write_message("[cache_status]" + str(cacheState))
-			socket.write_message("[uuid]" + tokens[user])
+			socket.write_message("[uuid]" + tokens[user]['uuid'])
 			socket.write_message("[user_data_reply]" + cache)
+			sessionManager.storeSessionValue(sessions, user, "spire", cache)
 	else:
-		authOnSpireWebsite(user, passwd, socket, cacheState, tokens)
+		authOnSpireWebsite(user, passwd, socket, cacheState, tokens, sessions)

@@ -8,11 +8,12 @@ import hashlib
 import shibboleth
 import logger
 import sys
+import sessionManager
 
 def stripNums(string):
 	return (''.join([i for i in string if not i.isdigit()])).rstrip()
 
-def authGet(user, passwd, socket):
+def authGet(user, passwd, socket, sessions):
 	#Authenticate against GET website
 	get = Ghost(download_images=False, wait_timeout=40)
 	userInfo = {}
@@ -104,4 +105,5 @@ def authGet(user, passwd, socket):
 		
 	#Return the data
 	socket.write_message("[user_data_reply_get]" + json.dumps(userInfo))
+	sessionManager.storeSessionValue(sessions, user, "get", userInfo)
 	#socket.write_message("[user_data_reply_get]" + base64.b64encode(zlib.compress(json.dumps(userInfo),9)))
