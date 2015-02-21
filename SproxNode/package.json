@@ -17,6 +17,7 @@
         "phantomjs" : "latest",
         "merge" : "latest",
         "passport" : "latest",
-        "passport-local" : "latest"
+        "passport-local" : "latest",
+        "tabletojson"  : "latest"
     }
 }
