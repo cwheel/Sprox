@@ -1,0 +1,131 @@
+body {
+  background-color: #3D3D3D;
+  background-image: url(../src/squares.png);
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 1199px) {
+  #sproxLogo {
+    margin-right: 5px;
+    margin-left: 5px;
+    padding-top: 5px;
+    height: 50px;
+    width: 40px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .page {
+    top: 50px;
+    height: calc(100% - 90px);
+  }
+
+  .pagefullViewPort {
+    height: calc(100% - 50px);
+  }
+}
+@media screen and (min-width: 1200px) {
+  #sproxLogo {
+    margin-left: 5px;
+    padding-top: 10px;
+    height: 50px;
+    width: 40px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .page {
+    top: 60px;
+    height: calc(100% - 100px);
+  }
+
+  .pagefullViewPort {
+    height: calc(100% - 60px);
+  }
+}
+@media screen and (max-width: 767px) {
+  .userMenuSubText {
+    color: #FFF;
+  }
+
+  .userMenuItem {
+    color: #FFF;
+  }
+
+  .userMenuItem:hover {
+    color: #DADADA;
+  }
+}
+@media screen and (min-width: 768px) {
+  .userMenuSubText {
+    color: #333;
+  }
+
+  .userMenuItem {
+    color: #333;
+  }
+
+  .userMenuItem:hover {
+    color: #009587;
+  }
+}
+.noSelect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#userStatusRow {
+  padding: 3px 20px;
+  white-space: nowrap;
+}
+
+.userMenuItem {
+  padding: 3px 20px;
+  cursor: pointer;
+}
+
+.userMenuSubText {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+#userMenuText {
+  margin-left: 45px;
+  font-size: 10px;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  float: left;
+}
+
+.page {
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+  padding-left: 0;
+  width: 100%;
+  opacity: 1 !important;
+}
+
+/*# sourceMappingURL=main.css.map */
