@@ -49,7 +49,7 @@ module.exports = function(user,passwd) {
 			                //Find the divs to search
 			                var sdivs = exp.split(",");
 
-			                //Does our expression contain a counter?
+			            //Does our expression contain a counter?
 						if (map[key].tag.indexOf(".*") > -1) {
 
 							//Counter for iteration
@@ -113,18 +113,4 @@ module.exports = function(user,passwd) {
 	});
 
 	return spooky;
-
-	/*
-	spooky.on('console', function (line) {
-    	console.log(line);
-	});
-
-	spooky.on('error', function (e, stack) {
-	    console.error(e);
-
-	    if (stack) {
-	        console.log(stack);
-	    }
-	});*/
- 
 }

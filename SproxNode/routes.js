@@ -1,5 +1,6 @@
 var bcrypt = require('bcrypt');
 var Passport = require('passport');
+var UmassGet = require('./serviceConnectors/getConnector');
 
 module.exports = function(app) {
 	function requireAuth(req, res, next) {
@@ -27,6 +28,24 @@ module.exports = function(app) {
 	app.get('/logout', function(req, res){
       req.logout();
       res.redirect("/");
+   });
+
+	//GET (i.e UCard info)
+	app.post('/ucard', function(req, res){
+		var get = new UmassGet(req.body.username, req.body.password);
+		var fetched = [];
+
+		get.on('values', function (vals) {
+			fetched.push(vals);
+
+			if (fetched.length > 1) {
+				res.send(fetched);
+			}
+		});
+
+		get.on('authFailure', function() {
+			res.send({ status : 'authFailure' });
+		});
    });
 
 	//Catch all 404's
