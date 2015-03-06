@@ -1,0 +1,28 @@
+{
+  "name": "ng-bootstrap-material",
+  "version": "0.1",
+  "homepage": "https://github.com/nosedive25/ng-bootstrap-material",
+  "authors": [
+    "nosedive25"
+  ],
+  "description": "Let Angular play nicely with bootstrap-material-design",
+  "main": "ngBootstrapMaterial.js",
+  "dependencies": {
+    "bootstrap-material-design" : "latest",
+    "angularjs" : "latest"
+  },
+  "keywords": [
+    "material",
+    "design",
+    "bootstrap",
+    "angular"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,136 @@
+@import "app/style/partials/colors";
+@import "app/style/partials/device";
+@import "app/style/partials/noselect";
+@import "app/style/partials/animation";
+$padding-logo: 5px;
+$theme-dropdown-padding: 3px 20px;
+$avatar-size: 35px;
+
+body {
+  background-color: $background-color;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body:before {
+    content: "";
+    position: absolute;
+    background-image: url(../src/loginBkg.jpg);
+  	@include vendor-prefix(background-size, cover);
+  	@include vendor-prefix(filter, blur(4px));
+    z-index: -1;
+    height: 20%; width: 20%;
+
+    transform: scale(5);
+    transform-origin: top left;
+}
+
+@media screen and (max-width:1199px){
+	#sproxLogo{
+		margin-right: $padding-logo;
+		margin-left: $padding-logo;
+		padding-top: $padding-logo;
+		height: 50px;
+		width: 40px;
+		@include noselect;
+	
+	}
+	.page{
+		top:50px;
+		height: calc(100% - 90px);
+	}
+	.pagefullViewPort{
+		height: calc(100% - 50px);
+	}
+
+}
+
+@media screen and (min-width:1200px){
+	#sproxLogo{
+		margin-left: $padding-logo;
+		padding-top: $padding-logo*2;
+		height: 50px;
+		width: 40px;
+		@include noselect;
+	}
+	.page{
+		top: 60px;
+		height: calc(100% - 100px);
+	}
+	.pagefullViewPort{
+		height: calc(100% - 60px);
+	}
+
+}
+
+@include mobileCollapsed {
+	.userMenuSubText{
+		color:#FFF;
+	}
+
+	.userMenuItem {
+		color: #FFF;
+	}
+
+	.userMenuItem:hover {
+		color: #DADADA;
+	}
+}
+
+@include mobileNotCollapsed {
+	.userMenuSubText{
+		color:#333;
+	}
+
+	.userMenuItem {
+		color: #333;
+	}
+
+	.userMenuItem:hover {
+		color: #009587;
+	}
+}
+
+.noSelect{
+	@include noselect;
+}
+
+#userStatusRow {
+	padding: $theme-dropdown-padding;
+	white-space: nowrap;
+}
+
+.userMenuItem {
+	padding: $theme-dropdown-padding;
+	cursor: pointer;
+}
+
+.userMenuSubText {
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+#userMenuText {
+	margin-left: $avatar-size+10;
+	font-size: 10px;
+}
+
+.avatar {
+	width: $avatar-size;
+	height: $avatar-size;
+	float: left;
+}
+.page  { 
+	position: absolute;
+	right: 0;
+	left: 0;
+	margin-bottom: 0;
+	margin-left: 0;
+	margin-right: 0;
+	padding-bottom: 0;
+	padding-right: 0;
+	padding-left: 0;
+	width: 100%;
+	opacity: 1 !important;
+}

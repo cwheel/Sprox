@@ -16,13 +16,13 @@ module.exports = function(app) {
 	//Login
 	app.post('/login', Passport.authenticate('local', { successRedirect: '/login/success', failureRedirect: '/login/failure', failureFlash: false }));
 
-	app.get('/login/success', function(req, res){res.send({ loginStatus: req.user });});
+	app.get('/login/success', function(req, res){res.send({ loginStatus: 'valid' });});
 	app.get('/login/failure', function(req, res){res.send({ loginStatus: 'failure' });});
 	app.get('/authStatus', function(req, res){
 		if (req.isAuthenticated()) {
 	    	res.send({ authStatus: 'valid' });
 		} else {
-			res.send({ loginStatus: 'invalid' });
+			res.send({ authStatus: 'invalid' });
 		}		
 	});
 
@@ -33,7 +33,7 @@ module.exports = function(app) {
    });
 
 	//GET (i.e UCard info)
-	app.post('/ucard', function(req, res){
+	app.post('/userInfo/ucard', function(req, res){
 		var get = new UmassGet(req.body.username, req.body.password);
 		var fetched = [];
 
@@ -48,7 +48,12 @@ module.exports = function(app) {
 		get.on('authFailure', function() {
 			res.send({ status : 'authFailure' });
 		});
-   });
+   	});
+
+	//Spire
+	app.get('/userInfo/spire', requireAuth, function(req, res){
+		res.send(req.user);
+   	});
 
 	app.get('/parking', function(req, res) {
 		var parking = new UmassParking("req.query.username", "req.query.password");

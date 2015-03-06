@@ -1,5 +1,6 @@
 module.exports = {
 	entryURL : "https://www.spire.umass.edu/psp/heproda/?cmd=login&languageCd=ENG",
+	logoutURL : "https://www.spire.umass.edu/psp/heproda/EMPLOYEE/HRMS/?cmd=logout",
 	redirectsDone : ".greeting",
 
 	map : {
@@ -9,7 +10,7 @@ module.exports = {
 		 	email : {tag : "DERIVED_SSS_SCL_EMAIL_ADDR", remove: []},
 		 	gradTerm : {tag : "UM_EXP_GRAD_TRM_DESCR", remove: []},
 		 	studentName : {tag : "DERIVED_SSS_SCL_TITLE1$78$", remove: ["'s Student Center"]},
-		 	classesWeekly : {tag : "[className::CLASS_NAME$span$.*,time::DERIVED_SSS_SCL_SSR_MTG_SCHED_LONG$.*,location::DERIVED_SSS_SCL_SSR_MTG_SCHED_LONG$.*]", remove: []}
+		 	classesWeekly : {tag : "[name::CLASS_NAME$span$.*,time::DERIVED_SSS_SCL_SSR_MTG_SCHED_LONG$.*,location::DERIVED_SSS_SCL_SSR_MTG_SCHED_LONG$.*]", remove: []}
 		},
 		"https://www.spire.umass.edu/psc/heproda/EMPLOYEE/HRMS/c/UM_STUDENT_FINANCIALS.UM_QUICKPAY.GBL?FolderPath=PORTAL_ROOT_OBJECT.HCCC_FINANCES.UM_QUICKPAY_GBL&IsFolder=false&IgnoreParamTempl=FolderPath%2cIsFolder" : {
 			spireId : {tag : "SS_FA_AID_SRCH_EMPLID", remove : []}

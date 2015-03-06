@@ -1,5 +1,18 @@
 module.exports = function(grunt) {
   grunt.initConfig({
+    sass: {                              
+      dist: {                            
+        options: {                       
+          style: 'expanded'
+        },
+        files: {                         
+          'app/style/login.css': 'app/scss/login.scss',
+          'app/style/main.css': 'app/scss/main.scss', 
+          'app/style/map.css': 'app/scss/map.scss',  
+          'app/style/studentCenter.css': 'app/scss/studentCenter.scss',  
+        }
+      }
+    },
     nodemon: {
       dev: {
         script: 'server.js'
@@ -21,8 +34,9 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-shell-spawn');
   grunt.loadNpmTasks('grunt-nodemon');
 
-  grunt.registerTask('default', ['shell:mongodb', 'nodemon']);
+  grunt.registerTask('default', ['sass', 'shell:mongodb', 'nodemon']);
 };
