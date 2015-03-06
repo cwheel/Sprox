@@ -1,6 +1,8 @@
 var bcrypt = require('bcrypt');
 var Passport = require('passport');
 var UmassGet = require('./serviceConnectors/getConnector');
+var UmassParking = require('./serviceConnectors/parkingConnector');
+var TableToJson = require('tabletojson');
 
 module.exports = function(app) {
 	function requireAuth(req, res, next) {
@@ -47,6 +49,24 @@ module.exports = function(app) {
 			res.send({ status : 'authFailure' });
 		});
    });
+
+	app.get('/parking', function(req, res) {
+		var parking = new UmassParking("req.query.username", "req.query.password");
+
+		parking.on('console', function (line) {
+    		console.log(line);
+		});
+
+		parking.on('values', function(vals) {
+			vals = "<div> test </div>" + "<tbody>" + vals + "</tbody>"
+			res.send(vals);
+		});
+
+		parking.on('authFailure', function() {
+			res.send({ status : 'authFailure' });
+		});
+
+	});
 
 	//Catch all 404's
 	app.get('*', function(req, res){

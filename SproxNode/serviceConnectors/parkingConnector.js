@@ -3,7 +3,8 @@ var ParkingMap = require('.././maps/parking.js');
 
 module.exports = function(user,passwd) {
 	var spooky = new Spooky({child: {transport: 'http'}}, function (err) {
-		//Initialize the generic auth page
+
+		//Initialize the generic Shibboleth auth page for Parking
 	    spooky.start(ParkingMap.entryURL);
 
 	    //Fill the login form
@@ -17,22 +18,26 @@ module.exports = function(user,passwd) {
 	  	//Catch all of possible redirects (Authn and SAML2)
 	    spooky.then(function(){});
 	    spooky.then(function(){});
-	   	spooky.then(function(authFailure){
-	    	if (this.getPageContent().indexOf(authFailure) > -1) {
+
+	    //Check for Invalid Credentials
+	    spooky.then([{'authFailed' : ParkingMap.authFailure}, function(){
+	    	if (this.getPageContent().indexOf(authFailed) > -1) {
 	    		this.emit('authFailure', null);
 	    		this.exit();
 	    	}
-	    }, ParkingMap.authFailure);
+	    }]);
 
-	    //Wait for the version label to indicate an end to the redirects
+	    //Wait for the topbar to load-in before scraping
 		spooky.waitForSelector("#topbannercontainer", function() {});
 
 		spooky.then([{'tag' : ParkingMap.tag}, function(){
 
-			var content = this.evaluate(function (tag) {
+			//Gets the Permits Table and puts the HTML into a var called content
+			var content = null;
+			content = this.evaluate(function (tag) {
 			    return document.getElementsByClassName(tag)[0].innerHTML;
 			}, tag);
-
+			this.echo(content);
 	    	this.emit('values', content);
 	    }]);
 
