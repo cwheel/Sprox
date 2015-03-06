@@ -6,10 +6,10 @@ module.exports = function(grunt) {
           style: 'expanded'
         },
         files: {                         
-          'app/style/login.css': 'app/style/login.scss',
-          'app/style/main.css': 'app/style/main.scss', 
-          'app/style/map.css': 'app/style/map.scss',  
-          'app/style/studentCenter.css': 'app/style/studentCenter.scss',  
+          'app/style/login.css': 'app/scss/login.scss',
+          'app/style/main.css': 'app/scss/main.scss', 
+          'app/style/map.css': 'app/scss/map.scss',  
+          'app/style/studentCenter.css': 'app/scss/studentCenter.scss',  
         }
       }
     },

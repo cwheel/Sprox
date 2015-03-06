@@ -1,9 +1,27 @@
 body {
   background-color: #3D3D3D;
-  background-image: url(../src/squares.png);
   height: 100%;
   width: 100%;
   overflow-x: hidden;
+}
+
+body:before {
+  content: "";
+  position: absolute;
+  background-image: url(../src/loginBkg.jpg);
+  -webkit-background-size: cover;
+  -ms-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -webkit-filter: blur(4px);
+  -ms-filter: blur(4px);
+  -moz-filter: blur(4px);
+  filter: blur(4px);
+  z-index: -1;
+  height: 20%;
+  width: 20%;
+  transform: scale(5);
+  transform-origin: top left;
 }
 
 @media screen and (max-width: 1199px) {

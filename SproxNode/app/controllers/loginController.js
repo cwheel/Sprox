@@ -3,17 +3,20 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 	$scope.pageClass = "toggle";
 	$scope.showLogin = true;
 
+	//Login Form
 	$scope.loginStatus = "Login";
 	$scope.build = version;
 	$scope.login = {'username' : '', 'password' : ''};
 
-	//Initialize socket blockers
-	var opened = {"sas" : false, "parking" : false, "get" : false};
+	//The barely-witty statuses
+	var shouldSetWittyStatus = false;
+	var wittyStats = ["Eating at Bluewall...", "Slaying the Spire Dragon...", "Waiting for a Bus...", "Summiting Orchard Hill...", "Rotating Soggy Cloths..."]
 
 	//Triggered when a user attempts to login
 	$scope.login = function() {
 		username = $scope.netid;
-		$scope.loginStatus = "Connecting to Login Server...";
+		shouldSetWittyStatus = true;
+		$scope.setWittyStatus();
 
 		$http({
 		 	method  : 'POST',
@@ -35,6 +38,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 				    $scope.$emit('loginCompleted', null);
 				});
 			} else {
+				shouldSetWittyStatus = false;
 				$scope.loginStatus = "Invalid NetID or password";
 
 				$timeout(function() {
@@ -42,6 +46,15 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 				}, 5000);
 			}
 		});
+	};
+
+	//Sets an number of witty statuses.. you know... for entertainment
+	$scope.setWittyStatus = function() {
+		if (shouldSetWittyStatus) {
+			$scope.loginStatus = wittyStats[Math.floor(Math.random() * wittyStats.length)];
+
+			$timeout($scope.setWittyStatus, 2000);
+		}
 	};
 }]);
 

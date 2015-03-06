@@ -21,6 +21,7 @@
   font-size: 9px;
   position: absolute;
   bottom: 10px;
+  left: 10px;
   -webkit-animation-delay: 0s;
   -webkit-animation-duration: 5s;
   -webkit-animation-name: slideFromLeft;

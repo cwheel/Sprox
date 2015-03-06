@@ -29,8 +29,9 @@ $login-text-padding: 10px;
 
   position: absolute;
   bottom: $login-text-padding;
+  left: $login-text-padding;
 
-  @include animation(0s, 5s, slideFromLeft)
+  @include animation(0s, 5s, slideFromLeft);
 }
 
 @include keyframe(slideFromLeft) {
@@ -44,6 +45,7 @@ $login-text-padding: 10px;
         left: $login-text-padding;
     }
 }
+
 .fadeInAnimation {
   @include animation (0s, 1s, fadein);
 }

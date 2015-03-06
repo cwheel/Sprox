@@ -109,6 +109,9 @@ module.exports = function(user,passwd) {
 			}]);
 		}
 
+		//Logout of Spire
+		spooky.thenOpen(SpireMap.logoutURL, function(){});
+
 		spooky.run();
 	});
 

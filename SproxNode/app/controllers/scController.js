@@ -10,7 +10,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		$scope.pageClass = "page-left";
 	}
 
-	console.log(userData);
+	//Set the main page values
 	$scope.homeAddress  = userData.homeAddress;
 	$scope.schoolAddress  = userData.schoolAddress;
 	$scope.mailBox  = userData.mailbox;
@@ -21,8 +21,8 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.roomateEmail = userData.roomateEmail;
 	$scope.roomateAddress = userData.roomateAddress;
 	$scope.gradYear = userData.gradTerm;
-	$scope.$apply();
 
+	//We're not showing any models right now
 	$scope.notifModel = false;
 	$scope.cacheModel = false;
 
@@ -50,10 +50,14 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 			break;
 	}
 
+	console.log(userData.classesWeekly.Tu);
+	$scope.ct = userData.classesWeekly.Tu;
+
+
 	if ($scope.ct.length !== 0) {
 		$scope.classesToday = true;
 	}
-	
+
 	$scope.setCurrentClass = function() {
 		var now = new Date();
 		var time;
