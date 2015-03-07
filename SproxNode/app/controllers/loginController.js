@@ -18,6 +18,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 		shouldSetWittyStatus = true;
 		$scope.setWittyStatus();
 
+		//Send the user params to Passport for authentication
 		$http({
 		 	method  : 'POST',
 			url     : '/login',
@@ -25,28 +26,45 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 			headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
 		})
 		.success(function(resp) {
+			//If the auth was valid, ask for the users Spire info
 			if (angular.fromJson(resp).loginStatus == 'valid') {
 				$http({
 				    method : 'GET',
 				    url : '/userInfo/spire'
 				})
 				.success(function(resp) {
+					//Set the userData object
 				    userData = angular.fromJson(resp);
+				    isAuthed = true;
 
+				    //Perfom the usual post login actions
 				    $location.path('/sc');						
 					$scope.pageClass = "scale-fade-in";
 				    $scope.$emit('loginCompleted', null);
 				});
 			} else {
+				//User failed to login, notify them
 				shouldSetWittyStatus = false;
 				$scope.loginStatus = "Invalid NetID or password";
 
+				//Change the button message back in 5 seconds
 				$timeout(function() {
 					$scope.loginStatus = "Login";
 				}, 5000);
 			}
 		});
 	};
+
+	//Allow the enter key to send logins, needed as ng-keypress double fires... for some reason...
+	$scope.enterLogin = function(keyEvent) {
+		if (keyEvent.which === 13) {
+			$scope.login();
+
+			keyEvent.stopPropagation();
+			keyEvent.preventDefault();  
+			return false;
+		}
+	}
 
 	//Sets an number of witty statuses.. you know... for entertainment
 	$scope.setWittyStatus = function() {

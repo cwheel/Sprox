@@ -2,7 +2,7 @@ var bcrypt = require('bcrypt');
 var Passport = require('passport');
 var UmassGet = require('./serviceConnectors/getConnector');
 var UmassParking = require('./serviceConnectors/parkingConnector');
-var TableToJson = require('tabletojson');
+//var TableToJson = require('tabletojson');
 
 module.exports = function(app) {
 	function requireAuth(req, res, next) {
@@ -27,7 +27,7 @@ module.exports = function(app) {
 	});
 
 	//Logout
-	app.get('/logout', function(req, res){
+	app.get('/logout', requireAuth, function(req, res){
       req.logout();
       res.redirect("/");
    });
@@ -55,6 +55,7 @@ module.exports = function(app) {
 		res.send(req.user);
    	});
 
+	//Parking
 	app.get('/parking', function(req, res) {
 		var parking = new UmassParking("req.query.username", "req.query.password");
 

@@ -4,7 +4,6 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	}, 1500);
 	if(isFirst){
 		$scope.pageClass = "page-first";
-		$scope.$apply();
 		isFirst = false;
 	}else{
 		$scope.pageClass = "page-left";

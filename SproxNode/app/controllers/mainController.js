@@ -1,4 +1,4 @@
-sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog','$ocLazyLoad', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad) {
+sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog','$ocLazyLoad', '$http', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad, $http) {
 	//Initilization
 	$scope.showTopbar = false;
 	$scope.showSearch = false;
@@ -22,22 +22,49 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		files: ['bower_components/leaflet/dist/leaflet.js','bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js','style/leaflet.css']
 	}]);
 
+	//Ask Passport if our user is authed - Not used for information security, used only for UI
+	$http({
+	    method : 'GET',
+	    url : '/authStatus'
+	})
+	.success(function(auth) {
+		//Check that the user was authed
+		if (angular.fromJson(auth).authStatus == 'valid') {
+			$http({
+			    method : 'GET',
+			    url : '/userInfo/spire'
+			})
+			.success(function(resp) {
+				//Set the user data object
+			    userData = angular.fromJson(resp);
+			    isAuthed = true;
+
+			    //Simulate a successfull login
+			    $location.path('/sc');						
+				$scope.pageClass = "scale-fade-in";
+			    $scope.$emit('loginCompleted', null);
+			});
+		}
+	});
+
 	//Action performed by main (the top bar) when the login controller finishes
 	$rootScope.$on('loginCompleted', function(event, args) {
 		$timeout(function() {
+			//Generate the users email (Used for Gravatar)
 			$scope.userEmail = CryptoJS.MD5(userData.email).toString();
 			
 			$scope.$apply();
 			$scope.$apply('showTopbar = true');
 		}, 100);
 
+		//Set the topbar values
 		$scope.studentName = userData.studentName;
 		$scope.spireID = userData.spireId;
 		$scope.major = userData.major;
 		$scope.fullName = userData.studentFullname;
 	});
 
-	//Swithces the current ngView
+	//Switches the current ngView
 	$scope.clickTab = function(path, args) {
 		$scope.$apply('userMenu = false');
 		
@@ -49,11 +76,6 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 					lockAnimation = false;
 			}, 1000);
 		}
-	};
-
-	//Triggered when a user clicks the logout button
-	$scope.logout = function() {
-		window.location.href = "https://dev.sprox.net";
 	};
 	
 	//Determines what tabs should be shown the the user
@@ -69,28 +91,6 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		}
 	}
 }]);
-
-//Main socket helper
-//Usage: sendMessage(<command name (String)>, <arguments (Array)>)
-function sendMessage(cmd, args) {
-	var mssg = "[" + cmd + "]";
-
-	if (args.length > 0) {
-		mssg = mssg + args[0];
-	}
-
-	for (var i = 1; i < args.length; i++) {
-		mssg = mssg + "," + args[i];
-	}
-
-	console.log(mssg);
-
-	if (!sproxSocketOpen) {
-		sporxSocketQueue.push(mssg);
-	} else {
-		sproxSocket.send(mssg);
-	}
-}
 
 //A 'fullscreen' route
 sprox.directive('fullViewport', function($timeout) {
