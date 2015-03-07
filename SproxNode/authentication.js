@@ -19,25 +19,57 @@ module.exports = function(passport, strategy) {
 			if (objFinished == Object.keys(SpireMap.map).length) {
 				console.log("User: '" + username + "' passed authnetication with Spire!");
 
-								//Spire data post processing
+				//Spire data post processing
 				var days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 				var allCourses = spireUser.classesWeekly;
 				spireUser.classesWeekly = {};
 
-				var timeCompare = function(a,b) {
-					
-				}
+				//Converts a Spire day/week/time thing into a the 24 hour end timestamp
+				var calcStartTft = function(time) {
+					/* 
+					Possibly the nastiest oneliner there ever was... (Let your eyes burn)
+					1st : Replace the '-', the ':', and the 'AM' and 'PM' whilist lopping off the days in the front
+					2nd: Convert that abomination to an int
+					3rd: Check if the string contains PM, if it does return 1200, otherwise return 0. This converts afternoon and night times to proper 24 hour time
+					4th: Add the results and return
+					*/
 
+					return parseInt(time.split(" -")[0].split(" ")[1].replace(":","").replace("AM","").replace("PM","")) + (((time.indexOf("PM") > -1) && parseInt(time.split(" -")[0].split(" ")[1].replace(":","").replace("AM","").replace("PM","")) < 1000) ? 1200 : 0);
+				}; 
+
+				var calcEndTft = function(time) {
+					//Same deal as above, but only 95% as bad!
+					return parseInt(time.split("- ")[1].replace(":","").replace("AM","").replace("PM","")) + (((time.indexOf("PM") > -1) && parseInt(time.split("- ")[1].replace(":","").replace("AM","").replace("PM","")) < 1000) ? 1200 : 0);
+				}; 
+
+				
+				//Iterate the days of the week
 				for (var i = 0; i < days.length; i++) {
-					userData.classesWeekly[days[i]] = [];
+					//Create an empty class array for each day
+					spireUser.classesWeekly[days[i]] = [];
+
+					//Iterate all of the users classes
 					for (var j = 0; j < allCourses.length; j++) {
-						if (allCourses[j]['location'].indexOf(days[i]) > -1) {
+						//Only fix the location and time during the first pass, subsequent passes will render them invalid
+						if (i == 0) {
+							//Clean up the time and location from Spire, they're messy
 							allCourses[j].time = allCourses[j].time.split("<br>")[0];
 							allCourses[j].location = allCourses[j].location.split("<br>")[1];
+						}
 
+						//Check if the class occurs on the day we're looking at
+						if (allCourses[j].time.indexOf(days[i]) != -1) {
+							//Times in 24 hour (Bad names are relics from builds gone by, kept to maintain support)
+							allCourses[j].tf_s = calcStartTft(allCourses[j].time);
+							allCourses[j].tf_e = calcEndTft(allCourses[j].time);
+
+							//Add the current class to the day in question
 							spireUser.classesWeekly[days[i]].push(allCourses[j]);
 						}
 					}
+
+					//Sort the days classes
+					spireUser.classesWeekly[days[i]].sort(function (a,b) {return a.tf_e - b.tf_e});
 				}
 
 				return done(null, spireUser);

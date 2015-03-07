@@ -50,9 +50,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 			break;
 	}
 
-	console.log(userData.classesWeekly.Tu);
 	$scope.ct = userData.classesWeekly.Tu;
-
 
 	if ($scope.ct.length !== 0) {
 		$scope.classesToday = true;
