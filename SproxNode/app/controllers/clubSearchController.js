@@ -1,7 +1,7 @@
 sprox.controller('clubSearchController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
 	$scope.clubs = {};
 	$scope.searchQuery = "";
-	$scope.pageClass = "page-left";
+	//$scope.pageClass = "page-left";
 	$scope.search = function() {
 		if ($scope.searchQuery != "") {
             var searchSocket = new WebSocket(sproxSrv);

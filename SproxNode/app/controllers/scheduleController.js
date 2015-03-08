@@ -65,7 +65,8 @@ function getDayofWeek(i){
 
 function DiffTime(start, stop){
 		var tstart = new Date("02/08/14 " + start);
-		var tstop = new Date("02/08/14 " + stop)
+		var tstop = new Date("02/08/14 " + stop);
+		console.log(tstart);
 		tstart = tstop - tstart;
 		return (tstart/60/1000)
 	

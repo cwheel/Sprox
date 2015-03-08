@@ -143,10 +143,13 @@ sprox.directive('fullViewport', function($timeout) {
     return {
         link: function(scope, element, attr) {
         	$timeout(function() {
-        		if (attr.fullViewport == "false" || attr.fullViewport === ""){
-        			element.css("margin-top","40px");
+        		        	console.log(attr.fullViewport);
+        		if (attr.fullViewport == "true"){
+        			$(".row.header").css("margin-bottom","0px");
+        		}else {
+        			$(".row.header").css("margin-bottom","15px");
         		}
-        	}, 1);
+        	}, 10);
         }
     };
 });

@@ -35,11 +35,25 @@ module.exports = function(passport, strategy) {
 					*/
 
 					return parseInt(time.split(" -")[0].split(" ")[1].replace(":","").replace("AM","").replace("PM","")) + (((time.indexOf("PM") > -1) && parseInt(time.split(" -")[0].split(" ")[1].replace(":","").replace("AM","").replace("PM","")) < 1000) ? 1200 : 0);
-				}; 
+				};
 
 				var calcEndTft = function(time) {
 					//Same deal as above, but only 95% as bad!
 					return parseInt(time.split("- ")[1].replace(":","").replace("AM","").replace("PM","")) + (((time.indexOf("PM") > -1) && parseInt(time.split("- ")[1].replace(":","").replace("AM","").replace("PM","")) < 1000) ? 1200 : 0);
+				};
+
+				//Converts a Spire Day to a 12 Hour Time because of how Javascript Dates Work 
+				var calcStartTh = function(time) {
+					/* 
+					Derived from the calcStartTft, this function stops when before replacing the : with "" leaving a 12 Hour formated Time
+					*/
+
+					return time.split(" -")[0].split(" ")[1].replace("AM"," AM").replace("PM"," PM");
+				}; 
+
+				var calcEndTh = function(time) {
+					//Same deal as calcStartTh
+					return time.split("- ")[1].replace("AM"," AM").replace("PM"," PM");
 				}; 
 
 				
@@ -52,9 +66,10 @@ module.exports = function(passport, strategy) {
 					for (var j = 0; j < allCourses.length; j++) {
 						//Only fix the location and time during the first pass, subsequent passes will render them invalid
 						if (i == 0) {
-							//Clean up the time and location from Spire, they're messy
+							//Cleans up the time, location and class name from Spire, they're messy
 							allCourses[j].time = allCourses[j].time.split("<br>")[0];
 							allCourses[j].location = allCourses[j].location.split("<br>")[1];
+							allCourses[j].name = allCourses[j].name.replace("<br>","");
 						}
 
 						//Check if the class occurs on the day we're looking at
@@ -62,6 +77,8 @@ module.exports = function(passport, strategy) {
 							//Times in 24 hour (Bad names are relics from builds gone by, kept to maintain support)
 							allCourses[j].tf_s = calcStartTft(allCourses[j].time);
 							allCourses[j].tf_e = calcEndTft(allCourses[j].time);
+							allCourses[j].th_s = calcStartTh(allCourses[j].time);
+							allCourses[j].th_e = calcEndTh(allCourses[j].time);
 
 							//Add the current class to the day in question
 							spireUser.classesWeekly[days[i]].push(allCourses[j]);
@@ -71,10 +88,14 @@ module.exports = function(passport, strategy) {
 					//Sort the days classes
 					spireUser.classesWeekly[days[i]].sort(function (a,b) {return a.tf_e - b.tf_e});
 				}
+				//Remove Break Tags from Elements
+				spireUser.homeAddress = spireUser.homeAddress.split("<br>");
+
+				spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
 
 				return done(null, spireUser);
 			}
-		});
+		})
 
 		//The spire object reported it was unable to authenticate
 		spire.on('authFailure', function (vals) {
