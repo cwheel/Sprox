@@ -22,10 +22,15 @@
 	  	<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material.css">
 		<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css">
 		<script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
+		<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 		<script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
 
 		<!-- ng-Bootstrap-Material -->
+		<link rel="stylesheet" href="bower_components/rdash-ui/dist/css/rdash.min.css"></link>
 		<script src="bower_components/ng-bootstrap-material/ngBootstrapMaterial.js"></script>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
 
 		<!-- CryptoJS -->
 		<script src="bower_components/cryptojslib/rollups/md5.js"></script>
@@ -88,51 +93,53 @@
 	</head>
 
 	<body ng-controller="mainController">
-	<div full-viewport="{{ fullscreen }}" class="{{ pageClass }} view page" ng-view></div>
-	<div ng-show="showTopbar" class="navbar navbar-default noSelect">
-    	<div class="navbar-header">
-        	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-            	<span class="icon-bar"></span>
-            	<span class="icon-bar"></span>
-            	<span class="icon-bar"></span>
-        	</button>
-        	<a id="sproxLogo" class="pull-left" href="javascript:void(0)">
-        		<img class="img-responsive" src="src/whiteicon.png">
-        	</a>
-   		</div>
-	<div class="navbar-collapse collapse navbar-responsive-collapse">
-        <ul class="nav navbar-nav">
-            <li id="{{ tab.path }}" material-ripple-navigation data-ripple=false ng-click="clickTab(tab.path)" ng-repeat="tab in tabs"><a href="javascript:void(0)">{{ tab.title }}</a></li>
-        </ul>
-        <form ng-show="showSearch" class="navbar-form navbar-left">
-            <li id="{{ tab.path }}" material-ripple-navigation data-ripple=false ng-click="clickTab(tab.path)" ng-show="showTab(tab.dev)" ng-repeat="tab in tabs"><a href="javascript:void(0)">{{ tab.title }}</a></li>
+  <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
 
-        </ul>
-        <form ng-show="" class="navbar-form navbar-left">
-            <input type="text" class="form-control col-lg-8" placeholder="Search">
-        </form>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown" material-ripple-navigation data-ripple=false id="userMenu">
-                <a href="javascript:void(0)" data-target="#" class="dropdown-toggle" data-toggle="dropdown">{{ fullName }} <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                	<li>
-                		<div id="userStatusRow">
-                			<img ng-src="https://secure.gravatar.com/avatar/{{ userEmail }}?d=identicon&s=35" class="avatar"></img>
-                			<div id="userMenuText">
-                				<div class="userMenuSubText">{{ major }}</div>
-								<div class="userMenuSubText">{{ spireID }}</div>
-                			</div>
-                		</div>
-                	</li>
-
-                	<li class="divider"></li>
-                	<li><div id="settings" class="userMenuItem" material-ripple-navigation data-ripple=false ng-click="settings()">Settings</div></li>
-                	<li><a href="/logout" id="logout" material-ripple-navigation data-ripple=false target="_self">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
+    <!-- Sidebar -->
+    <div ng-show="showTopbar" id="sidebar-wrapper">
+      <ul class="sidebar">
+        <li class="sidebar-main">
+          <a ng-click="toggleSidebar()">
+            Sprox
+            <span class="menu-icon glyphicon glyphicon-transfer"></span>
+          </a>
+        </li>
+        <li class="sidebar-list">
+          <a href="/sc">Student Center <span class="menu-icon fa fa-tachometer"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="/sh">Schedule <span class="menu-icon fa fa-tachometer"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="/uc">UCard <span class="menu-icon fa fa-table"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="/mp">Map <span class="menu-icon fa fa-table"></span></a>
+        </li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="col-xs-12">
+          <a href="#" target="_blank">Logout <span class="menu-icon fa fa-sign-out"></span></a>
+        </div>
+      </div>
     </div>
-	</div>
-	</div>
-	</body>
+    <!-- End Sidebar -->
+
+    <div id="content-wrapper">
+      <div class="page-content">
+
+        <!-- Header Bar -->
+        <div ng-show="showTopbar" class="row header">
+          <div class="col-xs-12">
+          </div>
+        </div>
+        <!-- End Header Bar -->
+
+        <!-- Main Content -->
+        <div class="{{ pageClass }} col-xs-12 view page" ng-view=""></div>
+
+      </div><!-- End Page Content -->
+    </div><!-- End Content Wrapper -->
+  </div><!-- End Page Wrapper -->
+</body>
 </html>

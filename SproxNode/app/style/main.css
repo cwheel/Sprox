@@ -1,7 +1,5 @@
 body {
   background-color: #3D3D3D;
-  height: 100%;
-  width: 100%;
   overflow-x: hidden;
 }
 
@@ -39,11 +37,6 @@ body:before {
     user-select: none;
   }
 
-  .page {
-    top: 50px;
-    height: calc(100% - 90px);
-  }
-
   .pagefullViewPort {
     height: calc(100% - 50px);
   }
@@ -60,11 +53,6 @@ body:before {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-
-  .page {
-    top: 60px;
-    height: calc(100% - 100px);
   }
 
   .pagefullViewPort {
@@ -133,7 +121,6 @@ body:before {
 }
 
 .page {
-  position: absolute;
   right: 0;
   left: 0;
   margin-bottom: 0;
