@@ -102,9 +102,7 @@
     <div ng-show="showTopbar" id="sidebar-wrapper">
       <ul class="sidebar">
         <li class="sidebar-main">
-          <a ng-click="toggleSidebar()">
-            <span class="menu-icon glyphicon glyphicon-transfer"></span>
-          </a>
+            <a ng-click="toggleSidebar()"><span class="menu-icon glyphicon glyphicon-transfer"></span></a>
         </li>
         <li class="sidebar-list">
           <a href="/sc">Student Center <span class="menu-icon fa fa-pencil"></span></a>
@@ -132,6 +130,9 @@
         <!-- Header Bar -->
         <div ng-show="showTopbar" class="row header">
           <div class="col-xs-12">
+            <li class="sidebar-main">
+            	<a ng-click="toggleSidebar()"><span class="menu-icon glyphicon glyphicon-transfer"></span></a>
+        	</li>
           </div>
         </div>
         <!-- End Header Bar -->
