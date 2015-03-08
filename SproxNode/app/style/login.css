@@ -7,19 +7,16 @@
 #loginContainer {
   padding-right: 50px;
   padding-left: 50px;
-  margin-top: 75px;
+  margin-top: 150px;
 }
 
 #loginButton {
   width: 100%;
 }
 
-#loginTitle {
-  text-align: center;
-}
-
-#loginIcon {
-  padding-top: 75px;
+#login-title {
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
 #loginBottomText {

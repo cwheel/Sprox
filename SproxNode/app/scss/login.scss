@@ -1,8 +1,9 @@
 @import "app/style/partials/animation";
 @import "app/style/partials/device";
 
-$login-padding: 75px;
+$login-padding: 150px;
 $login-text-padding: 10px;
+$login-title-size: 20px;
 
 .loginFrame {
   position: absolute;
@@ -20,13 +21,11 @@ $login-text-padding: 10px;
   width: 100%;
 }
 
-#loginTitle {
-  text-align: center;
+#login-title {
+  font-size: $login-title-size;
+  margin-bottom: $login-title-size/2;
 }
 
-#loginIcon {
-  padding-top: $login-padding; 
-}
 
 #loginBottomText {
   color: #FFF;

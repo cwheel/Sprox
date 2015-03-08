@@ -1,7 +1,7 @@
 <html ng-app="sprox">
 	<head>
-
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
 		<!-- jQuery -->
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -13,6 +13,9 @@
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-animate/angular-animate.js"></script>
 		<script src="bower_components/angular-route/angular-route.js"></script>
+
+		<!-- Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Alegreya+Sans:100,300' rel='stylesheet' type='text/css'>
 
 		<!-- FontAwesome -->
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -73,28 +76,30 @@
 		<script src="config.js"></script>
 
 		<!-- Favicons -->
-		<link rel="shortcut icon" href="/favicons/favicon.ico">
 		<link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
-		<link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
-		<link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
-		<link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
 		<link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
 		<link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
 		<link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
-		<link rel="icon" type="image/png" href="/favicons/favicon-192x192.png" sizes="192x192">
-		<link rel="icon" type="image/png" href="/favicons/favicon-160x160.png" sizes="160x160">
-		<link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
-		<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+		<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
 		<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
-		<meta name="msapplication-TileColor" content="#00a300">
+		<link rel="icon" type="image/png" href="/favicons/favicon-194x194.png" sizes="194x194">
+		<link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
+		<link rel="icon" type="image/png" href="/favicons/android-chrome-192x192.png" sizes="192x192">
+		<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+		<link rel="manifest" href="/favicons/manifest.json">
+		<meta name="msapplication-TileColor" content="#37474f">
 		<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
-		<meta name="msapplication-config" content="/favicons/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
 
 		<title>Sprox</title>
 		<base href="/">
 	</head>
 
+  <div id="loginBack"></div>
   <body ng-controller="mainController">
   <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
 
@@ -109,24 +114,25 @@
         	</div>
         	
             <div class="sidebar-top-text" id="sidebar-username">{{ fullName }}</div>
-            <!--<div class="sidebar-top-text" id="sidebar-major">{{ major }}</div>-->
+            <div class="sidebar-top-text toggled-only" id="sidebar-major">{{ major }}</div>
         </li>
-        <li class="sidebar-list">
+
+        <li class="sidebar-list" material-ripple-navigation data-ripple=false id="sc">
           <a href="/sc">Student Center <span class="menu-icon fa fa-pencil"></span></a>
         </li>
-        <li class="sidebar-list">
+        <li class="sidebar-list" material-ripple-navigation data-ripple=false id="sh">
           <a href="/sh">Schedule <span class="menu-icon fa fa-calendar-o"></span></a>
         </li>
-        <li class="sidebar-list">
+        <li class="sidebar-list" material-ripple-navigation data-ripple=false id="uc">
           <a href="/uc">UCard <span class="menu-icon fa fa-credit-card"></span></a>
         </li>
-        <li class="sidebar-list">
+        <li class="sidebar-list" material-ripple-navigation data-ripple=false id="mp">
           <a href="/mp">Map <span class="menu-icon fa fa-location-arrow"></span></a>
         </li>
       </ul>
       <div class="sidebar-footer">
         <div class="col-xs-12">
-          <a href="/logout">Logout <span class="menu-icon fa fa-sign-out"></span></a>
+          <a href="/logout" target="_self">Logout <span class="menu-icon fa fa-sign-out"></span></a>
         </div>
       </div>
     </div>
@@ -135,9 +141,10 @@
     <div id="content-wrapper">
       <div class="page-content">
         <!-- Header Bar -->
-        <div ng-show="showTopbar" class="row header">
+        <div ng-show="showTopbar" class="top-bar row header">
           <div class="col-xs-12">
-         	<i class="fa fa-bars" ng-click="toggleSidebar()"></i>
+          	<i class="fa fa-bars top-bar-item" ng-click="toggleSidebar()"></i>
+          	<span class="top-bar-item">Sprox</span>
           </div>
         </div>
         <!-- End Header Bar -->

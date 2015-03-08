@@ -40,6 +40,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 				    //Perfom the usual post login actions
 				    $location.path('/sc');						
 					$scope.pageClass = "scale-fade-in";
+					$("#loginBack").animate({opacity: 0}, 400);
 				    $scope.$emit('loginCompleted', null);
 				});
 			} else {
