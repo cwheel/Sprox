@@ -1,5 +1,7 @@
 <html ng-app="sprox">
 	<head>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<!-- jQuery -->
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -12,37 +14,29 @@
 		<script src="bower_components/angular-animate/angular-animate.js"></script>
 		<script src="bower_components/angular-route/angular-route.js"></script>
 
+		<!-- FontAwesome -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
 	  	<!-- Bootstrap -->
 		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 	  	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+		<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-		<!-- Bootstrap Theme -->
+		<!-- Bootstrap Theme Material Design -->
 	  	<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/material.css">
 		<link rel="stylesheet" href="bower_components/bootstrap-material-design/dist/css/ripples.css">
 		<script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
 		<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 		<script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
 
+		<!-- Bootstrap Template RDash -->
+		<link rel="stylesheet" href="bower_components/rdash-ui/dist/css/rdash.css"></link>
+
 		<!-- ng-Bootstrap-Material -->
-		<link rel="stylesheet" href="bower_components/rdash-ui/dist/css/rdash.min.css"></link>
 		<script src="bower_components/ng-bootstrap-material/ngBootstrapMaterial.js"></script>
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-		<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-
-
+		
 		<!-- CryptoJS -->
 		<script src="bower_components/cryptojslib/rollups/md5.js"></script>
-
-		<!-- Global CSS -->
-	 	<link rel="stylesheet" type="text/css" href="style/main.css">
-	 	<link rel="stylesheet" type="text/css" href="style/login.css">
-	 	<link rel="stylesheet" type="text/css" href="style/schedule.css">
-	 	<link rel="stylesheet" type="text/css" href="style/studentCenter.css">
-	 	<link rel="stylesheet" type="text/css" href="style/map.css">
-	 	<link rel="stylesheet" type="text/css" href="style/uc.css">
-	 	<link rel="stylesheet" type="text/css" href="style/ng-animations.css">
 
 		<!-- ngDialog -->
 		<script src="bower_components/ngDialog/js/ngDialog.js"></script>
@@ -52,6 +46,15 @@
 
 		<!-- ocLazyLoad -->
 		<script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+
+		<!-- Global CSS -->
+	 	<link rel="stylesheet" type="text/css" href="style/main.css">
+	 	<link rel="stylesheet" type="text/css" href="style/login.css">
+	 	<link rel="stylesheet" type="text/css" href="style/schedule.css">
+	 	<link rel="stylesheet" type="text/css" href="style/studentCenter.css">
+	 	<link rel="stylesheet" type="text/css" href="style/map.css">
+	 	<link rel="stylesheet" type="text/css" href="style/uc.css">
+	 	<link rel="stylesheet" type="text/css" href="style/ng-animations.css">
 
 		<!-- Page Controllers -->
 		<script src="sprox.js"></script>
@@ -92,7 +95,7 @@
 		<base href="/">
 	</head>
 
-	<body ng-controller="mainController">
+  <body ng-controller="mainController">
   <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
 
     <!-- Sidebar -->
@@ -100,26 +103,25 @@
       <ul class="sidebar">
         <li class="sidebar-main">
           <a ng-click="toggleSidebar()">
-            Sprox
             <span class="menu-icon glyphicon glyphicon-transfer"></span>
           </a>
         </li>
         <li class="sidebar-list">
-          <a href="/sc">Student Center <span class="menu-icon fa fa-tachometer"></span></a>
+          <a href="/sc">Student Center <span class="menu-icon fa fa-pencil"></span></a>
         </li>
         <li class="sidebar-list">
-          <a href="/sh">Schedule <span class="menu-icon fa fa-tachometer"></span></a>
+          <a href="/sh">Schedule <span class="menu-icon fa fa-calendar-o"></span></a>
         </li>
         <li class="sidebar-list">
-          <a href="/uc">UCard <span class="menu-icon fa fa-table"></span></a>
+          <a href="/uc">UCard <span class="menu-icon fa fa-credit-card"></span></a>
         </li>
         <li class="sidebar-list">
-          <a href="/mp">Map <span class="menu-icon fa fa-table"></span></a>
+          <a href="/mp">Map <span class="menu-icon fa fa-location-arrow"></span></a>
         </li>
       </ul>
       <div class="sidebar-footer">
         <div class="col-xs-12">
-          <a href="#" target="_blank">Logout <span class="menu-icon fa fa-sign-out"></span></a>
+          <a href="/logout">Logout <span class="menu-icon fa fa-sign-out"></span></a>
         </div>
       </div>
     </div>
@@ -127,17 +129,13 @@
 
     <div id="content-wrapper">
       <div class="page-content">
-
         <!-- Header Bar -->
         <div ng-show="showTopbar" class="row header">
           <div class="col-xs-12">
           </div>
         </div>
         <!-- End Header Bar -->
-
-        <!-- Main Content -->
         <div class="{{ pageClass }} col-xs-12 view page" ng-view=""></div>
-
       </div><!-- End Page Content -->
     </div><!-- End Content Wrapper -->
   </div><!-- End Page Wrapper -->

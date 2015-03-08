@@ -1,6 +1,6 @@
 sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootScope', '$http', function($scope, $location, $timeout, $rootScope, $http) {
 	//Initialize Route
-	$scope.pageClass = "toggle";
+	$scope.pageClass = "toggle loginFrame";
 	$scope.showLogin = true;
 
 	//Login Form

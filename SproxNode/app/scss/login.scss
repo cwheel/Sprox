@@ -4,6 +4,11 @@
 $login-padding: 75px;
 $login-text-padding: 10px;
 
+.loginFrame {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
 
 #loginContainer {
   padding-right: 50px;
