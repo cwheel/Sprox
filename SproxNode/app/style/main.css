@@ -21,66 +21,13 @@ body {
 }
 
 @media screen and (max-width: 1199px) {
-  #sproxLogo {
-    margin-right: 5px;
-    margin-left: 5px;
-    padding-top: 5px;
-    height: 50px;
-    width: 40px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
   .pagefullViewPort {
     height: calc(100% - 50px);
   }
 }
 @media screen and (min-width: 1200px) {
-  #sproxLogo {
-    margin-left: 5px;
-    padding-top: 10px;
-    height: 50px;
-    width: 40px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
   .pagefullViewPort {
     height: calc(100% - 60px);
-  }
-}
-@media screen and (max-width: 767px) {
-  .userMenuSubText {
-    color: #FFF;
-  }
-
-  .userMenuItem {
-    color: #FFF;
-  }
-
-  .userMenuItem:hover {
-    color: #DADADA;
-  }
-}
-@media screen and (min-width: 768px) {
-  .userMenuSubText {
-    color: #333;
-  }
-
-  .userMenuItem {
-    color: #333;
-  }
-
-  .userMenuItem:hover {
-    color: #009587;
   }
 }
 .noSelect {
