@@ -3,3 +3,4 @@ SproxLocal/
 SproxWeb/bower_components/
 SproxNode/db
 SproxNode/node_modules
+SproxNode/.sass-cache/
