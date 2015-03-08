@@ -1,11 +1,23 @@
 body {
-  background-color: #3D3D3D;
+  background-color: #eee;
+  overflow-x: hidden;
+}
+
+#loginBack {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
   background-image: url(../src/loginBkg.png);
   -webkit-background-size: cover;
   -ms-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
-  overflow-x: hidden;
 }
 
 @media screen and (max-width: 1199px) {
@@ -80,26 +92,6 @@ body {
   user-select: none;
 }
 
-#userStatusRow {
-  padding: 3px 20px;
-  white-space: nowrap;
-}
-
-.userMenuItem {
-  padding: 3px 20px;
-  cursor: pointer;
-}
-
-.userMenuSubText {
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-#userMenuText {
-  margin-left: 60px;
-  font-size: 10px;
-}
-
 .avatar {
   width: 50px;
   height: 50px;
@@ -107,6 +99,27 @@ body {
   border-radius: 100px;
   border: 1px solid #CCCCCC;
   padding: 5px;
+}
+
+.toggled-only {
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-weight: 300;
+}
+
+.top-bar {
+  background: #455A64 !important;
+}
+
+.top-bar-item {
+  float: left;
+  top: 20px;
+  position: relative;
+  font-size: 20px;
+  margin-right: 20px;
+  color: #FFF;
+  line-height: 1;
 }
 
 .col-center {
@@ -133,7 +146,7 @@ body {
 
 .floating-main {
   float: right;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .page {

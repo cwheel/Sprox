@@ -5,92 +5,41 @@
 $padding-logo: 5px;
 $theme-dropdown-padding: 3px 20px;
 $avatar-size: 50px;
+$top-bar-size: 20px;
 
 body {
   background-color: $background-color;
-  background-image: url(../src/loginBkg.png);
-  @include vendor-prefix(background-size, cover);
   overflow-x: hidden;
 }
 
+#loginBack {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	position: absolute;
+	background-image: url(../src/loginBkg.png);
+  	@include vendor-prefix(background-size, cover);
+}
+
 @media screen and (max-width:1199px){
-	#sproxLogo{
-		margin-right: $padding-logo;
-		margin-left: $padding-logo;
-		padding-top: $padding-logo;
-		height: 50px;
-		width: 40px;
-		@include noselect;
-	
-	}
 	.pagefullViewPort{
 		height: calc(100% - 50px);
 	}
 }
 
 @media screen and (min-width:1200px){
-	#sproxLogo{
-		margin-left: $padding-logo;
-		padding-top: $padding-logo*2;
-		height: 50px;
-		width: 40px;
-		@include noselect;
-	}
 	.pagefullViewPort{
 		height: calc(100% - 60px);
 	}
 }
 
-@include mobileCollapsed {
-	.userMenuSubText{
-		color:#FFF;
-	}
-
-	.userMenuItem {
-		color: #FFF;
-	}
-
-	.userMenuItem:hover {
-		color: #DADADA;
-	}
-}
-
-@include mobileNotCollapsed {
-	.userMenuSubText{
-		color:#333;
-	}
-
-	.userMenuItem {
-		color: #333;
-	}
-
-	.userMenuItem:hover {
-		color: #009587;
-	}
-}
-
 .noSelect{
 	@include noselect;
-}
-
-#userStatusRow {
-	padding: $theme-dropdown-padding;
-	white-space: nowrap;
-}
-
-.userMenuItem {
-	padding: $theme-dropdown-padding;
-	cursor: pointer;
-}
-
-.userMenuSubText {
-	font-size: 12px;
-	white-space: nowrap;
-}
-
-#userMenuText {
-	margin-left: $avatar-size+10;
-	font-size: 10px;
 }
 
 .avatar {
@@ -100,6 +49,27 @@ body {
   	border-radius: 100px;
   	border: 1px solid #CCCCCC;
   	padding: 5px;
+}
+
+.toggled-only {
+	white-space: nowrap;
+	overflow: hidden;
+	font-family: 'Alegreya Sans', sans-serif;
+	font-weight: 300;
+}
+
+.top-bar {
+	background: $accent-color !important;
+}
+
+.top-bar-item {
+	float: left;
+	top: $top-bar-size;
+	position: relative;
+	font-size: $top-bar-size;
+	margin-right: $top-bar-size;
+	color: #FFF;
+	line-height: 1;
 }
 
 .col-center {
@@ -127,7 +97,7 @@ body {
 
 .floating-main {
 	float: right;
-	margin-bottom: 40px;
+	margin-bottom: 50px;
 }
 
 .page  { 
