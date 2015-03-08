@@ -1,4 +1,4 @@
-sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog','$ocLazyLoad', '$http', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad, $http) {
+sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog','$ocLazyLoad', '$http','$cookieStore', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad, $http, $cookieStore) {
 	//Initilization
 	$scope.showTopbar = false;
 	$scope.showSearch = false;
@@ -21,6 +21,33 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		name: 'leaflet-directive',
 		files: ['bower_components/leaflet/dist/leaflet.js','bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js','style/leaflet.css']
 	}]);
+	var mobileView = 992;
+
+    $scope.getWidth = function() {
+        return window.innerWidth;
+    };
+
+    $scope.$watch($scope.getWidth, function(newValue, oldValue) {
+        if (newValue >= mobileView) {
+            if (angular.isDefined($cookieStore.get('toggle'))) {
+                $scope.toggle = ! $cookieStore.get('toggle') ? false : true;
+            } else {
+                $scope.toggle = true;
+            }
+        } else {
+            $scope.toggle = false;
+        }
+
+    });
+
+    $scope.toggleSidebar = function() {
+        $scope.toggle = !$scope.toggle;
+        $cookieStore.put('toggle', $scope.toggle);
+    };
+
+    window.onresize = function() {
+        $scope.$apply();
+    };
 
 	//Ask Passport if our user is authed - Not used for information security, used only for UI
 	$http({
