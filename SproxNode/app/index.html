@@ -101,8 +101,15 @@
     <!-- Sidebar -->
     <div ng-show="showTopbar" id="sidebar-wrapper">
       <ul class="sidebar">
-        <li class="sidebar-main">
-            <a ng-click="toggleSidebar()"><span class="menu-icon glyphicon glyphicon-transfer"></span></a>
+        <li class="sidebar-main floating-main">
+        	<div id="sidebar-user-icon-container">
+        		<div id="sidebar-user-icon">
+        			<img ng-src="https://secure.gravatar.com/avatar/{{ userEmail }}?d=identicon&s=50" class="avatar"></img>
+        		</div>
+        	</div>
+        	
+            <div class="sidebar-top-text" id="sidebar-username">{{ fullName }}</div>
+            <!--<div class="sidebar-top-text" id="sidebar-major">{{ major }}</div>-->
         </li>
         <li class="sidebar-list">
           <a href="/sc">Student Center <span class="menu-icon fa fa-pencil"></span></a>
@@ -130,9 +137,7 @@
         <!-- Header Bar -->
         <div ng-show="showTopbar" class="row header">
           <div class="col-xs-12">
-            <li class="sidebar-main">
-            	<a ng-click="toggleSidebar()"><span class="menu-icon glyphicon glyphicon-transfer"></span></a>
-        	</li>
+         	<i class="fa fa-bars" ng-click="toggleSidebar()"></i>
           </div>
         </div>
         <!-- End Header Bar -->

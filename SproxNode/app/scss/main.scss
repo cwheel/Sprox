@@ -4,7 +4,7 @@
 @import "app/style/partials/animation";
 $padding-logo: 5px;
 $theme-dropdown-padding: 3px 20px;
-$avatar-size: 35px;
+$avatar-size: 50px;
 
 body {
   background-color: $background-color;
@@ -26,7 +26,6 @@ body {
 	.pagefullViewPort{
 		height: calc(100% - 50px);
 	}
-
 }
 
 @media screen and (min-width:1200px){
@@ -40,7 +39,6 @@ body {
 	.pagefullViewPort{
 		height: calc(100% - 60px);
 	}
-
 }
 
 @include mobileCollapsed {
@@ -98,12 +96,38 @@ body {
 .avatar {
 	width: $avatar-size;
 	height: $avatar-size;
-	float: left;
+	display: block;
+  	border-radius: 100px;
+  	border: 1px solid #CCCCCC;
+  	padding: 5px;
 }
 
 .col-center {
 	float: none;
     margin: 0 auto;
+}
+
+.sidebar-top-text {
+	text-align: center;
+  	width: 250px;
+  	text-indent: 0px;
+  	color: #FFF;
+
+  	font-size: 11px;
+}
+
+#sidebar-user-icon {
+	width: 50px;
+  	height: 50px;
+  	margin: 0 auto;
+  	margin-top: 10px;
+  	margin-bottom: 10px;
+  	border-radius: 100px;
+}
+
+.floating-main {
+	float: right;
+	margin-bottom: 40px;
 }
 
 .page  { 

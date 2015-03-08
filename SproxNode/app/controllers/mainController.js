@@ -38,11 +38,30 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
             $scope.toggle = false;
         }
 
+        if ($scope.toggle) {
+        	$("#sidebar-user-icon-container").animate({width: 250}, 400);
+        	$("#sidebar-username").animate({width: 250}, 400);
+        	//$("#sidebar-major").animate({opacity: 1, width: 250}, 200);
+        } else {
+        	$("#sidebar-user-icon-container").animate({width: 70}, 400);
+        	$("#sidebar-username").animate({width: 70}, 400);
+        	//$("#sidebar-major").animate({opacity: 0, width: 70}, 200);
+        }
     });
 
     $scope.toggleSidebar = function() {
         $scope.toggle = !$scope.toggle;
         $cookieStore.put('toggle', $scope.toggle);
+
+        if ($scope.toggle) {
+        	$("#sidebar-user-icon-container").animate({width: 250}, 400);
+        	$("#sidebar-username").animate({width: 250}, 400);
+        	//$("#sidebar-major").animate({opacity: 1, width: 250}, 200);
+        } else {
+        	$("#sidebar-user-icon-container").animate({width: 70}, 400);
+        	$("#sidebar-username").animate({width: 70}, 400);
+        	//$("#sidebar-major").animate({opacity: 0, width: 70}, 200);
+        }
     };
 
     window.onresize = function() {
