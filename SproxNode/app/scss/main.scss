@@ -8,20 +8,9 @@ $avatar-size: 35px;
 
 body {
   background-color: $background-color;
+  background-image: url(../src/loginBkg.png);
+  @include vendor-prefix(background-size, cover);
   overflow-x: hidden;
-}
-
-body:before {
-    content: "";
-    position: absolute;
-    background-image: url(../src/loginBkg.jpg);
-  	@include vendor-prefix(background-size, cover);
-  	@include vendor-prefix(filter, blur(4px));
-    z-index: -1;
-    height: 20%; width: 20%;
-
-    transform: scale(5);
-    transform-origin: top left;
 }
 
 @media screen and (max-width:1199px){
@@ -111,6 +100,12 @@ body:before {
 	height: $avatar-size;
 	float: left;
 }
+
+.col-center {
+	float: none;
+    margin: 0 auto;
+}
+
 .page  { 
   right: 0;
   left: 0;

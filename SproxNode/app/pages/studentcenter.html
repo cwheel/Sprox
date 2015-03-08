@@ -38,70 +38,69 @@
     	</div>
 	</div>
 
-	<div class="container">
-		<div class="row" ng-show="classesToday">
-			<div class="col-md-12">
-				<div class="panel panel-material-cyan" edgeless-panel>
-					<div class="panel-heading">
-					    <div class="dayTitle">{{ classesDay }} Classes</div>
-					</div>
-					
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-4" ng-repeat="class in ct">
-								<div class="{{ class.type }}">
-									{{ class.name }}
-									<br> 
-									<b>{{ class.time }}</b>
-									<br>
-									<div>{{ class.location }}</div>
-								</div>
-							</div>
-						</div>
-					</div>
+	<div class="col-md-8">
+		<div class="col-md-12">
+			<div class="panel panel-material-light-green" edgeless-panel>
+				<div class="panel-heading">
+				    Student Information
+				    <br> 
+				    <div class="scPanelHeaderSubText">Graduating in {{ gradYear }}</div>
+				</div>
+
+				<div class="panel-body">
+					<div class="subTitle">Home Address</div>
+					<div class="scPanelSubText">{{ homeAddress }}</div>
+					<br>
+					<div class="subTitle">School Address</div>
+					<div class="scPanelSubText">{{ schoolAddress }}</div>
+					<br>
+					<div class="subTitle">Mail Box Combination</div>
+					<div class="scPanelSubText">{{ mailBox }}</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="row">
-			<div class="col-md-6">
-				<div class="panel panel-material-light-green" edgeless-panel>
-					<div class="panel-heading">
-					    Student Information
-					    <br> 
-					    <div class="scPanelHeaderSubText">Graduating in {{ gradYear }}</div>
-					</div>
-
-					<div class="panel-body">
-						<div class="subTitle">Home Address</div>
-						<div class="scPanelSubText">{{ homeAddress }}</div>
-						<br>
-						<div class="subTitle">School Address</div>
-						<div class="scPanelSubText">{{ schoolAddress }}</div>
-						<br>
-						<div class="subTitle">Mail Box Combination</div>
-						<div class="scPanelSubText">{{ mailBox }}</div>
-					</div>
+	
+		<div class="col-md-12">
+			<div class="panel panel-material-light-green" edgeless-panel>
+				<div class="panel-heading">
+				    Housing at {{ building }}
+				    <br>
+				    <div class="scPanelHeaderSubText">Room {{ roomNumber }} - {{ roomType }}</div>
+				</div>
+				
+				<div class="panel-body">
+					<div class="subTitle">Roomate</div>
+					<div class="scPanelSubText">{{ roomate }}</div>
+					<div class="scPanelSubText">{{ roomateEmail }}</div>
+					<br>
+					<div class="scPanelSubText">{{ roomateAddress }}</div>
 				</div>
 			</div>
-		 
-			<div class="col-md-6">
-				<div class="panel panel-material-light-green" edgeless-panel>
-					<div class="panel-heading">
-					    Housing at {{ building }}
-					    <br>
-					    <div class="scPanelHeaderSubText">Room {{ roomNumber }} - {{ roomType }}</div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		
+		<div class="panel panel-material-cyan" edgeless-panel>
+			<div class="panel-heading">
+			    <div class="dayTitle">{{ classesDay }} Classes</div>
+			</div>
+			
+			<div class="panel-body">
+				<div class="row" ng-repeat="class in ct">
+					<div class="col-md-12">
+						<div class="{{ class.type }}">
+							{{ class.name }}
+							<br> 
+							<b>{{ class.time }}</b>
+							<br>
+						<div>{{ class.location }}</div>
 					</div>
-					
-					<div class="panel-body">
-						<div class="subTitle">Roomate</div>
-						<div class="scPanelSubText">{{ roomate }}</div>
-						<div class="scPanelSubText">{{ roomateEmail }}</div>
-						<br>
-						<div class="scPanelSubText">{{ roomateAddress }}</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	
 </div>
