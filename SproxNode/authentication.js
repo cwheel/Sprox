@@ -92,6 +92,11 @@ module.exports = function(passport, strategy) {
 				spireUser.homeAddress = spireUser.homeAddress.split("<br>");
 				spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
 
+				//Fix the roomate name by re-ordering their name from Last,First Middle to First Middle Last
+				if (spireUser.roomate.indexOf(',') > -1) {
+					spireUser.roomate = spireUser.roomate.split(",")[1] + " " + spireUser.roomate.split(",")[0]
+				}
+
 				return done(null, spireUser);
 			}
 		})

@@ -41,7 +41,25 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 				    $location.path('/sc');						
 					$("#loginBack").animate({opacity: 0}, 400);
 				    $scope.$emit('loginCompleted', null);
+
+				 	
 				});
+
+				$http({
+			     	method  : 'POST',
+			    	url     : '/userInfo/ucard',
+			    	data    : $.param($scope.login),
+			    	headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+			    })
+			    .success(function(resp) {
+			    	//If the auth was valid, save the responce
+			    	if (angular.fromJson(resp).status != 'authFailure') {
+			    		funds = angular.fromJson(resp);
+			    		console.log("Fetched funds");
+			    	} else {
+			    		console.warn("Failed to authenticat with UCard.");
+			    	}
+			    });
 			} else {
 				//User failed to login, notify them
 				shouldSetWittyStatus = false;

@@ -38,11 +38,11 @@
 					        <th>Time</th>
 					        <th>Cost</th>
 					   	</tr>
-					   	<tr ng-repeat="item in transactions | limitTo:10">
-					   		<td>{{ item.transLocation }}</td>
-					   		<td>{{ item.transDate }}</td>
-					   		<td>{{ item.transTime }}</td>
-					   		<td>{{ item.transCost }}</td>
+					   	<tr ng-repeat="item in transactions | limitTo:15">
+					   		<td>{{ item.location }}</td>
+					   		<td>{{ item.date }}</td>
+					   		<td>{{ item.time }}</td>
+					   		<td>{{ item.cost }}</td>
 					   	</tr>
 					</thead>
 				</table>

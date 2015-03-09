@@ -33,14 +33,17 @@ module.exports = function(app) {
    });
 
 	//GET (i.e UCard info)
-	app.post('/userInfo/ucard', function(req, res){
+	app.post('/userInfo/ucard', function(req, res) {
+		console.log("Fetching GET information for user: '" + req.body.username + "'...");
+
 		var get = new UmassGet(req.body.username, req.body.password);
 		var fetched = [];
 
 		get.on('values', function (vals) {
 			fetched.push(vals);
-			
+
 			if (fetched.length > 1) {
+				console.log("Finished fetching GET information for user: '" + req.body.username + "'!");
 				res.send(fetched);
 			}
 		});
