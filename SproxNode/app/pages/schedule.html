@@ -8,14 +8,14 @@
 				</div>
 				<div class="panel-body">
 					<div ng-repeat="class in sDay.classes"> 
-						<div class="time-block-15" schedule-size="{{ class.freeTime }}"></div>
-						<div class="scheduleClass" schedule-size="{{ class.classDuration }}"> 
+						<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
+						<div class="scheduleClass" style="height: {{ class.classDuration }};"> 
 							<div class="scheduleClassTime"> {{ class.time }}</div> 
 							<div class="scheduleClassName">{{ class.name }}</div>
 							<div class="scheduleClasslocation">{{ class.location }}</div>
 						</div>
 					</div>
-					<div class="time-block-15" schedule-size="{{ sDay.endTimePadding }}"></div>
+					<div class="time-block-15" style="height: {{ sDay.endTimePadding }};"></div>
 				</div>
 			</div>
 		</div>	
