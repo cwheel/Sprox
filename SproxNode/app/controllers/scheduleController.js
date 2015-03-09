@@ -1,6 +1,5 @@
 sprox.controller('scheduleController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
 	$scope.weeklySchedule = []
-	$scope.pageClass = "page-left";
 	$scope.finals = []
 	var fiveminpx = 8;
 	var startTime = "8:00 AM";

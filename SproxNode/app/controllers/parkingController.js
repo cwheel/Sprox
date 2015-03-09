@@ -1,5 +1,5 @@
 sprox.controller('parkingController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
-	$scope.pageClass = "page-left";
+
 
 	$scope.checkParking = function() {
 		if (parking !== null) {

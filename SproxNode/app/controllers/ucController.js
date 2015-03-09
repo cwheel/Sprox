@@ -1,5 +1,4 @@
 sprox.controller('ucController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
-	$scope.pageClass = "page-left";
 	$scope.transactions = null;
 
 	$scope.checkFunds = function() {
