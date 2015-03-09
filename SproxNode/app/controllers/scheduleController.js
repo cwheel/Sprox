@@ -4,6 +4,7 @@ sprox.controller('scheduleController',['$scope', '$location', '$timeout', functi
 	var fiveminpx = 8;
 	var startTime = "8:00 AM";
 	var freeTimeTotal = 0;
+	var multiplier = 1.4;
 
 	if (userData.classesWeekly.Mo != "") $scope.weeklySchedule.push(dictWithDay(userData.classesWeekly.Mo));
 	if (userData.classesWeekly.Tu != "") $scope.weeklySchedule.push(dictWithDay(userData.classesWeekly.Tu));
@@ -23,13 +24,13 @@ sprox.controller('scheduleController',['$scope', '$location', '$timeout', functi
 				console.log(freeTime);
 				freeTimeTotal = freeTimeTotal + freeTime;
 			}
-			a.classes[curclass].freeTime = freeTime;
-			a.classes[curclass].classDuration = classDuration;
+			a.classes[curclass].freeTime = freeTime * multiplier;
+			a.classes[curclass].classDuration = classDuration * multiplier;
 
 			startTime = a.classes[curclass].th_e;
 		}
 		a.endTime = startTime;
-		a.endTimePadding = DiffTime(startTime,"6:45 PM");
+		a.endTimePadding = DiffTime(startTime,"6:45 PM") * multiplier;
 		a.freeTimeTotal = freeTimeTotal;
 		freeTimeTotal = 0;
 		startTime = "8:00 AM";
@@ -70,14 +71,3 @@ function DiffTime(start, stop){
 		return (tstart/60/1000)
 	
 }
-
-sprox.directive('scheduleSize', function($timeout) {
-    return {
-        link: function(scope, element, attr) {
-        	$timeout(function() {
-        		var size = attr.scheduleSize * 1.4
-        		element.css("height",size);
-        	}, 1);
-        }
-    };
-});
