@@ -1,5 +1,4 @@
 sprox.controller('notesController',['$scope', '$location', '$timeout', 'hotkeys', 'ngDialog', function($scope, $location, $timeout, hotkeys, ngDialog) {
-	$scope.pageClass = "page-left";
 
 	//Notebook data
 	$scope.notebook = {};

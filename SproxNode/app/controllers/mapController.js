@@ -1,6 +1,6 @@
 sprox.controller('mapController',['$scope', '$location', '$timeout', '$http', function($scope, $location, $timeout, $http) {
     $scope.fullscreen = true;
-    $scope.pageClass = "page-left mapFrame";
+    $scope.pageClass = "mapFrame";
     //Points is the whole Array, pointFiltered is the arrays found after Search, PointFound are the currently displayed points on the map
     $scope.points = {};
     $scope.pointFiltered = {};

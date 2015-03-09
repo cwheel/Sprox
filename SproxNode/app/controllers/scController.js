@@ -1,13 +1,4 @@
 sprox.controller('studentCenterController',['$scope', '$location', '$timeout', 'ngDialog', '$rootScope', '$route', function($scope, $location, $timeout, ngDialog, $rootScope, $route) {
-	$timeout(function() {
-		$(".tab").removeClass("slide-down");
-	}, 1500);
-	if(isFirst){
-		$scope.pageClass = "page-first";
-		isFirst = false;
-	}else{
-		$scope.pageClass = "page-left";
-	}
 
 	//Set the main page values
 	$scope.homeAddress  = userData.homeAddress;
