@@ -18,7 +18,10 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.roomType = userData.roomType;
 	$scope.roomate = userData.roomate;
 	$scope.roomateEmail = userData.roomateEmail;
-	$scope.roomateAddress = userData.roomateAddress;
+	$scope.roomateAddress = userData.roomateAddress[0].address;
+	$scope.roomateCity = userData.roomateAddress[0].city;
+	$scope.roomateZip = userData.roomateAddress[0].zip;
+	$scope.roomateState = userData.roomateAddress[0].state;
 	$scope.gradYear = userData.gradTerm;
 
 	//We're not showing any models right now

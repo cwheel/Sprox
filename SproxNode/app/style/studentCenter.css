@@ -1,10 +1,14 @@
 .scPanelHeaderSubText {
   font-size: 11px;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-weight: 400;
 }
 
 .scPanelSubText {
   font-size: 12px;
   color: #666;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-weight: 400;
 }
 
 .scheduleClass {

@@ -22,7 +22,7 @@ module.exports = {
 			roomType : {tag : "UM_H_DRV_ASN_NT_UMH_ROOM_TYPE", remove : []},
 			roomPhone : {tag : "UM_H_DRV_ASN_NT_PHONE", remove : []},
 			roomate: {tag : "HCR_PERSON_NM_I_NAME$0", remove : []},
-			roomateAddress : {tag : "UM_H_RMMT_ADRVW_ADDRESS1$0", remove : []}, 
+			roomateAddress : {tag : "[address::UM_H_RMMT_ADRVW_ADDRESS1$.*,state::UM_H_RMMT_ADRVW_STATE$.*,city::UM_H_RMMT_ADRVW_CITY$.*,zip::UM_H_RMMT_ADRVW_POSTAL$.*]", remove : []},
 			roomateEmail : {tag : "UM_H_ASNOTEM_VW_EMAIL_ADDR$0", remove : []},
 			studentFullname : {tag : "UM_H_DRV_ASN_NT_PERSON_NAME", remove : []}
 		},
@@ -31,7 +31,7 @@ module.exports = {
 			ucardLibraryBarcode :  {tag : "UM_DRV_SS_LIBRY_UM_BARCODE$0", remove : []}
 		},
 		"https://www.spire.umass.edu/psc/heproda/EMPLOYEE/HRMS/c/UM_SELF_SERVICE.UM_SS_GRAD_DATA.GBL?FolderPath=PORTAL_ROOT_OBJECT.UM_GRADUATION.UM_SS_GRAD_DATA_GBL&amp;IsFolder=false&amp;IgnoreParamTempl=FolderPath%2cIsFolder" : { 
-			major : {tag: "ACAD_PLAN_TBL_DESCR$0", remove: []}
+			major : {tag: "ACAD_PLAN_TBL_DESCR$0", remove: ["(BS)","(BA)"]}
 		},
 		"https://www.spire.umass.edu/psc/heproda/EMPLOYEE/HRMS/c/UM_SELF_SERVICE.UM_SDNT_MEAL_PLAN.GBL?FolderPath=PORTAL_ROOT_OBJECT.HCCC_FINANCES.UM_SDNT_MEAL_PLAN_GBL&IsFolder=false&IgnoreParamTempl=FolderPath%2cIsFolder" : {
 			mealPlan : {tag: "UM_MEALPLAN_DER_UM_MEAL_PLAN_CD", remove: []}

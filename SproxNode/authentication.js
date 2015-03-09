@@ -54,8 +54,7 @@ module.exports = function(passport, strategy) {
 				var calcEndTh = function(time) {
 					//Same deal as calcStartTh
 					return time.split("- ")[1].replace("AM"," AM").replace("PM"," PM");
-				}; 
-
+				};
 				
 				//Iterate the days of the week
 				for (var i = 0; i < days.length; i++) {
@@ -88,9 +87,9 @@ module.exports = function(passport, strategy) {
 					//Sort the days classes
 					spireUser.classesWeekly[days[i]].sort(function (a,b) {return a.tf_e - b.tf_e});
 				}
+
 				//Remove Break Tags from Elements
 				spireUser.homeAddress = spireUser.homeAddress.split("<br>");
-
 				spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
 
 				return done(null, spireUser);
