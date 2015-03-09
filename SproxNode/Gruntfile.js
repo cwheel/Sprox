@@ -9,7 +9,8 @@ module.exports = function(grunt) {
           'app/style/login.css': 'app/scss/login.scss',
           'app/style/main.css': 'app/scss/main.scss', 
           'app/style/map.css': 'app/scss/map.scss',  
-          'app/style/studentCenter.css': 'app/scss/studentCenter.scss',  
+          'app/style/studentCenter.css': 'app/scss/studentCenter.scss', 
+          'app/style/uc.css': 'app/scss/uc.scss', 
         }
       }
     },

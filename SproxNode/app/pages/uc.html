@@ -38,7 +38,7 @@
 					        <th>Time</th>
 					        <th>Cost</th>
 					   	</tr>
-					   	<tr ng-repeat="item in transactions | limitTo:15">
+					   	<tr ng-repeat="item in transactions | limitTo:15" class="transaction-item">
 					   		<td>{{ item.location }}</td>
 					   		<td>{{ item.date }}</td>
 					   		<td>{{ item.time }}</td>
