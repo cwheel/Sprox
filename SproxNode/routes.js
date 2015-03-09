@@ -39,7 +39,7 @@ module.exports = function(app) {
 
 		get.on('values', function (vals) {
 			fetched.push(vals);
-
+			
 			if (fetched.length > 1) {
 				res.send(fetched);
 			}

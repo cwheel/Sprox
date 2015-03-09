@@ -38,30 +38,14 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
             $scope.toggle = false;
         }
 
-        if ($scope.toggle) {
-        	$("#sidebar-user-icon-container").animate({width: 250}, 400);
-        	$("#sidebar-username").animate({width: 250}, 400);
-        	//$("#sidebar-major").animate({opacity: 1, width: 250}, 200);
-        } else {
-        	$("#sidebar-user-icon-container").animate({width: 70}, 400);
-        	$("#sidebar-username").animate({width: 70}, 400);
-        	//$("#sidebar-major").animate({opacity: 0, width: 70}, 200);
-        }
+        renderSidebar($scope.toggle);
     });
 
     $scope.toggleSidebar = function() {
         $scope.toggle = !$scope.toggle;
         $cookieStore.put('toggle', $scope.toggle);
 
-        if ($scope.toggle) {
-        	$("#sidebar-user-icon-container").animate({width: 250}, 400);
-        	$("#sidebar-username").animate({width: 250}, 400);
-        	//$("#sidebar-major").animate({opacity: 1, width: 250}, 200);
-        } else {
-        	$("#sidebar-user-icon-container").animate({width: 70}, 400);
-        	$("#sidebar-username").animate({width: 70}, 400);
-        	//$("#sidebar-major").animate({opacity: 0, width: 70}, 200);
-        }
+        renderSidebar($scope.toggle);
     };
 
     window.onresize = function() {
@@ -87,6 +71,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 
 			    //Simulate a successfull login
 			    $location.path('/sc');						
+				$("#loginBack").css("opacity", 0);
 			    $scope.$emit('loginCompleted', null);
 			});
 		}
@@ -137,17 +122,29 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	}
 }]);
 
+function renderSidebar(state) {
+	if (state) {
+    	$("#sidebar-user-icon-container").animate({width: 250}, 400);
+    	$("#sidebar-username").animate({width: 250}, 400);
+    	$("#sidebar-major").animate({opacity: 1, width: 250}, 400);
+    	$("#sidebar-id").animate({opacity: 1, width: 250}, 400);
+    } else {
+    	$("#sidebar-user-icon-container").animate({width: 70}, 400);
+    	$("#sidebar-username").animate({width: 70}, 400);
+    	$("#sidebar-major").animate({opacity: 0, width: 70}, 200);
+    	$("#sidebar-id").animate({opacity: 0, width: 70}, 200);
+    }
+}
+
 //A 'fullscreen' route
 sprox.directive('fullViewport', function($timeout) {
     return {
         link: function(scope, element, attr) {
         	$timeout(function() {
-        		if (attr.fullViewport == "true"){
-        			$(".row.header").css("margin-bottom","0px");
-        		}else {
-        			$(".row.header").css("margin-bottom","15px");
+        		if (attr.fullViewport == "false" || attr.fullViewport === ""){
+        			element.css("margin-top","40px");
         		}
-        	}, 10);
+        	}, 1);
         }
     };
 });
