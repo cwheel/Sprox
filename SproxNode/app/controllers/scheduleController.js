@@ -1,6 +1,8 @@
 sprox.controller('scheduleController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
 	$scope.weeklySchedule = userData.classesWeekly;
-
+	//We Don't Support Weekend Classes, if that even happens.
+	delete $scope.weeklySchedule.Su
+	delete $scope.weeklySchedule.Sa
 	$scope.finals = userData.finals;
 }]);
 

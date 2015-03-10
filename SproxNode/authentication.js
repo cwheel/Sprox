@@ -24,7 +24,6 @@ module.exports = function(passport, strategy) {
 				var allCourses = spireUser.classesWeekly;
 				spireUser.classesWeekly = {};
 
-		 		var heightMultiplier = 1.4;
 				var startTime = "8:00 AM";
 				var freeTimeTotal = 0;
 
@@ -73,6 +72,7 @@ module.exports = function(passport, strategy) {
 				for (var i = 0; i < days.length; i++) {
 					//Create an empty class array for each day
 					spireUser.classesWeekly[days[i]] = {classes: []};
+					var index = 0;
 
 					//Iterate all of the users classes
 					for (var j = 0; j < allCourses.length; j++) {
@@ -91,9 +91,13 @@ module.exports = function(passport, strategy) {
 							allCourses[j].tf_e = calcEndTft(allCourses[j].time);
 							allCourses[j].th_s = calcStartTh(allCourses[j].time);
 							allCourses[j].th_e = calcEndTh(allCourses[j].time);
+							allCourses[j].time = allCourses[j].time.replace(days[i],"");
 
 							//Add the current class to the day in question
-							spireUser.classesWeekly[days[i]].classes.push(allCourses[j]);
+
+							//Objects are Refrences.... what is this Java. Convert to JSON and back into an object is the easiet deep copy I have found.
+							spireUser.classesWeekly[days[i]].classes[index] = JSON.parse(JSON.stringify(allCourses[j]));
+							index++;
 						}
 					}
 
@@ -109,22 +113,21 @@ module.exports = function(passport, strategy) {
 
 							//Similar to Free Time, Class Duration takes in the Start Time and the End time, together the function determines how many minutes are in your class.
 							spireUser.classesWeekly[curday].classes[curclass].classDuration = DiffTime(spireUser.classesWeekly[curday].classes[curclass].th_s, spireUser.classesWeekly[curday].classes[curclass].th_e);
+
+							//Sets the StartTime to the end of the class time to use in the freeTime calculation
+							startTime = spireUser.classesWeekly[curday].classes[curclass].th_e;
+
 							// Creates the Amount of Free Time you have between all the classes. This function ignores breaks in between classes (15 minutes) and the the First Classes Free Time.
 							if (curclass != 0 && spireUser.classesWeekly[curday].classes[curclass].freeTime > 15){
 								freeTimeTotal = freeTimeTotal + spireUser.classesWeekly[curday].classes[curclass].freeTime;
 							}
 
-							//Creates the Height in pixels for the Box's size
-							spireUser.classesWeekly[curday].classes[curclass].freeTimePadded = spireUser.classesWeekly[curday].classes[curclass].freeTime * heightMultiplier;
-							spireUser.classesWeekly[curday].classes[curclass].classDurationPadded = spireUser.classesWeekly[curday].classes[curclass].classDuration * heightMultiplier;
-
-							//Sets the StartTime to the end of the class time to use in the freeTime calculation
-							startTime = spireUser.classesWeekly[curday].classes[curclass].th_e;
 						}
 					
 						// Creates a variable on when your day ends
 						spireUser.classesWeekly[curday].endTime = startTime;
 						//Calculates the padding at the End of the day. 6:45 is the last time of normally scheduled classes acording to Umass's Website.
+
 						spireUser.classesWeekly[curday].endTimePadding = DiffTime(startTime,"6:45 PM");
 						spireUser.classesWeekly[curday].freeTimeTotal = freeTimeTotal;
 
