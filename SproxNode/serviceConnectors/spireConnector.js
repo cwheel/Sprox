@@ -76,6 +76,10 @@ module.exports = function(user,passwd) {
 										return document.getElementById(id).innerHTML;
 									}, id);
 
+									if (iteration[pkey] == null) {
+										iteration[pkey] = "Default Value";
+									}
+
 									//Do any removes (replacements for nothing)
 									for (var i = 0; i < map[key].remove.length; i++) {
 										iteration[pkey] = iteration[pkey].replace(map[key].remove[i], "");
@@ -90,9 +94,14 @@ module.exports = function(user,passwd) {
 							}
 				        }
 				    } else {
+				    	//Get the content of the div
 			        	var content = this.evaluate(function (id) {
 			        		return document.getElementById(id).innerHTML;
 			        	}, map[key].tag);
+
+			        	if (content == null) {
+			        		content = "Default Value";
+			        	}
 
 			        	//Do any removes (replacements for nothing)
 			        	for (var i = 0; i < map[key].remove.length; i++) {

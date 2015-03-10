@@ -1,4 +1,4 @@
-var sprox = angular.module('sprox', ['oc.lazyLoad','ngRoute', 'ngAnimate', 'ngDialog', 'ngBootstrapMaterial', 'ui.bootstrap', 'ngCookies', 'ngTouch']);
+var sprox = angular.module('sprox', ['oc.lazyLoad','ngRoute', 'ngAnimate', 'ngDialog', 'ngBootstrapMaterial', 'ui.bootstrap', 'ngCookies', 'ngTouch', 'chart.js']);
 
 //Globals
 var user;
