@@ -20,7 +20,8 @@
     "angular-chart.js" : "latest",
     "rdash-ui" : "latest",
     "angular-bootstrap" : "latest",
-    "angular-cookies": "~1.2.21"
+    "angular-cookies": "~1.2.21",
+    "spinkit" : "latest"
   },
   "private": true
 }

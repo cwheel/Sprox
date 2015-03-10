@@ -1,6 +1,5 @@
 <div class="container">
-
-	<div class="col-md-6">
+	<div class="col-md-6" ng-if="!loading">
 		<div class="panel panel-material-red" edgeless-panel>
 			<div class="panel-heading">My UCard</div>
 
@@ -17,7 +16,7 @@
 	</div>
  
 	<div class="col-md-6">
-		<div class="panel panel-material-red" edgeless-panel>
+		<div class="panel panel-material-red" edgeless-panel ng-if="!loading">
 			<div class="panel-heading">UCard Usage</div>
 			
 			<div class="panel-body">
@@ -25,7 +24,7 @@
 		</div>
 	</div>
 
-	<div class="col-md-12">
+	<div class="col-md-12" ng-if="!loading">
 		<div class="panel panel-material-red" edgeless-panel>
 			<div class="panel-heading">uCard Transactions</div>
 			
@@ -47,6 +46,19 @@
 					</thead>
 				</table>
 			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12" ng-if="loading" id="uc-loader">
+		<div class="row">
+			<div id="uc-loading-title">Loading UCard</div>
+		</div>
+		<div class="row">
+			<div class="sk-spinner sk-spinner-three-bounce">
+			    <div class="sk-bounce1"></div>
+			    <div class="sk-bounce2"></div>
+			    <div class="sk-bounce3"></div>
+		    </div>
 		</div>
 	</div>
 </div>
