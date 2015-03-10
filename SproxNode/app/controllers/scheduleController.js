@@ -1,47 +1,9 @@
 sprox.controller('scheduleController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
-	$scope.weeklySchedule = []
-	$scope.finals = []
-	var fiveminpx = 8;
-	var startTime = "8:00 AM";
-	var freeTimeTotal = 0;
-	var multiplier = 1.4;
+	$scope.weeklySchedule = userData.classesWeekly;
 
-	if (userData.classesWeekly.Mo != "") $scope.weeklySchedule.push(dictWithDay(userData.classesWeekly.Mo));
-	if (userData.classesWeekly.Tu != "") $scope.weeklySchedule.push(dictWithDay(userData.classesWeekly.Tu));
-	if (userData.classesWeekly.We != "") $scope.weeklySchedule.push(dictWithDay(userData.classesWeekly.We));
-	if (userData.classesWeekly.Th != "") $scope.weeklySchedule.push(dictWithDay(userData.classesWeekly.Th));
-	if (userData.classesWeekly.Fr != "") $scope.weeklySchedule.push(dictWithDay(userData.classesWeekly.Fr));
-
-	for (var day in $scope.weeklySchedule){
-		var a = $scope.weeklySchedule[day];
-		a.displayName = getDayofWeek(parseInt(day));
-		console.log(getDayofWeek(day));
-
-		for(var curclass in a.classes){
-			var freeTime = DiffTime(startTime,a.classes[curclass].th_s);
-			var classDuration = DiffTime(a.classes[curclass].th_s,a.classes[curclass].th_e)
-			if (curclass != 0 && freeTime > 15){
-				console.log(freeTime);
-				freeTimeTotal = freeTimeTotal + freeTime;
-			}
-			a.classes[curclass].freeTime = freeTime * multiplier;
-			a.classes[curclass].classDuration = classDuration * multiplier;
-
-			startTime = a.classes[curclass].th_e;
-		}
-		a.endTime = startTime;
-		a.endTimePadding = DiffTime(startTime,"6:45 PM") * multiplier;
-		a.freeTimeTotal = freeTimeTotal;
-		freeTimeTotal = 0;
-		startTime = "8:00 AM";
-	}
-	
 	$scope.finals = userData.finals;
 }]);
 
-function dictWithDay(dict, day) {
-	return {"classes" : dict}
-}
 
 function getDayofWeek(i){
 	switch (i){
