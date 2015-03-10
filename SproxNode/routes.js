@@ -2,6 +2,8 @@ var bcrypt = require('bcrypt');
 var Passport = require('passport');
 var UmassGet = require('./serviceConnectors/getConnector');
 var UmassParking = require('./serviceConnectors/parkingConnector');
+var CachedUser = require('./models/user');
+var sha512 = require('js-sha512');
 //var TableToJson = require('tabletojson');
 
 module.exports = function(app) {
@@ -47,7 +49,51 @@ module.exports = function(app) {
 		
 		req.logout();
 		res.redirect("/");
-   });
+   	});
+
+   	//Cache control
+	app.post('/userInfo/setCache', requireAuth, function(req, res) {
+		if (req.body.cache == true) {
+			CachedUser.findOne({user : sha512(req.user.spireId)}, function(err, user) {
+			   var saveUser  = new CachedUser({
+			         user: sha512(req.user.spireId),
+			         spire: bcrypt.hashSync(req.user, 10),
+			         cached: true
+			   });
+
+			   var objUser = saveUser.toObject();
+			   delete objUser.user;
+
+			   CachedUser.update({user: saveUser.user}, objUser, {upsert: true}, function(err){return err});
+
+			   res.send({ status: 'success'});
+			});
+		} else if (req.body.cache == false) {
+			var saveUser = new CachedUser({
+			   user: sha512(req.user.spireId),
+			   spire: null,
+			   cached: false
+			});
+
+			saveUser.save();
+
+			res.send({ status: 'success'});
+		}
+		
+   	});
+
+   	//Return the cache state
+	app.get('/userInfo/cache', requireAuth, function(req, res) {
+		CachedUser.findOne({user : sha512(req.user.spireId)}, function(err, user) {
+			if (user == null) {
+				res.send({ status: 'unset'});
+		   	} else if (user.cached) {
+		   		res.send({ status: 'cached'});
+		   	} else {
+		   		res.send({ status: 'non-cached'});
+		   	}
+		});
+   	});
 
 	//GET (i.e UCard info)
 	app.post('/userInfo/ucard', requireAuth, function(req, res) {

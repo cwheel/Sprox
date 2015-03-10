@@ -18,6 +18,8 @@
         "merge" : "latest",
         "passport" : "latest",
         "passport-local" : "latest",
-        "tabletojson"  : "latest"
+        "tabletojson"  : "latest",
+        "js-sha512" : "latest",
+        "bcrypt" : "latest"
     }
 }
