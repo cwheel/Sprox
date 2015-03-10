@@ -12,6 +12,7 @@
 		<!-- Angular -->
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-animate/angular-animate.js"></script>
+		<script src="bower_components/angular-touch/angular-touch.js"></script>
 		<script src="bower_components/angular-route/angular-route.js"></script>
 
 		<!-- Fonts -->
@@ -108,7 +109,7 @@
   <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
 
     <!-- Sidebar -->
-    <div ng-show="showTopbar" id="sidebar-wrapper">
+    <div ng-show="showTopbar" id="sidebar-wrapper" ng-swipe-left="toggleSidebar()" class="noSelect">
       <ul class="sidebar">
         <li class="sidebar-main floating-main">
         	<div id="sidebar-user-icon-container">
@@ -147,7 +148,7 @@
         <!-- Header Bar -->
         <div ng-show="showTopbar" class="top-bar row header">
           <div class="col-xs-12">
-          	<i class="fa fa-bars top-bar-item" ng-click="toggleSidebar()"></i>
+          	<i class="fa fa-bars top-bar-item" ng-click="toggleSidebar()" class="clickable"></i>
           	<span class="top-bar-item">Sprox</span>
           </div>
         </div>

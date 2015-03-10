@@ -21,7 +21,8 @@
     "rdash-ui" : "latest",
     "angular-bootstrap" : "latest",
     "angular-cookies": "~1.2.21",
-    "spinkit" : "latest"
+    "spinkit" : "latest",
+    "angular-touch" : "latest"
   },
   "private": true
 }

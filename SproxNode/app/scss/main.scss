@@ -42,6 +42,10 @@ body {
 	@include noselect;
 }
 
+.clickable {
+	cursor: pointer;
+}
+
 .avatar {
 	width: $avatar-size;
 	height: $avatar-size;
