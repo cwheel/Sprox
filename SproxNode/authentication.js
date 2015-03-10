@@ -165,7 +165,6 @@ module.exports = function(passport, strategy) {
 				//Remove <br> Tags from Certain Elements Creating an Array of Each Line
 				spireUser.homeAddress = spireUser.homeAddress.split("<br>");
 				spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
-				console.log(spireUser.roomate);
 				//Fix the roomate name by re-ordering their name from Last,First Middle to First Middle Last
 				
 				return done(null, spireUser);
