@@ -17,12 +17,13 @@ module.exports = function(user,passwd) {
 	  	//Catch all of possible redirects (Authn and SAML2)
 	    spooky.then(function(){});
 	    spooky.then(function(){});
+	    /*
 	    spooky.then(function(authFailure){
 	    	if (this.getPageContent().indexOf(authFailure) > -1) {
 	    		this.emit('authFailure', null);
 	    		this.exit();
 	    	}
-	    }, GetMap.authFailure);
+	    }, GetMap.authFailure);*/
 
 	    //Wait for the main page to load and indicate an end to the redirects
 		spooky.waitForSelector(GetMap.redirectsDone, function() {});

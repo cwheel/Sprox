@@ -7,11 +7,11 @@ sprox.controller('ucController',['$scope', '$location', '$timeout', function($sc
 			$scope.showCard = true;
 			$scope.cvalue = true;
 			$scope.ucardLibraryBarcode = userData.ucardLibraryBarcode;
-			$scope.debit = funds.debit;
-			$scope.dinningDollars = funds.dd;
-			$scope.dinningSwipes = funds.swipes;
-			$scope.guestSwipes = funds.gswipes;
-			$scope.transactions = funds.transactions;
+			$scope.debit = funds[0].debit;
+			$scope.dinningDollars = funds[0].dd;
+			$scope.dinningSwipes = funds[0].swipes;
+			$scope.guestSwipes = funds[0].guests;
+			$scope.transactions = funds[1];
 
 			if ("CValue" == funds.mealPlanType) {
 				$scope.cvalue = false;
