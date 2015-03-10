@@ -79,7 +79,6 @@ module.exports = function(app) {
 
 			res.send({ status: 'success'});
 		}
-		
    	});
 
    	//Return the cache state
