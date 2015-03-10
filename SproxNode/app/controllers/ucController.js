@@ -3,12 +3,9 @@ sprox.controller('ucController',['$scope', '$location', '$timeout', function($sc
 	$scope.loading = true;
 
 	$scope.usageLabels = [];
-	$scope.usageSeries = ['Series A', 'Series B'];
+	$scope.usageSeries = ['Cash', 'Swipes'];
 
-	  $scope.usageData = [
-	    [65, 59, 80, 81, 56, 55, 40],
-	    [28, 48, 40, 19, 86, 27, 90]
-	  ];
+	$scope.usageData = [[],[]];
 
 	$scope.checkFunds = function() {
 		if (funds !== 0) {
@@ -22,10 +19,27 @@ sprox.controller('ucController',['$scope', '$location', '$timeout', function($sc
 			$scope.guestSwipes = funds[0].guests;
 			$scope.transactions = funds[1];
 
+			var curWeek = 0;
 			for (var i = 0; i < $scope.transactions.length; i++) {
-				if ($scope.usageLabels.indexOf($scope.transactions[i].location) == -1) {
-					console.log($scope.transactions[i].location);
-					$scope.usageLabels.push($scope.transactions[i].location);
+				var week = moment($scope.transactions[i].date, "LL").startOf("week").format("MMM Do");
+				
+				if ($scope.usageLabels.indexOf(week) == -1) {
+					$scope.usageData[0][curWeek] = 0;
+					$scope.usageData[1][curWeek] = 0;
+
+					for (var j = 0; j < $scope.transactions.length; j++) {
+						var transWeek = moment($scope.transactions[j].date, "LL").startOf("week").format("MMM Do");
+
+						if (transWeek == week) {
+							if ($scope.transactions[j].cost.indexOf("$") > -1) {
+								$scope.usageData[0][curWeek] = $scope.usageData[0][curWeek] + parseFloat($scope.transactions[j].cost.replace("$",""));
+							} else if ($scope.transactions[j].cost.indexOf("Swipe") > -1) {
+								$scope.usageData[1][curWeek]++;
+							}
+						}
+					}
+					$scope.usageLabels.push(week);
+					curWeek++;
 				}
 			}
 

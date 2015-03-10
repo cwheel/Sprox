@@ -23,7 +23,8 @@
     "angular-cookies": "~1.2.21",
     "spinkit" : "latest",
     "angular-touch" : "latest",
-    "angular-chart.js" : "latest"
+    "angular-chart.js" : "latest",
+    "moment" : "latest"
   },
   "private": true
 }
