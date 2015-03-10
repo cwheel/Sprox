@@ -18,6 +18,12 @@
 		<!-- Fonts -->
 		<link href='https://fonts.googleapis.com/css?family=Alegreya+Sans:400,300' rel='stylesheet' type='text/css'>
 
+		<!-- ChartJS -->
+		<script src="bower_components/Chart.js/Chart.min.js"></script>
+		<script src="bower_components/Chart.js/src/Chart.Bar.js"></script>
+		<script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+		<link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.css">
+
 		<!-- FontAwesome -->
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
@@ -109,7 +115,7 @@
   <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
 
     <!-- Sidebar -->
-    <div ng-show="showTopbar" id="sidebar-wrapper" ng-swipe-left="toggleSidebar()" class="noSelect">
+    <div ng-show="showTopbar" id="sidebar-wrapper" ng-swipe-left="toggleSidebar()" ng-swipe-right="toggleSidebar()" class="noSelect">
       <ul class="sidebar">
         <li class="sidebar-main floating-main">
         	<div id="sidebar-user-icon-container">

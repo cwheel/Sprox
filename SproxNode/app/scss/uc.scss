@@ -32,3 +32,8 @@
 #uc-loader {
 	padding-top: 100px;         
 }
+
+#uc-usage {
+	//Fix an obscure Chart.js bug
+	padding-bottom: 13px;
+}
