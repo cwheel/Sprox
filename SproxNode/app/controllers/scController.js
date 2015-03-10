@@ -14,6 +14,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.roomateZip = userData.roomateAddress[0].zip;
 	$scope.roomateState = userData.roomateAddress[0].state;
 	$scope.gradYear = userData.gradTerm;
+	$scope.ct = userData.classesWeekly.Tu;
 
 	//We're not showing any models right now
 	$scope.notifModel = false;
@@ -43,8 +44,6 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 			break;
 	}
 
-	$scope.ct = userData.classesWeekly.Tu;
-
 	if ($scope.ct.length !== 0) {
 		$scope.classesToday = true;
 	}
@@ -59,7 +58,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		}
 
 		if ($scope.ct.length !== 0) {
-			if (parseInt(time) < 2359 && parseInt(time) > $scope.ct[$scope.ct.length - 1].tfh_e) {
+			if (parseInt(time) < 2359 && parseInt(time) > $scope.ct.classes[$scope.ct.classes.length - 1].tfh_e) {
 				$scope.classesDay = "Tomorrow's";
 
 				switch(new Date().getDay() + 1) {
@@ -96,7 +95,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		}
 
 		var foundFirst = false;
-		if ($scope.ct.length !== 0) {
+		if ($scope.ct.classes.length !== 0) {
 			for (var i = 0; i < $scope.ct.length; i++) {
 
 				$scope.ct[i].type = "scheduleClass";

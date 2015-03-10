@@ -24,6 +24,10 @@ module.exports = function(passport, strategy) {
 				var allCourses = spireUser.classesWeekly;
 				spireUser.classesWeekly = {};
 
+		 		var heightMultiplier = 1.4;
+				var startTime = "8:00 AM";
+				var freeTimeTotal = 0;
+
 				//Converts a Spire day/week/time thing into a the 24 hour end timestamp
 				var calcStartTft = function(time) {
 					/* 
@@ -55,11 +59,20 @@ module.exports = function(passport, strategy) {
 					//Same deal as calcStartTh
 					return time.split("- ")[1].replace("AM"," AM").replace("PM"," PM");
 				};
+				var DiffTime = function(start, stop){
+					// Creates A Date Object with a static start Date
+					var tstart = new Date("02/08/14 " + start);
+					var tstop = new Date("02/08/14 " + stop);
+
+					// Subtraction of Date Objects returns a milisecond time which is converted into minutes
+					tstart = tstop - tstart;
+					return (tstart/60/1000);
+				};	
 				
 				//Iterate the days of the week
 				for (var i = 0; i < days.length; i++) {
 					//Create an empty class array for each day
-					spireUser.classesWeekly[days[i]] = [];
+					spireUser.classesWeekly[days[i]] = {classes: []};
 
 					//Iterate all of the users classes
 					for (var j = 0; j < allCourses.length; j++) {
@@ -80,15 +93,47 @@ module.exports = function(passport, strategy) {
 							allCourses[j].th_e = calcEndTh(allCourses[j].time);
 
 							//Add the current class to the day in question
-							spireUser.classesWeekly[days[i]].push(allCourses[j]);
+							spireUser.classesWeekly[days[i]].classes.push(allCourses[j]);
 						}
 					}
 
 					//Sort the days classes
-					spireUser.classesWeekly[days[i]].sort(function (a,b) {return a.tf_e - b.tf_e});
+					spireUser.classesWeekly[days[i]].classes.sort(function (a,b) {return a.tf_e - b.tf_e});
 				}
 
-				//Remove Break Tags from Elements
+					for(var curday in spireUser.classesWeekly){
+						for(var curclass in spireUser.classesWeekly[curday].classes){
+							//Free Time takes in StartTime, the time of the last class, and the Start of the class.
+							//This is used to determine how much time is between the current class and the last class
+							spireUser.classesWeekly[curday].classes[curclass].freeTime = DiffTime(startTime, spireUser.classesWeekly[curday].classes[curclass].th_s);
+
+							//Similar to Free Time, Class Duration takes in the Start Time and the End time, together the function determines how many minutes are in your class.
+							spireUser.classesWeekly[curday].classes[curclass].classDuration = DiffTime(spireUser.classesWeekly[curday].classes[curclass].th_s, spireUser.classesWeekly[curday].classes[curclass].th_e);
+							// Creates the Amount of Free Time you have between all the classes. This function ignores breaks in between classes (15 minutes) and the the First Classes Free Time.
+							if (curclass != 0 && spireUser.classesWeekly[curday].classes[curclass].freeTime > 15){
+								freeTimeTotal = freeTimeTotal + spireUser.classesWeekly[curday].classes[curclass].freeTime;
+							}
+
+							//Creates the Height in pixels for the Box's size
+							spireUser.classesWeekly[curday].classes[curclass].freeTimePadded = spireUser.classesWeekly[curday].classes[curclass].freeTime * heightMultiplier;
+							spireUser.classesWeekly[curday].classes[curclass].classDurationPadded = spireUser.classesWeekly[curday].classes[curclass].classDuration * heightMultiplier;
+
+							//Sets the StartTime to the end of the class time to use in the freeTime calculation
+							startTime = spireUser.classesWeekly[curday].classes[curclass].th_e;
+						}
+					
+						// Creates a variable on when your day ends
+						spireUser.classesWeekly[curday].endTime = startTime;
+						//Calculates the padding at the End of the day. 6:45 is the last time of normally scheduled classes acording to Umass's Website.
+						spireUser.classesWeekly[curday].endTimePadding = DiffTime(startTime,"6:45 PM");
+						spireUser.classesWeekly[curday].freeTimeTotal = freeTimeTotal;
+
+						//Reset Variables for the Next Day
+						freeTimeTotal = 0;
+						startTime = "8:00 AM";
+					}
+
+				//Remove <br> Tags from Certain Elements Creating an Array of Each Line
 				spireUser.homeAddress = spireUser.homeAddress.split("<br>");
 				spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
 
