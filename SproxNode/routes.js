@@ -18,14 +18,19 @@ module.exports = function(app) {
 	//Login
 	app.post('/login', Passport.authenticate('local', { successRedirect: '/login/success', failureRedirect: '/login/failure', failureFlash: false }));
 
+	//The login worked
 	app.get('/login/success', function(req, res){
 		if (userFunds[req.user.spireId] != undefined) {
 			delete userFunds[req.user.spireId];
 		}
-		
+
 		res.send({ loginStatus: 'valid' });
 	});
+
+	//The login failed
 	app.get('/login/failure', function(req, res){res.send({ loginStatus: 'failure' });});
+
+	//Return the current users status
 	app.get('/authStatus', function(req, res){
 		if (req.isAuthenticated()) {
 	    	res.send({ authStatus: 'valid' });
@@ -36,33 +41,39 @@ module.exports = function(app) {
 
 	//Logout
 	app.get('/logout', requireAuth, function(req, res){
-      req.logout();
-      res.redirect("/");
+		if (userFunds[req.user.spireId] != undefined) {
+			delete userFunds[req.user.spireId];
+		}
+		
+		req.logout();
+		res.redirect("/");
    });
 
 	//GET (i.e UCard info)
 	app.post('/userInfo/ucard', requireAuth, function(req, res) {
 		console.log("Fetching GET information for user: '" + req.body.username + "'...");
+		var get = new UmassGet(req.body.username, req.body.password);
+		var fetched = [];
 
-		//Check if we have the users funds cached
+		get.on('values', function (vals) {
+			fetched.push(vals);
+
+			if (fetched.length > 1) {
+				console.log("Finished fetching GET information for user: '" + req.body.username + "'!");
+
+				//Cache their funds for later
+				userFunds[req.user.spireId] = fetched;
+				res.send(fetched);
+			}
+		});
+   	});
+
+	//GET via a GET request, used only to restore the users session
+   	app.get('/userInfo/ucard', requireAuth, function(req, res) {
 		if (userFunds[req.user.spireId] != undefined) {
 			res.send(userFunds[req.user.spireId]);
 		} else {
-			//If we don't have their funds cached, send a new request
-			var get = new UmassGet(req.body.username, req.body.password);
-			var fetched = [];
-
-			get.on('values', function (vals) {
-				fetched.push(vals);
-
-				if (fetched.length > 1) {
-					console.log("Finished fetching GET information for user: '" + req.body.username + "'!");
-
-					//Cache their funds for later
-					userFunds[req.user.spireId] = fetched;
-					res.send(fetched);
-				}
-			});
+			res.send("Error: You must have a session before requesting your funds.");
 		}
    	});
 

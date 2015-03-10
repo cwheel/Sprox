@@ -12,6 +12,7 @@
 		<!-- Angular -->
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/angular-animate/angular-animate.js"></script>
+		<script src="bower_components/angular-touch/angular-touch.js"></script>
 		<script src="bower_components/angular-route/angular-route.js"></script>
 
 		<!-- Fonts -->
@@ -31,6 +32,10 @@
 		<script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
 		<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 		<script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
+
+		<!-- Spinkit -->
+		<link rel="stylesheet" href="bower_components/spinkit/css/spinkit.css"></link>
+		<link rel="stylesheet" href="bower_components/spinkit/css/spinners/7-three-bounce.css"></link>
 
 		<!-- Bootstrap Template RDash -->
 		<link rel="stylesheet" href="bower_components/rdash-ui/dist/css/rdash.css"></link>
@@ -104,7 +109,7 @@
   <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
 
     <!-- Sidebar -->
-    <div ng-show="showTopbar" id="sidebar-wrapper">
+    <div ng-show="showTopbar" id="sidebar-wrapper" ng-swipe-left="toggleSidebar()" class="noSelect">
       <ul class="sidebar">
         <li class="sidebar-main floating-main">
         	<div id="sidebar-user-icon-container">
@@ -143,7 +148,7 @@
         <!-- Header Bar -->
         <div ng-show="showTopbar" class="top-bar row header">
           <div class="col-xs-12">
-          	<i class="fa fa-bars top-bar-item" ng-click="toggleSidebar()"></i>
+          	<i class="fa fa-bars top-bar-item" ng-click="toggleSidebar()" class="clickable"></i>
           	<span class="top-bar-item">Sprox</span>
           </div>
         </div>

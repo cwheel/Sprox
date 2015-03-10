@@ -1,9 +1,10 @@
 sprox.controller('ucController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
 	$scope.transactions = null;
+	$scope.loading = true;
 
 	$scope.checkFunds = function() {
-		if (funds !== null) {
-			$scope.showLoading = false;
+		if (funds !== 0) {
+			$scope.loading = false;
 			$scope.showCard = true;
 			$scope.cvalue = true;
 			$scope.ucardLibraryBarcode = userData.ucardLibraryBarcode;
@@ -16,13 +17,7 @@ sprox.controller('ucController',['$scope', '$location', '$timeout', function($sc
 			if ("CValue" == funds.mealPlanType) {
 				$scope.cvalue = false;
 			}
-
-			$scope.$apply();
 		} else {
-			$scope.showLoading = true;
-			$scope.showCard = false;
-			$scope.$apply();
-
 			$timeout($scope.checkFunds, 500);
 		}
 	}

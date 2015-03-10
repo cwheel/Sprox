@@ -1,3 +1,5 @@
+@import "app/style/partials/animation";
+
 .bottemless-table {
 	margin-bottom: 0px;
 }
@@ -21,4 +23,12 @@
 .transaction-item {
 	color: #666;
  	font-size: 10px;
+}
+
+#uc-loading-title {
+	text-align: center;
+}
+
+#uc-loader {
+	padding-top: 100px;         
 }

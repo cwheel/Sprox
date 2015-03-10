@@ -1,4 +1,4 @@
-sprox.controller('studentCenterController',['$scope', '$location', '$timeout', 'ngDialog', '$rootScope', '$route', function($scope, $location, $timeout, ngDialog, $rootScope, $route) {
+sprox.controller('studentCenterController',['$scope', '$location', '$timeout', 'ngDialog', '$rootScope', '$route', '$http', function($scope, $location, $timeout, ngDialog, $rootScope, $route, $http) {
 
 	//Set the main page values
 	$scope.homeAddress  = userData.homeAddress;
@@ -19,6 +19,21 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	//We're not showing any models right now
 	$scope.notifModel = false;
 	$scope.cacheModel = false;
+
+	if (funds != 0) {
+		$http({
+		    method : 'GET',
+		    url : '/userInfo/ucard'
+		})
+		.success(function(resp) {
+			//If the auth was valid, save the response
+	    	if (angular.fromJson(resp).status != 'authFailure') {
+	    		funds = angular.fromJson(resp);
+	    	} else {
+	    		console.warn("Failed to authenticate with UCard.");
+	    	}
+		});
+	}
 
 	switch(new Date().getDay()) {
 		case 0:

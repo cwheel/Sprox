@@ -23,4 +23,12 @@
   font-size: 10px;
 }
 
+#uc-loading-title {
+  text-align: center;
+}
+
+#uc-loader {
+  padding-top: 100px;
+}
+
 /*# sourceMappingURL=uc.css.map */

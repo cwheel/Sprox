@@ -43,6 +43,10 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 				    $scope.$emit('loginCompleted', null);
 				});
 
+				//Set funds to 0, letting the Student Center controller know we're fetching the funds and this isn't just a restore
+				funds = 0;
+
+				//Send a request for the users UCard funds
 				$http({
 			     	method  : 'POST',
 			    	url     : '/userInfo/ucard',
@@ -54,7 +58,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 			    	if (angular.fromJson(resp).status != 'authFailure') {
 			    		funds = angular.fromJson(resp);
 			    	} else {
-			    		console.warn("Failed to authenticat with UCard.");
+			    		console.warn("Failed to authenticate with UCard.");
 			    	}
 			    });
 			} else {
