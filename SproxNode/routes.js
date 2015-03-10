@@ -5,6 +5,8 @@ var UmassParking = require('./serviceConnectors/parkingConnector');
 //var TableToJson = require('tabletojson');
 
 module.exports = function(app) {
+	var userFunds = {};
+
 	function requireAuth(req, res, next) {
 		if (req.isAuthenticated()) {
 	    	return next();
@@ -16,7 +18,13 @@ module.exports = function(app) {
 	//Login
 	app.post('/login', Passport.authenticate('local', { successRedirect: '/login/success', failureRedirect: '/login/failure', failureFlash: false }));
 
-	app.get('/login/success', function(req, res){res.send({ loginStatus: 'valid' });});
+	app.get('/login/success', function(req, res){
+		if (userFunds[req.user.spireId] != undefined) {
+			delete userFunds[req.user.spireId];
+		}
+		
+		res.send({ loginStatus: 'valid' });
+	});
 	app.get('/login/failure', function(req, res){res.send({ loginStatus: 'failure' });});
 	app.get('/authStatus', function(req, res){
 		if (req.isAuthenticated()) {
@@ -33,24 +41,29 @@ module.exports = function(app) {
    });
 
 	//GET (i.e UCard info)
-	app.post('/userInfo/ucard', function(req, res) {
+	app.post('/userInfo/ucard', requireAuth, function(req, res) {
 		console.log("Fetching GET information for user: '" + req.body.username + "'...");
 
-		var get = new UmassGet(req.body.username, req.body.password);
-		var fetched = [];
+		//Check if we have the users funds cached
+		if (userFunds[req.user.spireId] != undefined) {
+			res.send(userFunds[req.user.spireId]);
+		} else {
+			//If we don't have their funds cached, send a new request
+			var get = new UmassGet(req.body.username, req.body.password);
+			var fetched = [];
 
-		get.on('values', function (vals) {
-			fetched.push(vals);
+			get.on('values', function (vals) {
+				fetched.push(vals);
 
-			if (fetched.length > 1) {
-				console.log("Finished fetching GET information for user: '" + req.body.username + "'!");
-				res.send(fetched);
-			}
-		});
+				if (fetched.length > 1) {
+					console.log("Finished fetching GET information for user: '" + req.body.username + "'!");
 
-		get.on('authFailure', function() {
-			res.send({ status : 'authFailure' });
-		});
+					//Cache their funds for later
+					userFunds[req.user.spireId] = fetched;
+					res.send(fetched);
+				}
+			});
+		}
    	});
 
 	//Spire
