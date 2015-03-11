@@ -116,12 +116,12 @@ module.exports = function(passport, strategy) {
 								}
 
 							}
-							//Removes the Days that the class Happens from the Time Tag
-							allCourses[j].time = allCourses[j].time.replace("Mo","").replace("Tu","").replace("We","").replace("Th","").replace("Fr","");
 
 							//Add the current class to the day in question
 							//Objects are Refrences.... what is this Java. Convert to JSON and back into an object is the easiest deep copy I have found.
 							spireUser.classesWeekly[days[i]].classes[index] = JSON.parse(JSON.stringify(allCourses[j]));
+							//Removes the Days that the class Happens from the Time Tag
+							spireUser.classesWeekly[days[i]].classes[index].time = spireUser.classesWeekly[days[i]].classes[index].time.replace("Mo","").replace("Tu","").replace("We","").replace("Th","").replace("Fr","");
 							index++;
 						}
 					}
