@@ -2,7 +2,7 @@ var Spooky = require('spooky');
 var GetMap = require('.././maps/get.js');
 
 module.exports = function(user,passwd) {
-	var spooky = new Spooky({child: {transport: 'http'}}, function (err) {
+	var spooky = new Spooky({child: {transport: 'stdio'}}, function (err) {
 		//Initialize the generic auth page
 	    spooky.start(GetMap.entryURL);
 

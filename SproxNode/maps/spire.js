@@ -15,6 +15,9 @@ module.exports = {
 		"https://www.spire.umass.edu/psc/heproda/EMPLOYEE/HRMS/c/UM_STUDENT_FINANCIALS.UM_QUICKPAY.GBL?FolderPath=PORTAL_ROOT_OBJECT.HCCC_FINANCES.UM_QUICKPAY_GBL&IsFolder=false&IgnoreParamTempl=FolderPath%2cIsFolder" : {
 			spireId : {tag : "SS_FA_AID_SRCH_EMPLID", remove : []}
 		},
+		"https://www.spire.umass.edu/psc/heproda/EMPLOYEE/HRMS/c/UM_SELF_SERVICE.UM_AM_SS_OIT_ACCT.GBL?FolderPath=PORTAL_ROOT_OBJECT.UM_OIT_ACCOUNTS.UM_AM_SS_OIT_ACCT_GBL&IsFolder=false&IgnoreParamTempl=FolderPath%2cIsFolder" : {
+			netid : {tag : "UM_DERIVED_AM_UM_AM_MESSAGE", remove : []}
+		},
 		"https://www.spire.umass.edu/psc/heproda/EMPLOYEE/HRMS/c/UM_H_SELF_SERVICE.UM_H_SS_ASNNOTIF.GBL?FolderPath=PORTAL_ROOT_OBJECT.HOUSING.UM_H_SS_ASNNOTIF_GBL&IsFolder=false&IgnoreParamTempl=FolderPath%2cIsFolder" : {
 			mailbox : {tag : "UM_H_DRV_ASN_NT_UMH_BOX_CD", remove : []},
 			building : {tag : "UM_H_BLDG_DESCR", remove : []},

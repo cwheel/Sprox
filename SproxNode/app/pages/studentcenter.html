@@ -58,14 +58,11 @@
 					<br>
 					<div class="subTitle">School Address</div>
 					<div class="scPanelSubText">{{ schoolAddress[0] }}<br>{{ schoolAddress[1] }}<br>{{ schoolAddress[2] }}</div>
-					<br>
-					<div class="subTitle">Mail Box Combination</div>
-					<div class="scPanelSubText">{{ mailBox }}</div>
 				</div>
 			</div>
 		</div>
 	
-		<div class="col-md-12">
+		<div class="col-md-12" ng-show="showRooming">
 			<div class="panel panel-material-light-green" edgeless-panel>
 				<div class="panel-heading scPanelIcon">
 				    <i class="fa fa-home"></i>
@@ -78,6 +75,9 @@
 				</div>
 				
 				<div class="panel-body">
+					<div class="subTitle">Mail Box Combination</div>
+					<div class="scPanelSubText">{{ mailBox }}</div>
+					<br>
 					<div class="subTitle">Roomate</div>
 					<div class="scPanelSubText">{{ roomate }}</div>
 					<div class="scPanelSubText">{{ roomateEmail }}</div>
