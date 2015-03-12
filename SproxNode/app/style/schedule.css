@@ -1,0 +1,84 @@
+.time-block-50 {
+  background: blue;
+  z-index: 2;
+}
+
+.time-block-15 {
+  visibility: hidden;
+}
+
+@media screen and (min-width: 991px) {
+  .time-block-15 {
+    visibility: hidden;
+  }
+}
+@media screen and (max-width: 990px) {
+  .time-block-15 {
+    visibility: hidden;
+    height: 0px !important;
+  }
+
+  .scheduleClass {
+    height: inherit !important;
+  }
+}
+.weekDayHeader {
+  height: 50px;
+  background-color: green;
+  text-align: center;
+}
+
+.scheduleClass {
+  text-align: center;
+  position: relative;
+  background: #B2EBF2;
+  border-radius: 3px;
+  color: #DDD;
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.scheduleClasslocation {
+  color: #DDD;
+  position: absolute;
+  bottom: 0;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.scheduleClassTime {
+  text-align: left;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  margin-left: 5px;
+  font-size: 9px;
+}
+
+.scheduleClassName {
+  font-size: 12px;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.scheduleFinal {
+  text-align: center;
+  position: relative;
+  background: #B3E5FC;
+  border-radius: 3px;
+  font-size: 10px;
+  overflow: hidden;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+/*# sourceMappingURL=schedule.css.map */
