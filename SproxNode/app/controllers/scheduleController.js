@@ -1,37 +1,30 @@
 sprox.controller('scheduleController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
 	$scope.weeklySchedule = userData.classesWeekly;
+	$scope.colors =["#F44336", // Red
+					"#3F51B5", // Indigo
+					"#4CAF50", // Green
+					"#FF9800", // Orange
+					"#E91E63", // Pink
+					"#673AB7", // Deep Purple
+					"#2196F3", // Blue
+					"#009688", // Teal
+					"#8BC34A", // Light Green
+					"#FFEB3B", // Yellow
+					"#FF5722", // Deep Orange
+					"#9C27B0", // Purple
+					"#607D8B", // Blue Grey
+					"#00BCD4", // Cyan
+					"#FFC107", // Amber
+					"#CDDC39", // Lime
+					"#03A9F4"] // Light Blue
+
 	//We Don't Support Weekend Classes, if that even happens.
-	delete $scope.weeklySchedule.Su
-	delete $scope.weeklySchedule.Sa
 	$scope.finals = userData.finals;
+
+	$scope.daysofweek = ['Mo','Tu','We','Th','Fr']
+	$scope.filterDay = function(dayNum) {
+			return daysofweek[dayNum]
+	};
 }]);
 
 
-function getDayofWeek(i){
-	switch (i){
-		case 0:
-			return "Monday";
-			break;
-		case 1:
-			return "Tuesday";
-			break;
-		case 2:
-			return "Wensday";
-			break;
-		case 3:
-			return "Thursday";
-			break;
-		case 4:
-			return "Friday";
-			break;
-	}
-}
-
-function DiffTime(start, stop){
-		var tstart = new Date("02/08/14 " + start);
-		var tstop = new Date("02/08/14 " + stop);
-		console.log(tstart);
-		tstart = tstop - tstart;
-		return (tstart/60/1000)
-	
-}

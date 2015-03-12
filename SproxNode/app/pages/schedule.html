@@ -1,24 +1,25 @@
 <div class="schedule">
 	<div class="row">
 		<div class="col-md-1"></div>
-		<div ng-repeat="sDay in weeklySchedule" class="col-md-2">
-			<div class="panel panel-material-cyan" edgeless-panel="">
-				<div class="panel-heading">
-					<div>{{ sDay.displayName }}</div> 
-				</div>
-				<div class="panel-body">
-					<div ng-repeat="class in sDay.classes"> 
-						<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
-						<div class="scheduleClass" style="height: {{ class.classDuration }};"> 
-							<div class="scheduleClassTime"> {{ class.time }}</div> 
-							<div class="scheduleClassName">{{ class.name }}</div>
-							<div class="scheduleClasslocation">{{ class.location }}</div>
-						</div>
+
+			<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" class="col-md-2">
+				<div class="panel panel-material-cyan" edgeless-panel="">
+					<div class="panel-heading">
+						<div>{{ sDay.displayName }}</div> 
 					</div>
-					<div class="time-block-15" style="height: {{ sDay.endTimePadding }};"></div>
+					<div class="panel-body">
+						<div ng-repeat="class in sDay.classes"> 
+							<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
+							<div class="scheduleClass" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 
+								<div class="scheduleClassTime"> {{ class.time }}</div> 
+								<div class="scheduleClassName">{{ class.name }}</div>
+								<div class="scheduleClasslocation">{{ class.location }}</div>
+							</div>
+						</div>
+						<div class="time-block-15" style="height: {{ sDay.endTimePadding }};"></div>
+					</div>
 				</div>
-			</div>
-		</div>	
+			</div>	
 	</div>
 	<div class="row">
 		<div class="col-md-1"></div>

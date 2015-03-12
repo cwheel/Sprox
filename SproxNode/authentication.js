@@ -79,6 +79,7 @@ module.exports = function(passport, strategy) {
 				};	
 				
 				//Iterate the days of the week
+				var classesArray = [];
 				for (var i = 0; i < days.length; i++) {
 					//Create an empty class array for each day
 					spireUser.classesWeekly[days[i]] = {classes: []};
@@ -101,16 +102,41 @@ module.exports = function(passport, strategy) {
 							allCourses[j].tf_e = calcEndTft(allCourses[j].time);
 							allCourses[j].th_s = calcStartTh(allCourses[j].time);
 							allCourses[j].th_e = calcEndTh(allCourses[j].time);
-							allCourses[j].time = allCourses[j].time.replace(days[i],"");
+
+							//Used for class grouping we check for undefined to not repeat this on multiple day lectures
+							if (allCourses[j].classID == undefined){
+								//A very conveint \n charector before the name of the class
+
+								var arrayName = allCourses[j].name.split('\n')[0];
+								var code = arrayName.charCodeAt(arrayName.length - 2);
+
+								//removes the last 2 charectors of Discussion and Lab Sections to match their normal Lecture Section. 48 to 57 are the range of ASCII numbers.
+								if (!((code >= 48) && (code <= 57))) {
+									arrayName = arrayName.slice(0,-2);
+								}
+
+								
+								//If it exists in the array give it the same number. Smart Pushing to save a var
+								var indexArray = classesArray.indexOf(arrayName);
+								if (indexArray == -1){
+									allCourses[j].classID = classesArray.length;
+									classesArray.push(arrayName);
+								}else{
+									allCourses[j].classID = indexArray;
+								}
+
+							}
 
 							//Add the current class to the day in question
-
-							//Objects are Refrences.... what is this Java. Convert to JSON and back into an object is the easiet deep copy I have found.
+							//Objects are Refrences.... what is this Java. Convert to JSON and back into an object is the easiest deep copy I have found.
 							spireUser.classesWeekly[days[i]].classes[index] = JSON.parse(JSON.stringify(allCourses[j]));
+							//Removes the Days that the class Happens from the Time Tag
+							spireUser.classesWeekly[days[i]].classes[index].time = spireUser.classesWeekly[days[i]].classes[index].time.replace("Mo","").replace("Tu","").replace("We","").replace("Th","").replace("Fr","");
 							index++;
 						}
 					}
-
+					//Puts the Length into the data to easily get how many classes a student is taking. 
+					spireUser.classesWeekly.classAmount = classesArray.length;
 					//Sort the days classes
 					spireUser.classesWeekly[days[i]].classes.sort(function (a,b) {return a.tf_e - b.tf_e});
 				}
@@ -149,12 +175,8 @@ module.exports = function(passport, strategy) {
 				//Remove <br> Tags from Certain Elements Creating an Array of Each Line
 				spireUser.homeAddress = spireUser.homeAddress.split("<br>");
 				spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
-
 				//Fix the roomate name by re-ordering their name from Last,First Middle to First Middle Last
-				if (spireUser.roomate.indexOf(',') > -1) {
-					spireUser.roomate = spireUser.roomate.split(",")[1] + " " + spireUser.roomate.split(",")[0]
-				}
-
+				
 				return done(null, spireUser);
 			}
 		})
