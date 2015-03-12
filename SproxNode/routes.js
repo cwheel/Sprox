@@ -1,9 +1,9 @@
-var bcrypt = require('bcrypt');
 var Passport = require('passport');
 var UmassGet = require('./serviceConnectors/getConnector');
 var UmassParking = require('./serviceConnectors/parkingConnector');
 var CachedUser = require('./models/user');
 var sha512 = require('js-sha512');
+var crypto = require('crypto');
 //var TableToJson = require('tabletojson');
 
 module.exports = function(app) {
@@ -53,24 +53,25 @@ module.exports = function(app) {
 
    	//Cache control
 	app.post('/userInfo/setCache', requireAuth, function(req, res) {
-		if (req.body.cache == true) {
+		if (req.body.cache == 'true') {
 			CachedUser.findOne({user : sha512(req.user.spireId)}, function(err, user) {
-			   var saveUser  = new CachedUser({
-			         user: sha512(req.user.spireId),
-			         spire: bcrypt.hashSync(req.user, 10),
-			         cached: true
-			   });
+				//var cipher = crypto.createCipher('aes256', key); 
+				var saveUser  = new CachedUser({
+				     user: sha512(req.user.netid),
+				     spire: JSON.stringify(req.user),
+				     cached: true
+				});
 
-			   var objUser = saveUser.toObject();
-			   delete objUser.user;
+				var objUser = saveUser.toObject();
+				delete objUser.user;
 
-			   CachedUser.update({user: saveUser.user}, objUser, {upsert: true}, function(err){return err});
+				CachedUser.update({user: saveUser.user}, objUser, {upsert: true}, function(err){return err});
 
-			   res.send({ status: 'success'});
+				res.send({ status: 'success'});
 			});
-		} else if (req.body.cache == false) {
+		} else if (req.body.cache == 'false') {
 			var saveUser = new CachedUser({
-			   user: sha512(req.user.spireId),
+			   user: sha512(req.user.netid),
 			   spire: null,
 			   cached: false
 			});
@@ -83,7 +84,7 @@ module.exports = function(app) {
 
    	//Return the cache state
 	app.get('/userInfo/cache', requireAuth, function(req, res) {
-		CachedUser.findOne({user : sha512(req.user.spireId)}, function(err, user) {
+		CachedUser.findOne({user : sha512(req.user.netid)}, function(err, user) {
 			if (user == null) {
 				res.send({ status: 'unset'});
 		   	} else if (user.cached) {
@@ -95,8 +96,9 @@ module.exports = function(app) {
    	});
 
 	//GET (i.e UCard info)
-	app.post('/userInfo/ucard', requireAuth, function(req, res) {
+	app.post('/userInfo/ucard', function(req, res) {
 		console.log("Fetching GET information for user: '" + req.body.username + "'...");
+
 		var get = new UmassGet(req.body.username, req.body.password);
 		var fetched = [];
 

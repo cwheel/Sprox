@@ -1,9 +1,19 @@
 var SpireConnector = require('./serviceConnectors/spireConnector');
 var SpireMap = require('./maps/spire.js');
 var merge = require('merge');
+var CachedUser = require('./models/user');
+var sha512 = require('js-sha512');
 
 module.exports = function(passport, strategy) {
 	passport.use('local', new strategy(function(username, password, done) {
+		//Check if the user is cached
+		CachedUser.findOne({user : sha512(username)}, function(err, user) {
+			if (user != null) {
+				if (user.cached) {
+					return done(null, JSON.parse(user.spire));
+				}
+		   	}
+		});
 		//Setup the Spire authentication system
 		var spire =  new SpireConnector(username, password);
 		var spireUser = {};

@@ -77,7 +77,7 @@ module.exports = function(user,passwd) {
 									}, id);
 
 									if (iteration[pkey] == null) {
-										iteration[pkey] = "Default Value";
+										iteration[pkey] = "";
 									}
 
 									//Do any removes (replacements for nothing)
@@ -100,7 +100,7 @@ module.exports = function(user,passwd) {
 			        	}, map[key].tag);
 
 			        	if (content == null) {
-			        		content = "Default Value";
+			        		content = "";
 			        	}
 
 			        	//Do any removes (replacements for nothing)

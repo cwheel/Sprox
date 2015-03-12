@@ -4,22 +4,29 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.homeAddress  = userData.homeAddress;
 	$scope.schoolAddress  = userData.schoolAddress;
 	$scope.mailBox  = userData.mailbox;
-	$scope.building = userData.building;
-	$scope.roomNumber = userData.room;
-	$scope.roomType = userData.roomType;
-	$scope.roomate = userData.roomate;
-	$scope.roomateEmail = userData.roomateEmail;
-	$scope.roomateAddress = userData.roomateAddress[0].address;
-	$scope.roomateCity = userData.roomateAddress[0].city;
-	$scope.roomateZip = userData.roomateAddress[0].zip;
-	$scope.roomateState = userData.roomateAddress[0].state;
 	$scope.gradYear = userData.gradTerm;
 	$scope.ct = userData.classesWeekly.Tu;
+	$scope.showRooming = false;
+
+	//Ensure we actually were given a roommate
+	if (userData.roomateEmail != "") {
+		$scope.showRooming = true;
+		$scope.building = userData.building;
+		$scope.roomNumber = userData.room;
+		$scope.roomType = userData.roomType;
+		$scope.roomate = userData.roomate;
+		$scope.roomateEmail = userData.roomateEmail;
+		$scope.roomateAddress = userData.roomateAddress[0].address;
+		$scope.roomateCity = userData.roomateAddress[0].city;
+		$scope.roomateZip = userData.roomateAddress[0].zip;
+		$scope.roomateState = userData.roomateAddress[0].state;
+	}
 
 	//We're not showing any models right now
 	$scope.notifModel = false;
 	$scope.cacheModel = false;
 
+	//We're restoring from an existing session
 	if (funds != 0) {
 		$http({
 		    method : 'GET',
@@ -34,6 +41,21 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	    	}
 		});
 	}
+
+	//Get the users auth state
+	$http({
+	    method : 'GET',
+	    url : '/userInfo/cache'
+	})
+	.success(function(resp) {
+		if (angular.fromJson(resp).status == 'unset') {
+    		$scope.cacheModel = true;
+    	} else if (angular.fromJson(resp).status == 'cached') {
+
+    	} else if (angular.fromJson(resp).status == 'non-cached') {
+
+    	}
+	});
 
 	switch(new Date().getDay()) {
 		case 0:
@@ -138,32 +160,27 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.noCache = function() {
 		$scope.cacheModel = false;
 
-		var cacheScoket = new WebSocket(sproxSrv);
-		cacheScoket.onopen = function(event) {
-			cacheScoket.send("[disable_cache]" + username + "," + uuid);
-		};
-		
-		if ("Notification" in window) {
-			if (Notification.permission !== 'denied') {
-				$scope.notifModel = true;
-
-			}
-		}
+		$http({
+		 	method  : 'POST',
+			url     : '/userInfo/setCache',
+			data    : {'cache' : false},
+			headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+		})
+		.success(function(resp) {});
 	}
 
 	$scope.cache = function() {
 		$scope.cacheModel = false;
 
-		var cacheScoket = new WebSocket(sproxSrv);
-		cacheScoket.onopen = function(event) {
-			cacheScoket.send("[enable_cache]" + username + ","+ uuid);
-		};
-		
-		if ("Notification" in window) {
-			if (Notification.permission !== 'denied') {
-				$scope.notifModel = true;
-			}
-		}
+		$http({
+		 	method  : 'POST',
+			url     : '/userInfo/setCache',
+			data    : $.param({'cache' : true}),
+			headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+		})
+		.success(function(resp) {
+			console.log(resp);
+		});
 	}
 
 	$scope.enableNotifs = function() {
