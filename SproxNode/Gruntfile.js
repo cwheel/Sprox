@@ -5,13 +5,15 @@ module.exports = function(grunt) {
         options: {                       
           style: 'expanded'
         },
-        files: {                         
-          'app/style/login.css': 'app/scss/login.scss',
-          'app/style/main.css': 'app/scss/main.scss', 
-          'app/style/map.css': 'app/scss/map.scss',  
-          'app/style/studentCenter.css': 'app/scss/studentCenter.scss', 
-          'app/style/uc.css': 'app/scss/uc.scss', 
-        }
+        files: [                        
+          {
+            expand: true,
+            cwd: "app/scss",
+            src: ["**/*.scss"],
+            dest: "app/style",
+            ext: ".css"
+          }
+        ]
       }
     },
     nodemon: {
