@@ -25,6 +25,10 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	//We're not showing any models right now
 	$scope.notifModel = false;
 	$scope.cacheModel = false;
+	$scope.authCache = false;
+	$scope.cacheBtn1 = "No Thanks";
+	$scope.cacheBtn2 = "Start";
+	$scope.cacheForm = {password: ""};
 
 	//We're restoring from an existing session
 	if (funds != 0) {
@@ -170,17 +174,35 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	}
 
 	$scope.cache = function() {
-		$scope.cacheModel = false;
+		if (!$scope.authCache) {
+			$scope.authCache = true;
+			$scope.cacheBtn1 = "Cancel";
+			$scope.cacheBtn2 = "Allow";
+		} else {
+			$http({
+			 	method  : 'POST',
+				url     : '/verifyPassword',
+				data    : $.param({'password' : $scope.cacheForm.password}),
+				headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+			})
+			.success(function(resp) {
+				if (angular.fromJson(resp).status == 'success') {
+					$scope.cacheModel = false;
 
-		$http({
-		 	method  : 'POST',
-			url     : '/userInfo/setCache',
-			data    : $.param({'cache' : true}),
-			headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-		})
-		.success(function(resp) {
-			console.log(resp);
-		});
+			    	$http({
+			    	 	method  : 'POST',
+			    		url     : '/userInfo/setCache',
+			    		data    : $.param({'cache' : true, 'password' : $scope.cachePassword}),
+			    		headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+			    	})
+			    	.success(function(resp) {
+			    		console.log(resp);
+			    	});
+			    } else {
+			    	console.warn("Oh no! An invlid password!");
+			    }
+			});
+		}
 	}
 
 	$scope.enableNotifs = function() {

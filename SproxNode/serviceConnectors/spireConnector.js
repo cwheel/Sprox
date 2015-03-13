@@ -2,7 +2,7 @@ var Spooky = require('spooky');
 var SpireMap = require('.././maps/spire.js');
 
 module.exports = function(user,passwd) {
-	var spooky = new Spooky({child: {transport: 'http'}}, function (err) {
+	var spooky = new Spooky({child: {transport: 'stdio'}}, function (err) {
 		//Initialize the Spire page
 	    spooky.start(SpireMap.entryURL);
 

@@ -3,6 +3,8 @@ var SpireMap = require('./maps/spire.js');
 var merge = require('merge');
 var CachedUser = require('./models/user');
 var sha512 = require('js-sha512');
+var bcrypt = require('bcrypt');
+var crypto = require('crypto');
 
 module.exports = function(passport, strategy) {
 	passport.use('local', new strategy(function(username, password, done) {
@@ -10,7 +12,9 @@ module.exports = function(passport, strategy) {
 		CachedUser.findOne({user : sha512(username)}, function(err, user) {
 			if (user != null) {
 				if (user.cached) {
-					return done(null, JSON.parse(user.spire));
+					var decipher = crypto.createDecipher('aes256', password);
+					console.log(decipher.update(user.spire, 'hex', 'utf8') + decipher.final('utf8'));
+					return done(null, JSON.parse(decipher.update(user.spire, 'hex', 'utf8') + decipher.final('utf8')));
 				}
 		   	}
 		});
@@ -175,8 +179,10 @@ module.exports = function(passport, strategy) {
 				//Remove <br> Tags from Certain Elements Creating an Array of Each Line
 				spireUser.homeAddress = spireUser.homeAddress.split("<br>");
 				spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
-				//Fix the roomate name by re-ordering their name from Last,First Middle to First Middle Last
-				
+
+				//Keep a hash of the users password on hand, useful for verification later
+				spireUser.passValidator = bcrypt.hashSync(password, 10);
+
 				return done(null, spireUser);
 			}
 		})

@@ -6,13 +6,18 @@
 	                <h4 class="modal-title">Allow Data Caching?</h4>
 	            </div>
 
-	            <div class="modal-body">
-	                <p>If you don't like waiting, Sprox can cache some of your information so we don't have to ask Spire for it each time. Your data is encrypted using AES-256.</p>
+	            <div class="modal-body" ng-if="!authCache">
+	                <p>If you don't like waiting, Sprox can cache some of your information so we don't have to ask Spire for it each time. Your data is encrypted using AES-256 and Blowfish. Your password isn't stored.</p>
+	            </div>
+
+	            <div class="modal-body" ng-if="authCache">
+	                <p>To encrypt your data, we'll need you to enter your password again.</p>
+	                <input type="password" class="form-control floating-label" id="pass" placeholder="Password" ng-model="cacheForm.password" material-input>
 	            </div>
 
 	            <div class="modal-footer">
-	                <button type="button" class="btn btn-default" data-dismiss="cacheModel" ng-click="noCache();">No Thanks</button>
-	                <button type="button" class="btn btn-primary" ng-click="cache();">Allow</button>
+	                <button type="button" class="btn btn-default" data-dismiss="cacheModel" ng-click="noCache();">{{ cacheBtn1 }}</button>
+	                <button type="button" class="btn btn-primary" ng-click="cache();">{{ cacheBtn2 }}</button>
 	            </div>
 	        </div>
     	</div>

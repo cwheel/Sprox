@@ -2,7 +2,7 @@ var Spooky = require('spooky');
 var ParkingMap = require('.././maps/parking.js');
 
 module.exports = function(user,passwd) {
-	var spooky = new Spooky({child: {transport: 'http'}}, function (err) {
+	var spooky = new Spooky({child: {transport: 'stdio'}}, function (err) {
 
 		//Initialize the generic Shibboleth auth page for Parking
 	    spooky.start(ParkingMap.entryURL);
