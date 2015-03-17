@@ -1,5 +1,13 @@
 sprox.controller('scheduleController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
-	$scope.weeklySchedule = userData.classesWeekly;
+	$scope.weeklySchedule = {};
+	//Used to Only get WeekDay classes
+	for(var i = 0; i < 5; i++){
+		$scope.weeklySchedule[i] = userData.classesWeekly[i + 1];
+	}
+	
+	console.log($scope.weeklySchedule);
+	$scope.$apply();
+	//$scope.weeklySchedule.splice(0,1);
 	$scope.colors =["#E53935", // Red
 					"#1E88E5", // Blue
 					"#43A047", // Green
@@ -17,7 +25,6 @@ sprox.controller('scheduleController',['$scope', '$location', '$timeout', functi
 					"#FFB300", // Amber
 					"#C0CA33", // Lime
 					"#039BE5"] // Light Blue
-
 	//We Don't Support Weekend Classes, if that even happens.
 	$scope.finals = userData.finals;
 

@@ -86,9 +86,8 @@ module.exports = function(passport, strategy) {
 				var classesArray = [];
 				for (var i = 0; i < days.length; i++) {
 					//Create an empty class array for each day
-					spireUser.classesWeekly[days[i]] = {classes: []};
+					spireUser.classesWeekly[i] = {classes: []};
 					var index = 0;
-
 					//Iterate all of the users classes
 					for (var j = 0; j < allCourses.length; j++) {
 						//Only fix the location and time during the first pass, subsequent passes will render them invalid
@@ -133,16 +132,16 @@ module.exports = function(passport, strategy) {
 
 							//Add the current class to the day in question
 							//Objects are Refrences.... what is this Java. Convert to JSON and back into an object is the easiest deep copy I have found.
-							spireUser.classesWeekly[days[i]].classes[index] = JSON.parse(JSON.stringify(allCourses[j]));
+							spireUser.classesWeekly[i].classes[index] = JSON.parse(JSON.stringify(allCourses[j]));
 							//Removes the Days that the class Happens from the Time Tag
-							spireUser.classesWeekly[days[i]].classes[index].time = spireUser.classesWeekly[days[i]].classes[index].time.replace("Mo","").replace("Tu","").replace("We","").replace("Th","").replace("Fr","");
+							spireUser.classesWeekly[i].classes[index].time = spireUser.classesWeekly[i].classes[index].time.replace("Mo","").replace("Tu","").replace("We","").replace("Th","").replace("Fr","");
 							index++;
 						}
 					}
 					//Puts the Length into the data to easily get how many classes a student is taking. 
-					spireUser.classesWeekly.classAmount = classesArray.length;
+					//spireUser.classesWeekly.classAmount = classesArray.length;
 					//Sort the days classes
-					spireUser.classesWeekly[days[i]].classes.sort(function (a,b) {return a.tf_e - b.tf_e});
+					spireUser.classesWeekly[i].classes.sort(function (a,b) {return a.tf_e - b.tf_e});
 				}
 
 					for(var curday in spireUser.classesWeekly){
