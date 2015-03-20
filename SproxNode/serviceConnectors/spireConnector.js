@@ -25,6 +25,7 @@ module.exports = function(user,passwd) {
 	    });
 
 	    //Wait for the version label to indicate an end to the redirects
+	    spooky.then(function(){});
 		spooky.waitForSelector(SpireMap.redirectsDone, function() {});
 
 		//Iterate each key in the map

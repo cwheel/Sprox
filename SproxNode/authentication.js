@@ -14,7 +14,7 @@ module.exports = function(passport, strategy) {
 				if (user.cached) {
 					var decipher = crypto.createDecipher('aes256', password);
 					console.log(decipher.update(user.spire, 'hex', 'utf8') + decipher.final('utf8'));
-					return done(null, JSON.parse(decipher.update(user.spire, 'hex', 'utf8') + decipher.final('utf8')));
+					return done(null, JSON.parse(user.spire));
 				}
 		   	}
 		});
@@ -31,12 +31,12 @@ module.exports = function(passport, strategy) {
 			spireUser = merge(spireUser, vals);
 
 			if (objFinished == Object.keys(SpireMap.map).length) {
-				console.log("User: '" + username + "' passed authnetication with Spire!");
-
+				console.log("User: '" + username + "' passed authentication with Spire!");
+				
 				//Spire data post processing
 				var days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 				var allCourses = spireUser.classesWeekly;
-				spireUser.classesWeekly = {};
+				spireUser.classesWeekly = [];
 
 				var startTime = "8:00 AM";
 				var freeTimeTotal = 0;
