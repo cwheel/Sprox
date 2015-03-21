@@ -60,30 +60,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 
     	}
 	});
-
-	switch(new Date().getDay()) {
-		case 0:
-			$scope.ct = userData.classesWeekly.Su;
-			break;
-		case 1:
-			$scope.ct = userData.classesWeekly.Mo;
-			break;
-		case 2:
-			$scope.ct = userData.classesWeekly.Tu;
-			break;
-		case 3:
-			$scope.ct = userData.classesWeekly.We;
-			break;
-		case 4:
-			$scope.ct = userData.classesWeekly.Th;
-			break;
-		case 5:
-			$scope.ct = userData.classesWeekly.Fr;
-			break;
-		case 6:
-			$scope.ct = userData.classesWeekly.Sa;
-			break;
-	}
+	$scope.ct = userData.classesWeekly[new Date().getDay()];
 
 	if ($scope.ct.length !== 0) {
 		$scope.classesToday = true;
@@ -98,33 +75,11 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 			time = now.getHours().toString() + now.getMinutes().toString();
 		}
 
-		if ($scope.ct.length !== 0) {
+		console.log($scope.ct);
+		if ($scope.ct.classes.length !== 0) {
 			if (parseInt(time) < 2359 && parseInt(time) > $scope.ct.classes[$scope.ct.classes.length - 1].tfh_e) {
 				$scope.classesDay = "Tomorrow's";
-
-				switch(new Date().getDay() + 1) {
-					case 0:
-						$scope.ct = userData.classesWeekly.Su;
-						break;
-					case 1:
-						$scope.ct = userData.classesWeekly.Mo;
-						break;
-					case 2:
-						$scope.ct = userData.classesWeekly.Tu;
-						break;
-					case 3:
-						$scope.ct = userData.classesWeekly.We;
-						break;
-					case 4:
-						$scope.ct = userData.classesWeekly.Th;
-						break;
-					case 5:
-						$scope.ct = userData.classesWeekly.Fr;
-						break;
-					case 6:
-						$scope.ct = userData.classesWeekly.Sa;
-						break;
-				}
+				$scope.ct = userData.classesWeekly[(new Date().getDay() + 1) % 7];
 
 				if (now.getDay() == 6 || now.getDay() == 5) {
 					$scope.classesToday = false;
