@@ -74,8 +74,6 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		} else {
 			time = now.getHours().toString() + now.getMinutes().toString();
 		}
-
-		console.log($scope.ct);
 		if ($scope.ct.classes.length !== 0) {
 			if (parseInt(time) < 2359 && parseInt(time) > $scope.ct.classes[$scope.ct.classes.length - 1].tfh_e) {
 				$scope.classesDay = "Tomorrow's";
