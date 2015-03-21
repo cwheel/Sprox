@@ -72,7 +72,7 @@ module.exports = function(app) {
 
 					var saveUser  = new CachedUser({
 					     user: sha512(req.user.netid),
-					     spire: cipher.update(JSON.stringify(req.user), 'utf8', 'hex') + cipher.final('hex'),
+					     spire: JSON.stringify(req.user),
 					     cached: true
 					});
 
