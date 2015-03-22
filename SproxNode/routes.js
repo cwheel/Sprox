@@ -140,7 +140,7 @@ module.exports = function(app) {
    	});
 
 	//Spire
-	app.get('/userInfo/spire', requireAuth, function(req, res){
+	app.get('/userInfo/spire', requireAuth, function(req, res) {
 		res.send(req.user);
    	});
 

@@ -158,6 +158,10 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		}
 	}
 
+	$scope.disableNotifs = function() {
+		$scope.notifModel = false;
+	}
+
 	$scope.enableNotifs = function() {
 		$scope.notifModel = false;
 

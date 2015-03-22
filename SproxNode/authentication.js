@@ -13,7 +13,7 @@ module.exports = function(passport, strategy) {
 			if (user != null) {
 				if (user.cached) {
 					var decipher = crypto.createDecipher('aes256', password);
-					console.log(decipher.update(user.spire, 'hex', 'utf8') + decipher.final('utf8'));
+				//	console.log(decipher.update(user.spire, 'hex', 'utf8') + decipher.final('utf8'));
 					return done(null, JSON.parse(user.spire));
 				}
 		   	}
