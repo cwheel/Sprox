@@ -4,7 +4,7 @@ var merge = require('merge');
 var CachedUser = require('./models/user');
 var sha512 = require('js-sha512');
 var bcrypt = require('bcrypt');
-var crypto = require('crypto');
+var CryptoJSAES = require('node-cryptojs-aes');
 
 module.exports = function(passport, strategy) {
 	passport.use('local', new strategy(function(username, password, done) {
@@ -12,9 +12,17 @@ module.exports = function(passport, strategy) {
 		CachedUser.findOne({user : sha512(username)}, function(err, user) {
 			if (user != null) {
 				if (user.cached) {
-					var decipher = crypto.createDecipher('aes256', password);
-				//	console.log(decipher.update(user.spire, 'hex', 'utf8') + decipher.final('utf8'));
-					return done(null, JSON.parse(user.spire));
+					var b64 = new Buffer(password).toString('base64');
+					var decrypted = CryptoJSAES.CryptoJS.AES.decrypt(JSON.stringify(user.spire), b64, { format: CryptoJSAES.JsonFormatter });
+					var user = null;
+
+					try {
+						user = JSON.parse(CryptoJSAES.CryptoJS.enc.Utf8.stringify(decrypted));
+					} catch (err) {
+						user = false;
+					}
+
+					return done(null, user);
 				}
 		   	}
 		});

@@ -3,7 +3,7 @@ var UmassGet = require('./serviceConnectors/getConnector');
 var UmassParking = require('./serviceConnectors/parkingConnector');
 var CachedUser = require('./models/user');
 var sha512 = require('js-sha512');
-var crypto = require('crypto');
+var CryptoJSAES = require('node-cryptojs-aes');
 var bcrypt = require('bcrypt');
 //var TableToJson = require('tabletojson');
 
@@ -68,11 +68,12 @@ module.exports = function(app) {
 		if (req.body.cache != null && req.body.password != null) {
 			if (req.body.cache == 'true') {
 				CachedUser.findOne({user : sha512(req.user.spireId)}, function(err, user) {
-					var cipher = crypto.createCipher('aes256', req.body.password); 
+					var b64 = new Buffer(req.body.password).toString('base64');
+					var encrypted = CryptoJSAES.CryptoJS.AES.encrypt(JSON.stringify(req.user), b64, { format: CryptoJSAES.JsonFormatter });
 
 					var saveUser  = new CachedUser({
 					     user: sha512(req.user.netid),
-					     spire: JSON.stringify(req.user),
+					     spire: JSON.parse(encrypted.toString()),
 					     cached: true
 					});
 
