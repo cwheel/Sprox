@@ -12,7 +12,11 @@
 
 	            <div class="modal-body" ng-if="authCache">
 	                <p>To encrypt your data, we'll need you to enter your password again.</p>
-	                <input type="password" class="form-control floating-label" id="pass" placeholder="Password" ng-model="cacheForm.password" material-input>
+
+
+	               <div class="form-group">
+			      	<input type="password" class="form-control floating-label" id="passh" placeholder="Password" material-input>
+		   		</div>
 	            </div>
 
 	            <div class="modal-footer">
@@ -55,6 +59,7 @@
 				    Student Information
 				    <br> 
 				    <div class="scPanelHeaderSubText">Graduating in {{ gradYear }}</div>
+				    
 				</div>
 
 				<div class="panel-body">
