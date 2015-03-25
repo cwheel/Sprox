@@ -105,14 +105,18 @@ body {
 }
 
 .page  { 
-  right: 0;
-  left: 0;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: 0;
-  padding-bottom: 0;
-  padding-right: 0;
-  padding-left: 0;
-  width: 100%;
-  opacity: 1 !important;
+	right: 0;
+	left: 0;
+	margin-bottom: 0;
+	margin-left: 0;
+	margin-right: 0;
+	padding-bottom: 0;
+	padding-right: 0;
+	padding-left: 0;
+	width: 100%;
+	opacity: 1 !important;
+}
+.col-centered{
+	float: none;
+	margin: 0 auto;
 }

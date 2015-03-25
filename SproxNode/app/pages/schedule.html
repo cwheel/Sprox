@@ -1,18 +1,30 @@
 <div class="schedule">
 	<div class="row">
-		<div class="panel panel-material-light-blue schedulebackground">
-			<div class="col-md-1"></div>
+		<div class="panel panel-material-light-blue schedulebackground col-centered">
 			<div class="panel-heading">
 					<div><span><i class="fa fa-calendar-o"></i></span> Weekly Schedule</div>
 			</div>
-			<div class="panel-body">
-				<div class="timebar"> </div>
-				<div class="timebar"> </div>
-				<div class="col-md-1">
-					<div class="timeName">8:00 am</div>
+			<div class="panel-body col-centered col-md-11">
+				<!-- Time Bars -->
+				<div style="top: 70px;" class="timebar"> </div>
+				<div style="top: 130px;" class="timebar"> </div>
+				<div style="top: 190px;" class="timebar"> </div>
+				<div style="top: 250px;" class="timebar"> </div>
+				<div style="top: 310px;" class="timebar"> </div>
+				<div style="top: 370px;" class="timebar"> </div>
+				<div style="top: 430px;" class="timebar"> </div>
+				<div style="top: 490px;" class="timebar"> </div>
+				<div style="top: 550px;" class="timebar"> </div>
+				<div style="top: 610px;" class="timebar"> </div>
+				<div style="top: 670px;" class="timebar"> </div>
+
+				<div class="col-md-2">
+					<div ng-repeat="time in times" class="timeName">
+						<div style="margin-top:45px;" ng-if="$first">{{time}}</div>
+						<div ng-if="!$first">{{time}}</div>
+					</div>
 				</div>
-				<div class="col-md-1"></div>
-				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" class="col-md-2">
+				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" class="col-md-2 scheduleBorder">
 					<div class="dayName">Monday</div>
 					<div ng-repeat="class in sDay.classes"> 
 						<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
