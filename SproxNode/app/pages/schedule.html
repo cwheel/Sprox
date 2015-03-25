@@ -1,9 +1,18 @@
 <div class="schedule">
 	<div class="row">
-		<div class="scheduleBackground">
+		<div class="panel panel-material-light-blue schedulebackground">
 			<div class="col-md-1"></div>
-			<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" class="col-md-2">
-				<div class="panel-body">
+			<div class="panel-heading">
+					<div><span><i class="fa fa-calendar-o"></i></span> Weekly Schedule</div>
+			</div>
+			<div class="panel-body">
+				<div class="col-md-1">
+					<div class="timebar"> </div>
+					<div class="timebar"> </div>
+				</div>
+				<div class="col-md-1"></div>
+				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" class="col-md-2">
+					<div class="dayName">Monday</div>
 					<div ng-repeat="class in sDay.classes"> 
 						<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
 						<div class="scheduleClass" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 

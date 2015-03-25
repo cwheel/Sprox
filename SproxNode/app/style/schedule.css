@@ -22,6 +22,11 @@
     height: inherit !important;
   }
 }
+.schedulebackground {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
 .weekDayHeader {
   height: 50px;
   background-color: green;
@@ -79,6 +84,20 @@
   overflow: hidden;
   margin-left: 4px;
   white-space: nowrap;
+}
+
+.dayName {
+  font-size: 16px;
+  border-width: 2px;
+  border-bottom-width: 2px;
+  border-bottom-color: White;
+  border-bottom-style: solid;
+  width: 100%;
+  padding-bottom: 30px;
+}
+
+.timeBar {
+  width: 100%;
 }
 
 /*# sourceMappingURL=schedule.css.map */
