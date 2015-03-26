@@ -66,6 +66,7 @@
 
 		<!-- Global CSS -->
 	 	<link rel="stylesheet" type="text/css" href="style/main.css">
+	 	<link rel="stylesheet" type="text/css" href="style/notes.css">
 	 	<link rel="stylesheet" type="text/css" href="style/login.css">
 	 	<link rel="stylesheet" type="text/css" href="style/schedule.css">
 	 	<link rel="stylesheet" type="text/css" href="style/studentCenter.css">
@@ -156,8 +157,11 @@
     <!-- End Sidebar -->
 
     <div id="content-wrapper">
+    <div id="notesSidebar" ng-show="showNotes"></div>
+
       <div class="page-content">
         <!-- Header Bar -->
+        <!-- showNotes = !showNotes  to show the notes-->
         <div ng-show="showTopbar" class="top-bar row header">
           <div class="col-xs-12">
           	<i class="fa fa-bars top-bar-item" ng-click="toggleSidebar()" class="clickable"></i>

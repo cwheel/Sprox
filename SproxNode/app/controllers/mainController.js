@@ -3,6 +3,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	$scope.showTopbar = false;
 	$scope.showSearch = false;
 	$scope.showDropDown = false;
+	$scope.showNotes = false;
 	$scope.selectedIndex = 0;
 	$scope.userMenu = false;
 	$scope.tabs = [{"path" : "sc", "title" : "Student Center", "dev" : false, "color" : "#FFC107"},

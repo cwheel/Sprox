@@ -1,0 +1,38 @@
+@import "app/style/partials/device";
+@import "app/style/partials/animation";
+
+#notesSidebar {
+  display:block!important;
+  right: 0px;
+  position: absolute;
+  width: 225px;
+  background: blue;
+  z-index: 1000;
+  height: 100%;
+
+  @include vendor-prefix(transition, all ease-out 0.25s);
+}
+ 
+#notesSidebarng-hide-add, #notesSidebar.ng-hide-remove {
+  display:block!important;
+}
+ 
+@include mobileCollapsed {
+	#notesSidebar.ng-hide {
+	  right: calc(-100% + 70px);
+	}
+
+	#notesSidebar {
+		width: calc(100% - 70px);
+	}
+}
+
+@include mobileNotCollapsed {
+	#notesSidebar.ng-hide {
+	  right: -255px;
+	}
+
+	#notesSidebar {
+		width: 225px;
+	}
+}
