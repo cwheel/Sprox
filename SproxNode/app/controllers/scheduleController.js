@@ -1,9 +1,11 @@
 sprox.controller('scheduleController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
 	$scope.weeklySchedule = {};
+	var days = ["Monday","Tuesday","Wensday","Thursday","Friday"]
 	var tfhour = false
 	//Used to Only get WeekDay classes
-	for(var i = 0; i < 5;){
-		$scope.weeklySchedule[i] = userData.classesWeekly[++i];
+	for(var i = 0; i < 5; i++){	
+		$scope.weeklySchedule[i] = userData.classesWeekly[i + 1];
+		$scope.weeklySchedule[i].name = days[i];
 	}
 	
 	$scope.$apply();

@@ -4,7 +4,7 @@
 			<div class="panel-heading">
 					<div><span><i class="fa fa-calendar-o"></i></span> Weekly Schedule</div>
 			</div>
-			<div class="panel-body col-centered col-md-11">
+			<div class="panel-body col-centered col-md-12">
 				<!-- Time Bars -->
 				<div style="top: 70px;" class="timebar"> </div>
 				<div style="top: 130px;" class="timebar"> </div>
@@ -18,14 +18,14 @@
 				<div style="top: 610px;" class="timebar"> </div>
 				<div style="top: 670px;" class="timebar"> </div>
 
-				<div class="col-md-2">
+				<div class="scheduleSpacer"></div>
+				<div class="center-block col-md-1">
 					<div ng-repeat="time in times" class="timeName">
-						<div style="margin-top:45px;" ng-if="$first">{{time}}</div>
-						<div ng-if="!$first">{{time}}</div>
+						<div ng-class="{scheduleFirstTime : $first}">{{time}}</div>
 					</div>
 				</div>
-				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" class="col-md-2 scheduleBorder">
-					<div class="dayName">Monday</div>
+				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" ng-class="{scheduleBorderFirst: $first,scheduleBorder:!$first}" class=" center-block col-md-2">
+					<div class="dayName">{{sDay.name}}</div>
 					<div ng-repeat="class in sDay.classes"> 
 						<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
 						<div class="scheduleClass" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 

@@ -100,14 +100,31 @@
 .timeBar {
   height: 1px;
   position: absolute;
-  width: calc(100% - 145px);
-  margin-left: 100px;
-  background-color: #cccccc;
+  width: calc(83.5555% - 29px);
+  background-color: #CCC;
+  margin-left: 11.1%;
 }
 
 .scheduleBorder {
   border-right: 2px solid #CCC;
+  border-bottom: 2px solid #CCC;
+}
+
+.scheduleBorderFirst {
   border-left: 2px solid #CCC;
+  border-right: 2px solid #CCC;
+  border-bottom: 2px solid #CCC;
+}
+
+.scheduleFirstTime {
+  margin-top: 45px;
+}
+
+.scheduleSpacer {
+  position: relative;
+  float: left;
+  width: 3%;
+  min-height: 1px;
 }
 
 /*# sourceMappingURL=schedule.css.map */
