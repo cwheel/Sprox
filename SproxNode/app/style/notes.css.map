@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAGA,aAAc;EACZ,OAAO,EAAC,gBAAe;EACvB,KAAK,EAAE,GAAG;EACV,QAAQ,EAAE,QAAQ;EAClB,KAAK,EAAE,KAAK;EACZ,UAAU,EAAE,IAAI;EAChB,OAAO,EAAE,IAAI;EACb,MAAM,EAAE,IAAI;ECsBZ,kBAAgB,EDpBkB,kBAAmB;ECqBrD,cAAY,EDrBsB,kBAAmB;ECsBrD,eAAa,EDtBqB,kBAAmB;ECuBrD,UAAQ,EDvB0B,kBAAmB;;;AAGvD,sDAAuD;EACrD,OAAO,EAAC,gBAAe;;;AEUxB,oCAAmC;EFNnC,qBAAsB;IACpB,KAAK,EAAE,kBAAkB;;;EAG3B,aAAc;IACb,KAAK,EAAE,iBAAiB;;;AEMzB,oCAAmC;EFDnC,qBAAsB;IACpB,KAAK,EAAE,MAAM;;;EAGf,aAAc;IACb,KAAK,EAAE,KAAK",
+"sources": ["../scss/notes.scss","partials/_animation.scss","partials/_device.scss"],
+"names": [],
+"file": "notes.css"
+}
