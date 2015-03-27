@@ -1,12 +1,13 @@
 @import "app/style/partials/device";
 @import "app/style/partials/animation";
+@import "app/style/partials/colors";
 
 #notesSidebar {
   display:block!important;
   right: 0px;
   position: absolute;
   width: 225px;
-  background: blue;
+  background: $sidebar-color;
   z-index: 1000;
   height: 100%;
 

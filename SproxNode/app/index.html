@@ -116,7 +116,7 @@
 
   <div id="loginBack"></div>
   <body ng-controller="mainController">
-  <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+  <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak ng-click="hideNotesPane($event)">
 
     <!-- Sidebar -->
     <div ng-show="showTopbar" id="sidebar-wrapper" ng-swipe-left="toggleSidebar()" ng-swipe-right="toggleSidebar()" class="noSelect">
@@ -156,14 +156,21 @@
     </div>
     <!-- End Sidebar -->
 
-    <div id="content-wrapper">
-    <div id="notesSidebar" ng-show="showNotes"></div>
+    <div id="content-wrapper" style="overflow-x: hidden">
+    <div id="notesSidebar" ng-show="showNotes" ng-swipe-right="hideNotesPane()"></div>
 
       <div class="page-content">
         <!-- Header Bar -->
         <!-- showNotes = !showNotes  to show the notes-->
         <div ng-show="showTopbar" class="top-bar row header">
           <div class="col-xs-12">
+          	<div class="user pull-right" ng-show="notes">
+              <div class="item dropdown" ng-click="showNotesPane()">
+               <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-list"></i>
+                </a>
+              </div>
+            </div>
           	<i class="fa fa-bars top-bar-item" ng-click="toggleSidebar()" class="clickable"></i>
           	<span class="top-bar-item">Sprox</span>
           </div>
