@@ -1,10 +1,10 @@
-sprox.controller('notesController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', '$rootScope', function($scope, $location, $timeout, $http, $rootScope) {
 	//Enable fullscreen
 	$scope.fullscreen = true;
 
 	//Notebook data
-	$scope.notebook = {};
-	$scope.currentNotebook = $scope.notebook;
+	var notebook = {};
+    var curSection = "Notebook Sections";
 
 	//Notebook Attributes
 	$scope.notebookPosition = "Notebook Sections";
@@ -19,6 +19,37 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', function(
 		tabSpaces: 4,
 		height: 600
 	};
+
+    $http({
+        method : 'GET',
+        url : '/notebook/layout'
+    })
+    .success(function(resp) {
+        notebook = angular.fromJson(resp);
+        currentNotebook = Object.keys(notebook);
+    });
+
+    //A notebook item was clicked
+    $rootScope.$on("notebookItemSelected", function (event, item) {
+        if (item != null && item != undefined) {
+            if (curSection == "Notebook Sections") {
+                currentNotebook = notebook[item];
+                curSection = item;
+                $rootScope.$broadcast("notebookChangedSection", item);
+            } else {
+                curNote = item;
+                console.log("load content for " + curSection + " > " + curNote);
+            }
+            
+        }
+    });
+
+    //The notrbooks back button was clicked, return to the root level
+    $rootScope.$on("notebookBack", function (event, item) {
+        $rootScope.$broadcast("notebookChangedSection", "Notebook Sections");
+        curSection = "Notebook Sections";
+        currentNotebook = Object.keys(notebook);
+    });
 
 	//CKEditor Fixes.... dirty, dirty fixes...
 	$timeout(function() {

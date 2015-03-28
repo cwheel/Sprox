@@ -19,10 +19,8 @@ var isFirst = true;
 var lockAnimation = false;
 var notifs = [];
 
-
-//Super hacky but....
-var curSharePage = "";
-var curShareSection = "Sections";
+var currentNotebook;
+var curNote = "";
 
 sprox.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
 	$routeProvider

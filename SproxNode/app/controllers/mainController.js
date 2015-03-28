@@ -15,7 +15,11 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	 			{"path" : "pk", "title" : "Parking", "dev" : true, "color" : "#666"}, 
 	 			{"path" : "mp", "title" : "Map", "dev" : false, "color" : "#666"}];
 
-	 var notesPaneDone = true;
+    //Notebook
+    $scope.currentNotebook = null;
+    $scope.notebookSection = "Notebook Sections";
+    $scope.curIsSection = false;
+	var notesPaneDone = true;
 
 	 //Load other libraries
 	$ocLazyLoad.load([{
@@ -64,12 +68,26 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
         $scope.$apply();
     };
 
+    /////////////////////////////////
+    //Notebook pullout view functions
+    //The notebook pullout needs to render outside of the ng-view of the loaded page so it becomes mains problem
+    //Using an agregious amount of $rootScope broadcasts to notify the actual notebook controller
+    /////////////////////////////////
+
+    //Hide the notebook pullout view
     $scope.hideNotesPane = function(event) {
-    	if (notesPaneDone && event.target.id != "notesSidebar") {
+        var parent = false;
+
+        try {
+            parent = event.target.offsetParent.id != "notesSidebar";
+        } catch (err) {}
+
+    	if (notesPaneDone && event.target.id != "notesSidebar" && parent && event.target.id != "addButtonIcon") {
     		$scope.showNotes = false;
     	}
     };
 
+    //Show the notebook pullout view
     $scope.showNotesPane = function() {
     	$scope.showNotes = true;
     	notesPaneDone = false;
@@ -78,6 +96,34 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     		notesPaneDone = true;
     	}, 250);
     };
+
+    //Notify the notebook controller that a notebook item was clicked
+    $scope.selectItem = function(item) {
+        $rootScope.$broadcast("notebookItemSelected", item);
+    };
+
+    //Go back in the notes view
+    $scope.back = function() {
+        $rootScope.$broadcast("notebookBack");
+    };
+
+    //The notebook changed  sections
+    $rootScope.$on("notebookChangedSection", function (event, item) {
+        if (item != null && item != undefined) {
+            if (item == "Notebook Sections") {
+                $scope.curIsSection = false;
+            } else {
+                $scope.curIsSection = true;
+            }
+            
+            $scope.notebookSection = item;
+        }
+    });
+
+    //Watch for changes to the current notebook view
+    $scope.$watch(function () {return currentNotebook}, function (newValue, oldValue) {
+        $scope.currentNotebook = newValue;
+    });
 
 	//Ask Passport if our user is authed - Not used for information security, used only for UI
 	$http({

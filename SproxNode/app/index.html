@@ -157,7 +157,24 @@
     <!-- End Sidebar -->
 
     <div id="content-wrapper" style="overflow-x: hidden">
-    <div id="notesSidebar" ng-show="showNotes" ng-swipe-right="hideNotesPane()"></div>
+    <div id="notesSidebar" ng-show="showNotes" ng-swipe-right="hideNotesPane()">
+    	<div id="notebookTitle" class="noSelect">
+    		<i class="fa fa-chevron-left clickable" ng-show="curIsSection" ng-click="back()"></i>
+    		<span ng-show="curIsSection" class="noSelect">&nbsp;&nbsp;&nbsp;</span>
+    		{{ notebookSection }}
+    	</div>
+
+    	<div class="notebookItem noSelect clickable" ng-repeat="item in currentNotebook" ng-click="selectItem(item)">
+    		<i class="fa fa-book" ng-show="!curIsSection"></i>
+    		<span ng-show="!curIsSection">&nbsp;&nbsp;&nbsp;</span>
+    		{{ item }}
+    	</div>
+
+    	<a href="javascript:void(0)" class="btn btn-primary btn-fab btn-raised" id="addButton" material-ripple data-ripple=false>
+    		<i class="fa fa-plus noSelect clickable" id="addButtonIcon"></i>
+    		<div class="ripple-wrapper">		
+    	</div></a>
+    </div>
 
       <div class="page-content">
         <!-- Header Bar -->
