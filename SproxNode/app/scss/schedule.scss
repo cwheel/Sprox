@@ -11,6 +11,20 @@
 	.time-block-15 {
 		visibility: hidden;
 	}
+	.timeName{
+		color:CCC;
+		height: 60px;
+		font-family: "Roboto",sans-serif;
+		font-weight: 400;
+		text-align: right;
+	}
+	.timeBar{
+		height: 1px;
+		position: absolute;
+		width: calc(83.5555% - 29px);
+		background-color: #CCC;
+		margin-left: 11.1%;
+	}
 }
 @include columnLayout {
 	.time-block-15 {
@@ -19,6 +33,12 @@
 	}
 	.scheduleClass {
 		height: inherit !important;
+	}
+	.timeName{
+		visibility: hidden;
+	}
+	.timeBar{
+		visibility: hidden;
 	}
 }
 .schedulebackground{
@@ -83,17 +103,6 @@
 	font-size:16px;
     width: 100%;
     height: 55px;
-}
-.timeName{
-	color:CCC;
-	height: 60px
-}
-.timeBar{
-	height: 1px;
-	position: absolute;
-	width: calc(83.5555% - 29px);
-	background-color: #CCC;
-	margin-left: 11.1%;
 }
 .scheduleBorder{
 	border-right: 2px solid #CCC;
