@@ -3,7 +3,7 @@
   right: 0px;
   position: absolute;
   width: 225px;
-  background: blue;
+  background: #37474F;
   z-index: 1000;
   height: 100%;
   -webkit-transition: all ease-out 0.25s;

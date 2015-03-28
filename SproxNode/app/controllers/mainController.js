@@ -1,4 +1,4 @@
-sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog','$ocLazyLoad', '$http','$cookieStore', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad, $http, $cookieStore) {
+sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog','$ocLazyLoad', '$http','$cookieStore', '$document', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad, $http, $cookieStore, $document) {
 	//Initilization
 	$scope.showTopbar = false;
 	$scope.showSearch = false;
@@ -6,6 +6,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	$scope.showNotes = false;
 	$scope.selectedIndex = 0;
 	$scope.userMenu = false;
+	$scope.notes = false;
 	$scope.tabs = [{"path" : "sc", "title" : "Student Center", "dev" : false, "color" : "#FFC107"},
 	 			{"path" : "sh", "title" : "Schedule", "dev" : false, "color" : "#4caf50"},
 	 			{"path" : "nb", "title" : "Notebook", "dev" : false, "color" : "#9C27B0"},
@@ -13,6 +14,8 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	 			{"path" : "uc", "title" : "UCard", "dev" : false, "color" : "#f44336"}, 
 	 			{"path" : "pk", "title" : "Parking", "dev" : true, "color" : "#666"}, 
 	 			{"path" : "mp", "title" : "Map", "dev" : false, "color" : "#666"}];
+
+	 var notesPaneDone = true;
 
 	 //Load other libraries
 	$ocLazyLoad.load([{
@@ -27,6 +30,14 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.getWidth = function() {
         return window.innerWidth;
     };
+
+    $scope.$on('$locationChangeStart', function(event) {
+        if ($location.path() == "/nb") {
+        	$scope.notes = true;
+        } else {
+        	$scope.notes = false;;
+        }
+    });
 
     $scope.$watch($scope.getWidth, function(newValue, oldValue) {
         if (newValue >= mobileView) {
@@ -51,6 +62,21 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 
     window.onresize = function() {
         $scope.$apply();
+    };
+
+    $scope.hideNotesPane = function(event) {
+    	if (notesPaneDone && event.target.id != "notesSidebar") {
+    		$scope.showNotes = false;
+    	}
+    };
+
+    $scope.showNotesPane = function() {
+    	$scope.showNotes = true;
+    	notesPaneDone = false;
+
+    	$timeout(function () {
+    		notesPaneDone = true;
+    	}, 250);
     };
 
 	//Ask Passport if our user is authed - Not used for information security, used only for UI
@@ -94,33 +120,6 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 		$scope.major = userData.major;
 		$scope.fullName = userData.studentFullname;
 	});
-
-	//Switches the current ngView
-	$scope.clickTab = function(path, args) {
-		$scope.$apply('userMenu = false');
-		
-		if (lockAnimation == false){
-			lockAnimation = true;
-			$rootScope.$broadcast("load_" + path, null);
-			$location.path("/" + path);
-			$timeout(function() {
-					lockAnimation = false;
-			}, 1000);
-		}
-	};
-	
-	//Determines what tabs should be shown the the user
-	$scope.showTab = function(tabState) {
-		if ($scope.showTabs) { 
-	 		if (!tabState) {
-				return true;
-			} else if (tabState && developer) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
 }]);
 
 function renderSidebar(state) {
