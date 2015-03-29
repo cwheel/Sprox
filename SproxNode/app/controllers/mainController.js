@@ -19,6 +19,8 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.currentNotebook = null;
     $scope.notebookSection = "Notebook Sections";
     $scope.curIsSection = false;
+    $scope.notesRenaming = "";
+    $scope.notesCurRename = {val : ""};
 	var notesPaneDone = true;
 
 	 //Load other libraries
@@ -39,7 +41,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
         if ($location.path() == "/nb") {
         	$scope.notes = true;
         } else {
-        	$scope.notes = false;;
+        	$scope.notes = false;
         }
     });
 
@@ -98,13 +100,71 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     };
 
     //Notify the notebook controller that a notebook item was clicked
-    $scope.selectItem = function(item) {
-        $rootScope.$broadcast("notebookItemSelected", item);
+    $scope.selectNotesItem = function(item) {
+        if ($scope.notesRenaming == "") {
+            $rootScope.$broadcast("notebookItemSelected", item);
+        }
     };
 
     //Go back in the notes view
-    $scope.back = function() {
+    $scope.notesBack = function() {
         $rootScope.$broadcast("notebookBack");
+    };
+
+    //Begin renaming a notes item
+    $scope.notesRenameItem = function(item) {
+        $scope.notesCurRename.val = item;
+        $scope.notesRenaming = item;
+    }
+
+    //Save the rename
+    $scope.notesSaveRename = function() {
+        if ($scope.notesCurRename.val != $scope.notesRenaming && $scope.notesCurRename.val != "") {
+            if (!$scope.curIsSection) {
+                var data = {section : $scope.notesRenaming, newSection : $scope.notesCurRename.val};
+
+                $http({
+                    method  : 'POST',
+                    url     : '/notebook/renameSection',
+                    data    : $.param(data),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                .success(function(resp) {
+                    if (angular.fromJson(resp).status == 'success') {
+                        $rootScope.$broadcast("notebookSectionRenamed", data);
+                    }
+                });
+
+            } else {
+                var data = {section : $scope.notebookSection, title : $scope.notesRenaming, newTitle : $scope.notesCurRename.val};
+                
+                $http({
+                    method  : 'POST',
+                    url     : '/notebook/rename',
+                    data    : $.param(data),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                .success(function(resp) {
+                    if (angular.fromJson(resp).status == 'success') {
+                        $rootScope.$broadcast("notebookItemRenamed", data);
+                    }
+                });
+            }
+        }
+        
+        $scope.notesRenaming = "";
+        $scope.notesCurRename = {val : ""};
+    }
+
+    //Handles enter key in the edit field of a note name
+    $scope.notebookRenameItemEnter = function (keyEvent) {
+        if (keyEvent.which === 13) {
+            $scope.notesSaveRename();
+
+            keyEvent.stopPropagation();
+            keyEvent.preventDefault();  
+            return false;
+        }
     };
 
     //The notebook changed  sections
@@ -195,4 +255,36 @@ sprox.directive('fullViewport', function($timeout) {
         	}, 10);
         }
     };
+});
+
+sprox.directive('sglclick', ['$parse', function($parse) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attr) {
+              var fn = $parse(attr['sglclick']);
+              var delay = 300, clicks = 0, timer = null;
+              element.on('click', function (event) {
+                clicks++; 
+                if(clicks === 1) {
+                  timer = setTimeout(function() {
+                    scope.$apply(function () {
+                        fn(scope, { $event: event });
+                    }); 
+                    clicks = 0;
+                  }, delay);
+                  } else {
+                    clearTimeout(timer);
+                    clicks = 0;
+                  }
+              });
+            }
+        };
+    }]);
+
+sprox.directive('focusOn', function() {
+   return function(scope, elem, attr) {
+      scope.$on(attr.focusOn, function(e) {
+          elem[0].focus();
+      });
+   };
 });

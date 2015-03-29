@@ -185,10 +185,10 @@ module.exports = function(app) {
 
    			notes.forEach(function(note) {
    				if (layout[note.section] == undefined) {
-   					layout[note.section] = [];
+   					layout[note.section] = {};
    				}
 
-   				layout[note.section].push(note.title);
+   				layout[note.section][note.title] = "";
    			});
 
    			res.send(layout);

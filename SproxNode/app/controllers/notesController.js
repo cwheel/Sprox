@@ -33,7 +33,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     $rootScope.$on("notebookItemSelected", function (event, item) {
         if (item != null && item != undefined) {
             if (curSection == "Notebook Sections") {
-                currentNotebook = notebook[item];
+                currentNotebook = Object.keys(notebook[item]);
                 curSection = item;
                 $rootScope.$broadcast("notebookChangedSection", item);
             } else {
@@ -44,11 +44,28 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         }
     });
 
-    //The notrbooks back button was clicked, return to the root level
+    //The notebooks back button was clicked, return to the root level
     $rootScope.$on("notebookBack", function (event, item) {
         $rootScope.$broadcast("notebookChangedSection", "Notebook Sections");
         curSection = "Notebook Sections";
         currentNotebook = Object.keys(notebook);
+    });
+
+    $rootScope.$on("notebookSectionRenamed", function (event, item) {
+        notebook[item.newSection] = notebook[item.section];
+        delete notebook[item.section];
+
+        //Send a notebookBack event to update the root view
+        $rootScope.$broadcast("notebookBack");
+    });
+
+    $rootScope.$on("notebookItemRenamed", function (event, item) {
+        notebook[item.section][item.newTitle] = notebook[item.section][item.title];
+        delete notebook[item.section][item.title];
+
+        //Send a notebookItemSelected event to update the section view
+        currentNotebook = Object.keys(notebook[item.section]);
+        $rootScope.$broadcast("notebookChangedSection", item.section);
     });
 
 	//CKEditor Fixes.... dirty, dirty fixes...
