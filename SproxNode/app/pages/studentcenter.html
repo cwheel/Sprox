@@ -107,20 +107,19 @@
 			</div>
 			
 			<div class="panel-body">
-				<div class="row" ng-repeat="class in ct.classes">
-					<div class="col-md-12">
-						<div class="{{ class.type }}">
-							{{ class.name }}
-							<br> 
-							<b>{{ class.time }}</b>
-							<br>
-						<div>{{ class.location }}</div>
-					</div>
+				<div ng-repeat="class in ct.classes"> 
+					<div class="time-block-15" schedule-free-height = "{{ class.freeTime }}"></div>
+					<div class="scheduleClass" schedule-class-height= "{{ class.classDuration }}" style=" background: {{ colors[class.classID] }};"> 
+						<div class="scheduleClassTime"> {{ class.time }}</div> 
+						<div class="scheduleClassName">{{ class.name }}</div>
+						<div class="scheduleClasslocation">{{ class.location }}</div>
 					</div>
 				</div>
+				<div class="time-block-15" style="height: {{ ct.endTimePadding/1.5 }};"></div>
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 	
 </div>

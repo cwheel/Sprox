@@ -7,6 +7,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.gradYear = userData.gradTerm;
 	$scope.ct = userData.classesWeekly.Tu;
 	$scope.showRooming = false;
+	$scope.colors = colors;
 
 	//Ensure we actually were given a roommate
 	if (userData.roomateEmail != "") {
@@ -60,7 +61,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 
     	}
 	});
-	$scope.ct = userData.classesWeekly[new Date().getDay()];
+	$scope.ct = userData.classesWeekly[2];
 
 	if ($scope.ct.length !== 0) {
 		$scope.classesToday = true;
@@ -202,7 +203,24 @@ sprox.directive('edgelessPanel', function() {
         }
     };
 });
-
+sprox.directive('scheduleFreeHeight', function($timeout) {
+    return {
+        link: function(scope, element, attr) {
+        	$timeout(function() {
+             	element.css("height", attr.scheduleFreeHeight / 2);
+         	},10)
+        }
+    };
+});
+sprox.directive('scheduleClassHeight', function($timeout) {
+    return {
+        link: function(scope, element, attr) {
+	        $timeout(function(){
+	            element.css("height", attr.scheduleClassHeight);
+	        },10)
+        }
+    };
+});
 //Directive for controlling Bootstrap model dialogs
 sprox.directive('showModel', function() {
     return {

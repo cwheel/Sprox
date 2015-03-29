@@ -151,37 +151,37 @@ module.exports = function(passport, strategy) {
 					//Sort the days classes
 					spireUser.classesWeekly[i].classes.sort(function (a,b) {return a.tf_e - b.tf_e});
 				}
+				
+				for(var curday in spireUser.classesWeekly){
+					for(var curclass in spireUser.classesWeekly[curday].classes){
+						//Free Time takes in StartTime, the time of the last class, and the Start of the class.
+						//This is used to determine how much time is between the current class and the last class
+						spireUser.classesWeekly[curday].classes[curclass].freeTime = DiffTime(startTime, spireUser.classesWeekly[curday].classes[curclass].th_s);
 
-					for(var curday in spireUser.classesWeekly){
-						for(var curclass in spireUser.classesWeekly[curday].classes){
-							//Free Time takes in StartTime, the time of the last class, and the Start of the class.
-							//This is used to determine how much time is between the current class and the last class
-							spireUser.classesWeekly[curday].classes[curclass].freeTime = DiffTime(startTime, spireUser.classesWeekly[curday].classes[curclass].th_s);
+						//Similar to Free Time, Class Duration takes in the Start Time and the End time, together the function determines how many minutes are in your class.
+						spireUser.classesWeekly[curday].classes[curclass].classDuration = DiffTime(spireUser.classesWeekly[curday].classes[curclass].th_s, spireUser.classesWeekly[curday].classes[curclass].th_e);
 
-							//Similar to Free Time, Class Duration takes in the Start Time and the End time, together the function determines how many minutes are in your class.
-							spireUser.classesWeekly[curday].classes[curclass].classDuration = DiffTime(spireUser.classesWeekly[curday].classes[curclass].th_s, spireUser.classesWeekly[curday].classes[curclass].th_e);
+						//Sets the StartTime to the end of the class time to use in the freeTime calculation
+						startTime = spireUser.classesWeekly[curday].classes[curclass].th_e;
 
-							//Sets the StartTime to the end of the class time to use in the freeTime calculation
-							startTime = spireUser.classesWeekly[curday].classes[curclass].th_e;
-
-							// Creates the Amount of Free Time you have between all the classes. This function ignores breaks in between classes (15 minutes) and the the First Classes Free Time.
-							if (curclass != 0 && spireUser.classesWeekly[curday].classes[curclass].freeTime > 15){
-								freeTimeTotal = freeTimeTotal + spireUser.classesWeekly[curday].classes[curclass].freeTime;
-							}
-
+						// Creates the Amount of Free Time you have between all the classes. This function ignores breaks in between classes (15 minutes) and the the First Classes Free Time.
+						if (curclass != 0 && spireUser.classesWeekly[curday].classes[curclass].freeTime > 15){
+							freeTimeTotal = freeTimeTotal + spireUser.classesWeekly[curday].classes[curclass].freeTime;
 						}
-					
-						// Creates a variable on when your day ends
-						spireUser.classesWeekly[curday].endTime = startTime;
-						//Calculates the padding at the End of the day. 6:45 is the last time of normally scheduled classes acording to Umass's Website.
 
-						spireUser.classesWeekly[curday].endTimePadding = DiffTime(startTime,"6:45 PM");
-						spireUser.classesWeekly[curday].freeTimeTotal = freeTimeTotal;
-
-						//Reset Variables for the Next Day
-						freeTimeTotal = 0;
-						startTime = "8:00 AM";
 					}
+				
+					// Creates a variable on when your day ends
+					spireUser.classesWeekly[curday].endTime = startTime;
+					//Calculates the padding at the End of the day. 6:45 is the last time of normally scheduled classes acording to Umass's Website.
+
+					spireUser.classesWeekly[curday].endTimePadding = DiffTime(startTime,"6:45 PM");
+					spireUser.classesWeekly[curday].freeTimeTotal = freeTimeTotal;
+
+					//Reset Variables for the Next Day
+					freeTimeTotal = 0;
+					startTime = "8:00 AM";
+				}
 
 				//Remove <br> Tags from Certain Elements Creating an Array of Each Line
 				spireUser.homeAddress = spireUser.homeAddress.split("<br>");

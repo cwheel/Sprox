@@ -34,12 +34,21 @@ module.exports = function(grunt) {
           }
         }
       }
+    },
+    watch: {
+      sass: {
+          files: ['app/scss/*.scss'],
+          tasks: ['sass'],
+          options: {
+              spawn: false
+          }
+        } 
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-shell-spawn');
-  grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-nodemon');  
 
   grunt.registerTask('default', ['sass', 'shell:mongodb', 'nodemon']);
 };
