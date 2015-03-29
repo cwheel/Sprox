@@ -27,12 +27,52 @@
 }
 @media screen and (min-width: 768px) {
   #notesSidebar.ng-hide {
-    right: -255px;
+    right: -225px;
   }
 
   #notesSidebar {
     width: 225px;
   }
+}
+#addButton {
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  margin: 15px;
+}
+
+#addButtonIcon {
+  padding-top: 7;
+  padding-left: 2;
+}
+
+#notebookTitle {
+  color: #FFF;
+  padding: 15px;
+}
+
+.notebookItem {
+  padding-left: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #FFF;
+  font-size: 12;
+}
+
+.notebookItem:hover {
+  background: #263238;
+}
+
+.notebookEditField {
+  color: #FFF;
+  width: 175px;
+  font-size: 12;
+}
+
+.notebookDeleteItem {
+  float: right;
+  padding-right: 25px;
+  padding-top: 1px;
 }
 
 /*# sourceMappingURL=notes.css.map */

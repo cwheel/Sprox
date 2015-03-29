@@ -36,10 +36,8 @@ var colors =["#E53935", // Red
 			"#C0CA33", // Lime 
 			"#039BE5"] // Light Blue
 
-
-//Super hacky but....
-var curSharePage = "";
-var curShareSection = "Sections";
+var currentNotebook;
+var curNote = "";
 
 sprox.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
 	$routeProvider

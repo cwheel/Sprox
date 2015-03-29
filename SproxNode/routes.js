@@ -2,6 +2,7 @@ var Passport = require('passport');
 var UmassGet = require('./serviceConnectors/getConnector');
 var UmassParking = require('./serviceConnectors/parkingConnector');
 var CachedUser = require('./models/user');
+var Note = require('./models/note');
 var sha512 = require('js-sha512');
 var CryptoJSAES = require('node-cryptojs-aes');
 var bcrypt = require('bcrypt');
@@ -163,6 +164,92 @@ module.exports = function(app) {
 		});
 
 	});
+
+	//Notebook save
+	app.post('/notebook/save', requireAuth, function(req, res) {
+		if (req.user.netid == null || req.body.section == null || req.body.title == null || req.body.content == null) {
+			res.send(400, "Missing or invalid request parameters.")
+		}
+
+		Note.findOneAndUpdate({user : req.user.netid, section : req.body.section, title : req.body.title}, {content: req.body.content}, {upsert:true}, function(err, doc){
+		    if (err) return res.send(500, { error: err });
+		    res.send({ status: 'success'});   
+		});
+   	});
+
+   	//Notebook layout
+   	app.get('/notebook/layout', requireAuth, function(req, res) {
+   		Note.find({user : req.user.netid}, function(err, notes) {
+   			if (err) return res.send(500, { error: err });
+   			var layout = {};
+
+   			notes.forEach(function(note) {
+   				if (layout[note.section] == undefined) {
+   					layout[note.section] = {};
+   				}
+
+   				layout[note.section][note.title] = "";
+   			});
+
+   			res.send(layout);
+   		});
+   	});
+
+   	//Notebook note
+   	app.get('/notebook/note', requireAuth, function(req, res) {
+   		if (req.user.netid == null || req.query.section == null || req.query.title == null) {
+   			res.send(400, "Missing or invalid request parameters.");
+   		}
+
+   		Note.findOne({user : req.user.netid, section : req.query.section, title : req.query.title}, function(err, note) {
+   			if (err) return res.send(500, { error: err });
+   			res.send(note.content);
+   		});
+   	});
+
+   	//Notebook delete
+   	app.post('/notebook/delete', requireAuth, function(req, res) {
+   		var remove;
+
+   		if (req.user.netid == null || req.body.section == null) {
+   			res.send(400, "Missing or invalid request parameters.");
+   		}
+
+   		if (req.body.title == null) {
+   			remove = {user : req.user.netid, section : req.body.section};
+   		} else {
+   			remove = {user : req.user.netid, section : req.body.section, title : req.body.title};
+   		}
+
+   		Note.remove(remove, function(err, doc){
+		    if (err) return res.send(500, { error: err });
+		    res.send({ status: 'success'});   
+		});
+   	});
+
+   	//Notebook note rename
+   	app.post('/notebook/rename', requireAuth, function(req, res) {
+		if (req.user.netid == null || req.body.section == null || req.body.title == null || req.body.newTitle == null) {
+			res.send(400, "Missing or invalid request parameters.")
+		}
+
+		Note.findOneAndUpdate({user : req.user.netid, section : req.body.section, title : req.body.title}, {title: req.body.newTitle}, {upsert:true}, function(err, doc){
+		    if (err) return res.send(500, { error: err });
+		    res.send({ status: 'success'});   
+		});
+   	});
+
+   	//Notebook note rename
+   	app.post('/notebook/renameSection', requireAuth, function(req, res) {
+		if (req.user.netid == null || req.body.section == null || req.body.newSection == null) {
+			res.send(400, "Missing or invalid request parameters.")
+		}
+
+		Note.update({user : req.user.netid, section : req.body.section}, {section: req.body.newSection}, {multi: true}, function(err){
+		    if (err) return res.send(500, { error: err });
+		    res.send({ status: 'success'});   
+		});
+   	});
 
 	//Catch all 404's
 	app.get('*', function(req, res){

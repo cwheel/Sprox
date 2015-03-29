@@ -40,6 +40,7 @@ body {
 
 .noSelect{
 	@include noselect;
+	cursor: default;
 }
 
 .clickable {

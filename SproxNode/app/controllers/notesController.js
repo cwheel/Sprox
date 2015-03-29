@@ -1,10 +1,13 @@
-sprox.controller('notesController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', '$rootScope', function($scope, $location, $timeout, $http, $rootScope) {
 	//Enable fullscreen
 	$scope.fullscreen = true;
 
 	//Notebook data
-	$scope.notebook = {};
-	$scope.currentNotebook = $scope.notebook;
+	var notebook = {};
+    var curSection = "Notebook Sections";
+    var curTitle = "";
+    var autosave = false;
+    $scope.editorDisabled = true;
 
 	//Notebook Attributes
 	$scope.notebookPosition = "Notebook Sections";
@@ -19,6 +22,125 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', function(
 		tabSpaces: 4,
 		height: 600
 	};
+
+    $http({
+        method : 'GET',
+        url : '/notebook/layout'
+    })
+    .success(function(resp) {
+        notebook = angular.fromJson(resp);
+        currentNotebook = Object.keys(notebook);
+    });
+
+    //A notebook item was clicked
+    $rootScope.$on("notebookItemSelected", function (event, item) {
+        if (item != null && item != undefined) {
+            if (curSection == "Notebook Sections") {
+                currentNotebook = Object.keys(notebook[item]);
+                curSection = item;
+                $rootScope.$broadcast("notebookChangedSection", item);
+            } else {
+                autosave = false;
+                if (notebook[curSection][item] == "") {
+                    console.log("fetching");
+                    $http({
+                        method : 'GET',
+                        url : '/notebook/note',
+                        params: {section : curSection, title : item}
+                    })
+                    .success(function(content) {
+                        notebook[curSection][item] = content;
+                        curNote = item;
+                        curTitle = item;
+                        $scope.editorContent = notebook[curSection][item];
+                        autosave = true;
+                    });
+                } else {
+                    curNote = item;
+                    curTitle = item;
+                    $scope.editorContent = notebook[curSection][item];
+                    autosave = true;
+                }
+            }
+        }
+    });
+
+    $rootScope.$on("notebookSetEditorDisabled", function (event, item) {
+        $scope.editorDisabled = item;
+    });
+
+    //A new note was added
+    $rootScope.$on("notebookAddNewNote", function (event, item) {
+        notebook[curSection][item] = "";
+        currentNotebook = Object.keys(notebook[curSection]);
+        $rootScope.$broadcast("notebookChangedSection", curSection);
+    });
+
+    //The notebooks back button was clicked, return to the root level
+    $rootScope.$on("notebookBack", function (event, item) {
+        $rootScope.$broadcast("notebookChangedSection", "Notebook Sections");
+        curSection = "Notebook Sections";
+        currentNotebook = Object.keys(notebook);
+    });
+
+    $rootScope.$on("notebookAddNewSection", function (event, item) {
+        notebook[item] = {};
+
+        //Send a notebookBack event to update the root view
+        $rootScope.$broadcast("notebookBack");
+    });
+
+    $rootScope.$on("notebookSectionRenamed", function (event, item) {
+        notebook[item.newSection] = notebook[item.section];
+        delete notebook[item.section];
+
+        //Send a notebookBack event to update the root view
+        $rootScope.$broadcast("notebookBack");
+    });
+
+    $rootScope.$on("notebookItemRenamed", function (event, item) {
+        notebook[item.section][item.newTitle] = notebook[item.section][item.title];
+        delete notebook[item.section][item.title];
+
+        //Send a notebookItemSelected event to update the section view
+        currentNotebook = Object.keys(notebook[item.section]);
+        $rootScope.$broadcast("notebookChangedSection", item.section);
+    });
+
+    $rootScope.$on("notebookItemDeleted", function (event, item) {
+        if (item.title != undefined) {
+            delete notebook[item.section][item.title];
+
+            //Send a notebookItemSelected event to update the section view
+            currentNotebook = Object.keys(notebook[item.section]);
+            $rootScope.$broadcast("notebookChangedSection", item.section);
+        } else {
+            delete notebook[item.section];
+
+            //Send a notebookBack event to update the root view
+            $rootScope.$broadcast("notebookBack");
+        }
+    });
+
+    $scope.$watch('editorContent', function() {
+        if (curTitle != "" && autosave) {
+            $http({
+                method  : 'POST',
+                url     : '/notebook/save',
+                data    : $.param({section : curSection, title : curTitle, content : $scope.editorContent}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .success(function(resp) {
+                if (angular.fromJson(resp).status == 'success') {
+                  notebook[curSection][curTitle] = $scope.editorContent;
+                  //Send a notebookItemSelected event to update the section view
+                  currentNotebook = Object.keys(notebook[curSection]);
+                  $rootScope.$broadcast("notebookChangedSection", curSection);
+                }
+            });  
+        }
+        
+    });
 
 	//CKEditor Fixes.... dirty, dirty fixes...
 	$timeout(function() {

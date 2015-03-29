@@ -2,11 +2,15 @@
 @import "app/style/partials/animation";
 @import "app/style/partials/colors";
 
+$sidebar-width: 225px;
+$sidebar-padding: 25px;
+$sidebar-item-fontsize: 12;
+
 #notesSidebar {
   display:block!important;
   right: 0px;
   position: absolute;
-  width: 225px;
+  width: $sidebar-width;
   background: $sidebar-color;
   z-index: 1000;
   height: 100%;
@@ -30,10 +34,52 @@
 
 @include mobileNotCollapsed {
 	#notesSidebar.ng-hide {
-	  right: -255px;
+	  right: -$sidebar-width;
 	}
 
 	#notesSidebar {
-		width: 225px;
+		width: $sidebar-width;
 	}
+}
+
+#addButton {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    margin: 15px;
+}
+
+#addButtonIcon {
+	//Bad, shoudl fix the main class
+	padding-top: 7;
+  	padding-left: 2;
+}
+
+#notebookTitle {
+    color: #FFF;
+    padding: 15px;
+}
+
+.notebookItem {
+	padding-left: $sidebar-padding;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #FFF;
+  font-size: $sidebar-item-fontsize;
+}
+
+.notebookItem:hover {
+	background: #263238;
+}
+
+.notebookEditField {
+  color: #FFF;
+  width: $sidebar-width - $sidebar-padding*2;
+  font-size: $sidebar-item-fontsize;
+}
+
+.notebookDeleteItem {
+  float: right;
+  padding-right: $sidebar-padding;
+  padding-top: 1px;
 }
