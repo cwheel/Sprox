@@ -5,6 +5,9 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 	//Notebook data
 	var notebook = {};
     var curSection = "Notebook Sections";
+    var curTitle = "";
+    var autosave = false;
+    $scope.editorDisabled = true;
 
 	//Notebook Attributes
 	$scope.notebookPosition = "Notebook Sections";
@@ -37,11 +40,40 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
                 curSection = item;
                 $rootScope.$broadcast("notebookChangedSection", item);
             } else {
-                curNote = item;
-                console.log("load content for " + curSection + " > " + curNote);
+                autosave = false;
+                if (notebook[curSection][item] == "") {
+                    console.log("fetching");
+                    $http({
+                        method : 'GET',
+                        url : '/notebook/note',
+                        params: {section : curSection, title : item}
+                    })
+                    .success(function(content) {
+                        notebook[curSection][item] = content;
+                        curNote = item;
+                        curTitle = item;
+                        $scope.editorContent = notebook[curSection][item];
+                        autosave = true;
+                    });
+                } else {
+                    curNote = item;
+                    curTitle = item;
+                    $scope.editorContent = notebook[curSection][item];
+                    autosave = true;
+                }
             }
-            
         }
+    });
+
+    $rootScope.$on("notebookSetEditorDisabled", function (event, item) {
+        $scope.editorDisabled = item;
+    });
+
+    //A new note was added
+    $rootScope.$on("notebookAddNewNote", function (event, item) {
+        notebook[curSection][item] = "";
+        currentNotebook = Object.keys(notebook[curSection]);
+        $rootScope.$broadcast("notebookChangedSection", curSection);
     });
 
     //The notebooks back button was clicked, return to the root level
@@ -49,6 +81,13 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         $rootScope.$broadcast("notebookChangedSection", "Notebook Sections");
         curSection = "Notebook Sections";
         currentNotebook = Object.keys(notebook);
+    });
+
+    $rootScope.$on("notebookAddNewSection", function (event, item) {
+        notebook[item] = {};
+
+        //Send a notebookBack event to update the root view
+        $rootScope.$broadcast("notebookBack");
     });
 
     $rootScope.$on("notebookSectionRenamed", function (event, item) {
@@ -66,6 +105,41 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         //Send a notebookItemSelected event to update the section view
         currentNotebook = Object.keys(notebook[item.section]);
         $rootScope.$broadcast("notebookChangedSection", item.section);
+    });
+
+    $rootScope.$on("notebookItemDeleted", function (event, item) {
+        if (item.title != undefined) {
+            delete notebook[item.section][item.title];
+
+            //Send a notebookItemSelected event to update the section view
+            currentNotebook = Object.keys(notebook[item.section]);
+            $rootScope.$broadcast("notebookChangedSection", item.section);
+        } else {
+            delete notebook[item.section];
+
+            //Send a notebookBack event to update the root view
+            $rootScope.$broadcast("notebookBack");
+        }
+    });
+
+    $scope.$watch('editorContent', function() {
+        if (curTitle != "" && autosave) {
+            $http({
+                method  : 'POST',
+                url     : '/notebook/save',
+                data    : $.param({section : curSection, title : curTitle, content : $scope.editorContent}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .success(function(resp) {
+                if (angular.fromJson(resp).status == 'success') {
+                  notebook[curSection][curTitle] = $scope.editorContent;
+                  //Send a notebookItemSelected event to update the section view
+                  currentNotebook = Object.keys(notebook[curSection]);
+                  $rootScope.$broadcast("notebookChangedSection", curSection);
+                }
+            });  
+        }
+        
     });
 
 	//CKEditor Fixes.... dirty, dirty fixes...

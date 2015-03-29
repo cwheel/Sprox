@@ -195,13 +195,33 @@ module.exports = function(app) {
    		});
    	});
 
+   	//Notebook note
+   	app.get('/notebook/note', requireAuth, function(req, res) {
+   		if (req.user.netid == null || req.query.section == null || req.query.title == null) {
+   			res.send(400, "Missing or invalid request parameters.");
+   		}
+
+   		Note.findOne({user : req.user.netid, section : req.query.section, title : req.query.title}, function(err, note) {
+   			if (err) return res.send(500, { error: err });
+   			res.send(note.content);
+   		});
+   	});
+
    	//Notebook delete
    	app.post('/notebook/delete', requireAuth, function(req, res) {
-   		if (req.user.netid == null || req.body.section == null || req.body.title == null) {
-   			res.send(400, "Missing or invalid request parameters.");
-   		};
+   		var remove;
 
-   		Note.remove({user : req.user.netid, section : req.body.section, title : req.body.title}, function(err, doc){
+   		if (req.user.netid == null || req.body.section == null) {
+   			res.send(400, "Missing or invalid request parameters.");
+   		}
+
+   		if (req.body.title == null) {
+   			remove = {user : req.user.netid, section : req.body.section};
+   		} else {
+   			remove = {user : req.user.netid, section : req.body.section, title : req.body.title};
+   		}
+
+   		Note.remove(remove, function(err, doc){
 		    if (err) return res.send(500, { error: err });
 		    res.send({ status: 'success'});   
 		});

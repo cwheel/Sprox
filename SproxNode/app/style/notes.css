@@ -27,7 +27,7 @@
 }
 @media screen and (min-width: 768px) {
   #notesSidebar.ng-hide {
-    right: -255px;
+    right: -225px;
   }
 
   #notesSidebar {
@@ -61,6 +61,18 @@
 
 .notebookItem:hover {
   background: #263238;
+}
+
+.notebookEditField {
+  color: #FFF;
+  width: 175px;
+  font-size: 12;
+}
+
+.notebookDeleteItem {
+  float: right;
+  padding-right: 25px;
+  padding-top: 1px;
 }
 
 /*# sourceMappingURL=notes.css.map */

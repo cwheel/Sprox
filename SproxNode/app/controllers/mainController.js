@@ -21,8 +21,9 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.curIsSection = false;
     $scope.notesRenaming = "";
     $scope.notesCurRename = {val : ""};
+    $scope.notesCurMouse = "";
 	var notesPaneDone = true;
-
+    var notesDeleteClick = false;
 	 //Load other libraries
 	$ocLazyLoad.load([{
     	name: 'ngCkeditor',
@@ -76,6 +77,8 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     //Using an agregious amount of $rootScope broadcasts to notify the actual notebook controller
     /////////////////////////////////
 
+    $rootScope.$broadcast("notebookSetEditorDisabled", true);
+
     //Hide the notebook pullout view
     $scope.hideNotesPane = function(event) {
         var parent = false;
@@ -101,7 +104,16 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 
     //Notify the notebook controller that a notebook item was clicked
     $scope.selectNotesItem = function(item) {
+        if (notesDeleteClick) {
+            notesDeleteClick = !notesDeleteClick;
+            return;
+        }
+
         if ($scope.notesRenaming == "") {
+            if ($scope.curIsSection) {
+                 $rootScope.$broadcast("notebookSetEditorDisabled", false);
+            }
+            
             $rootScope.$broadcast("notebookItemSelected", item);
         }
     };
@@ -115,6 +127,37 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.notesRenameItem = function(item) {
         $scope.notesCurRename.val = item;
         $scope.notesRenaming = item;
+    }
+
+    //Add a new note
+    $scope.notesAddNew = function() {
+        $rootScope.$broadcast("notebookSetEditorDisabled", false);
+
+        if ($scope.currentNotebook["Untitled Section"] != undefined) {
+            $scope.notesCurRename.val = "Untitled Section";
+            $scope.notesRenaming = "Untitled Section";
+        } else if ($scope.currentNotebook["Untitled Note"] != undefined) {
+            $scope.notesCurRename.val = "Untitled Note";
+            $scope.notesRenaming = "Untitled Note";
+        } else if ($scope.notebookSection == "Notebook Sections") {
+            $rootScope.$broadcast("notebookAddNewSection", "Untitled Section");
+            $scope.notesCurRename.val = "Untitled Section";
+            $scope.notesRenaming = "Untitled Section";
+        } else {
+            $http({
+                method  : 'POST',
+                url     : '/notebook/save',
+                data    : $.param({section : $scope.notebookSection, title : "Untitled Note", content : "an empty note"}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .success(function(resp) {
+                if (angular.fromJson(resp).status == 'success') {
+                    $rootScope.$broadcast("notebookAddNewNote", "Untitled Note");
+                    $scope.notesCurRename.val = "Untitled Note";
+                    $scope.notesRenaming = "Untitled Note";
+                }
+            });
+        }
     }
 
     //Save the rename
@@ -184,6 +227,30 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.$watch(function () {return currentNotebook}, function (newValue, oldValue) {
         $scope.currentNotebook = newValue;
     });
+
+    //Delete an item in the notebook ivew
+    $scope.notesDeleteItem = function (item) {
+        var data;
+        notesDeleteClick = true;
+
+        if (!$scope.curIsSection) {
+            data = {section : item};
+        } else {
+            data = {section : $scope.notebookSection, title : item};
+        }
+        
+        $http({
+            method  : 'POST',
+            url     : '/notebook/delete',
+            data    : $.param(data),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .success(function(resp) {
+            if (angular.fromJson(resp).status == 'success') {
+                $rootScope.$broadcast("notebookItemDeleted", data);
+            }
+        });
+    };
 
 	//Ask Passport if our user is authed - Not used for information security, used only for UI
 	$http({
@@ -281,10 +348,13 @@ sprox.directive('sglclick', ['$parse', function($parse) {
         };
     }]);
 
-sprox.directive('focusOn', function() {
-   return function(scope, elem, attr) {
-      scope.$on(attr.focusOn, function(e) {
-          elem[0].focus();
-      });
-   };
-});
+sprox.directive('showFocus',[ '$timeout', function($timeout) {
+  return function(scope, element, attrs) {
+    scope.$watch(attrs.showFocus, 
+      function (newValue) { 
+        $timeout(function() {
+            newValue && element[0].focus();
+        });
+      },true);
+  };    
+}]);
