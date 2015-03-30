@@ -167,7 +167,7 @@
     		{{ notebookSection }}
     	</div>
 
-    	<!-- Note items -->
+    	<!-- Note item -->
     	<div class="notebookItem noSelect clickable" ng-repeat="item in currentNotebook" sglclick="selectNotesItem(item)" ng-dblclick="notesRenameItem(item)" ng-mouseover="notesCurMouse = item" ng-mouseleave="notesCurMouse = ''">
     		<i class="fa fa-book" ng-show="!curIsSection && notesRenaming != item"></i>
     		<span ng-show="!curIsSection && notesRenaming != item">&nbsp;&nbsp;&nbsp;</span>
@@ -175,7 +175,7 @@
 			    <input ng-model="notesCurRename.val" ng-keypress="notebookRenameItemEnter($event)" show-focus="notesRenaming == item" class="form-control floating-label notebookEditField" ng-blur="notesSaveRename()">
 		   	</div>
     		<span ng-if="notesRenaming != item">{{ item }}</span>
-    		<i class="fa fa-trash-o notebookDeleteItem" ng-click="notesDeleteItem(item)" ng-show="notesCurMouse == item"></i>
+    		<i class="fa fa-trash-o notebookDeleteItem" ng-click="notesDeleteItem(item)" ng-show="notesCurMouse == item && notesRenaming != item"></i>
     	</div>
 
     	<!-- Add note button -->

@@ -77,6 +77,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     //Using an agregious amount of $rootScope broadcasts to notify the actual notebook controller
     /////////////////////////////////
 
+    //Disable the editor at the start
     $rootScope.$broadcast("notebookSetEditorDisabled", true);
 
     //Hide the notebook pullout view
@@ -147,7 +148,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
             $http({
                 method  : 'POST',
                 url     : '/notebook/save',
-                data    : $.param({section : $scope.notebookSection, title : "Untitled Note", content : "an empty note"}),
+                data    : $.param({section : $scope.notebookSection, title : "Untitled Note", content : ""}),
                 headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
             })
             .success(function(resp) {
