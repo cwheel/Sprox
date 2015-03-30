@@ -23,6 +23,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 		height: 600
 	};
 
+    //Request the notebook layout
     $http({
         method : 'GET',
         url : '/notebook/layout'
@@ -65,6 +66,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         }
     });
 
+    //The disable event for the editor
     $rootScope.$on("notebookSetEditorDisabled", function (event, item) {
         $scope.editorDisabled = item;
     });
@@ -83,6 +85,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         currentNotebook = Object.keys(notebook);
     });
 
+    //A new section was added, update the notebook
     $rootScope.$on("notebookAddNewSection", function (event, item) {
         notebook[item] = {};
 
@@ -90,6 +93,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         $rootScope.$broadcast("notebookBack");
     });
 
+    //A section was renamed, update the notebook
     $rootScope.$on("notebookSectionRenamed", function (event, item) {
         notebook[item.newSection] = notebook[item.section];
         delete notebook[item.section];
@@ -98,6 +102,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         $rootScope.$broadcast("notebookBack");
     });
 
+    //An item was renamed, update the notebook
     $rootScope.$on("notebookItemRenamed", function (event, item) {
         notebook[item.section][item.newTitle] = notebook[item.section][item.title];
         delete notebook[item.section][item.title];
@@ -107,6 +112,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         $rootScope.$broadcast("notebookChangedSection", item.section);
     });
 
+    //An item was deleted, update the notebook
     $rootScope.$on("notebookItemDeleted", function (event, item) {
         if (item.title != undefined) {
             delete notebook[item.section][item.title];
@@ -122,6 +128,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         }
     });
 
+    //Monitor changes to the editors content
     $scope.$watch('editorContent', function() {
         if (curTitle != "" && autosave) {
             $http({
