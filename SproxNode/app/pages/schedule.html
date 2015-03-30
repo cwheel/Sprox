@@ -29,7 +29,7 @@
 					<div class="dayName">{{sDay.name}}</div>
 					<div ng-repeat="class in sDay.classes"> 
 						<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
-						<div class="scheduleClass" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 
+						<div class="scheduleClass shadow-z-1" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 
 							<div class="scheduleClassTime"> {{ class.time }}</div> 
 							<div class="scheduleClassName">{{ class.name }}</div>
 							<div class="scheduleClasslocation">{{ class.location }}</div>

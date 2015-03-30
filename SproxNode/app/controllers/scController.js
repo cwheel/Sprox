@@ -207,7 +207,7 @@ sprox.directive('scheduleFreeHeight', function($timeout) {
     return {
         link: function(scope, element, attr) {
         	$timeout(function() {
-             	element.css("height", attr.scheduleFreeHeight / 2);
+             	element.css("height", attr.scheduleFreeHeight);
          	},10)
         }
     };
