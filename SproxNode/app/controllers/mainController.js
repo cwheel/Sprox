@@ -239,18 +239,8 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
         } else {
             data = {section : $scope.notebookSection, title : item};
         }
-        
-        $http({
-            method  : 'POST',
-            url     : '/notebook/delete',
-            data    : $.param(data),
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        .success(function(resp) {
-            if (angular.fromJson(resp).status == 'success') {
-                $rootScope.$broadcast("notebookItemDeleted", data);
-            }
-        });
+
+        $rootScope.$broadcast("notebookItemDeleted", data);
     };
 
 	//Ask Passport if our user is authed - Not used for information security, used only for UI
