@@ -103,7 +103,9 @@ module.exports = function(passport, strategy) {
 							//Cleans up the time, location and class name from Spire, they're messy
 							allCourses[j].time = allCourses[j].time.split("<br>")[0];
 							allCourses[j].location = allCourses[j].location.split("<br>")[1];
+							allCourses[j].type = allCourses[j].name.split("<br>")[1].split(" ")[0];
 							allCourses[j].name = allCourses[j].name.replace("<br>","");
+							allCourses[j].prettyName = allCourses[j].name.split("-")[0];
 						}
 
 						//Check if the class occurs on the day we're looking at

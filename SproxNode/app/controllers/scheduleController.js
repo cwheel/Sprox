@@ -43,6 +43,10 @@ sprox.controller('scheduleController',['$scope', '$location', '$timeout', functi
 	$scope.filterDay = function(dayNum) {
 			return daysofweek[dayNum]
 	};
+	$scope.curDay = function(num){
+		var now = new Date();
+		return now.getDay() == num + 1;
+	}
 }]);
 
 

@@ -25,13 +25,13 @@
 						<div>{{time}}</div>
 					</div>
 				</div>
-				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" ng-class="{scheduleBorderFirst: $first,scheduleBorder:!$first}" class=" center-block col-md-2">
-					<div class="dayName">{{sDay.name}}</div>
+				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" ng-class="{scheduleBorderFirst: $first}" class="scheduleBorder center-block col-md-2">
+					<div ng-class="{scheduleNameFirst: curDay($index)}" class="dayName">{{sDay.name}}</div>
 					<div ng-repeat="class in sDay.classes"> 
 						<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
 						<div class="scheduleClass shadow-z-1" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 
 							<div class="scheduleClassTime"> {{ class.time }}</div> 
-							<div class="scheduleClassName">{{ class.name }}</div>
+							<div class="scheduleClassName">{{ class.prettyName }}</div>
 							<div class="scheduleClasslocation">{{ class.location }}</div>
 						</div>
 					</div>

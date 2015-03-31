@@ -110,9 +110,10 @@
 }
 
 .dayName {
-  font-size: 16px;
+  font-size: 12px;
   width: 100%;
   height: 55px;
+  color: #CCC;
   text-align: center;
 }
 
@@ -136,6 +137,11 @@
   float: left;
   width: 3%;
   min-height: 1px;
+}
+
+.scheduleNameFirst {
+  color: #000;
+  font-size: 16px;
 }
 
 /*# sourceMappingURL=schedule.css.map */
