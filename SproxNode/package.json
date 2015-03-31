@@ -1,26 +1,29 @@
 {
-	"name": "sprox",
-    "main": "server.js",
-    "dependencies": {
-    	"express" : "~4.5.1",
-       	"mongoose" : "~3.8.0",
-      	"body-parser" : "~1.4.2",
-       	"method-override" : "~2.0.2",
-       	"bcrypt" : "latest",
-        "cookie-parser" : "latest",
-        "express-session" : "latest",
-        "grunt-nodemon" : "latest",
-        "grunt-contrib-sass" : "latest",
-        "grunt-shell-spawn" : "latest",
-        "spooky" : "latest",
-        "casperjs" : "latest",
-        "phantomjs" : "latest",
-        "merge" : "latest",
-        "passport" : "latest",
-        "passport-local" : "latest",
-        "tabletojson"  : "latest",
-        "js-sha512" : "latest",
-        "bcrypt" : "latest",
-        "node-cryptojs-aes" : "latest"
-    }
+  "name": "sprox",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~4.5.1",
+    "mongoose": "~3.8.0",
+    "body-parser": "~1.4.2",
+    "method-override": "~2.0.2",
+    "bcrypt": "latest",
+    "cookie-parser": "latest",
+    "express-session": "latest",
+    "grunt-nodemon": "latest",
+    "grunt-contrib-sass": "latest",
+    "grunt-shell-spawn": "latest",
+    "spooky": "latest",
+    "casperjs": "latest",
+    "phantomjs": "latest",
+    "merge": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "tabletojson": "latest",
+    "js-sha512": "latest",
+    "node-cryptojs-aes": "latest"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sass-watch": "0.0.1"
+  }
 }

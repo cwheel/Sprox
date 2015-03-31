@@ -20,15 +20,16 @@
 
 				<div class="scheduleSpacer"></div>
 				<div class="center-block col-md-1">
+					<div style="margin-top:45px;"></div>
 					<div ng-repeat="time in times" class="timeName">
-						<div ng-class="{scheduleFirstTime : $first}">{{time}}</div>
+						<div>{{time}}</div>
 					</div>
 				</div>
 				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" ng-class="{scheduleBorderFirst: $first,scheduleBorder:!$first}" class=" center-block col-md-2">
 					<div class="dayName">{{sDay.name}}</div>
 					<div ng-repeat="class in sDay.classes"> 
 						<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
-						<div class="scheduleClass" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 
+						<div class="scheduleClass shadow-z-1" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 
 							<div class="scheduleClassTime"> {{ class.time }}</div> 
 							<div class="scheduleClassName">{{ class.name }}</div>
 							<div class="scheduleClasslocation">{{ class.location }}</div>
