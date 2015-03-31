@@ -251,6 +251,47 @@ module.exports = function(app) {
 		});
    	});
 
+   	//Fetch a users notebook sections for sharing
+   	app.get('/notebook/getSections', requireAuth, function(req, res) {
+		if (req.query.user == null) {
+			res.send(400, "Missing or invalid request parameters.")
+		}
+
+		Note.find({user : req.query.user}, function(err, notes) {
+   			if (err) return res.send(500, { error: err });
+   			var sections = [];
+
+   			if (notes == null) {
+   				res.send(["No Notebook Sections"])
+   			}
+
+   			notes.forEach(function(note) {
+   				if (sections[note.section] == undefined) {
+   					sections.push(note.section);
+   				}
+   			});
+
+   			res.send(sections);
+   		});
+   	});
+
+   	//Share a section in a notebook
+   	app.post('/notebook/share', requireAuth, function(req, res) {
+		if (req.user.netid == null || req.body.user == null || req.body.section == null || req.body.title == null) { 
+			res.send(400, "Missing or invalid request parameters.")
+		}
+
+		Note.findOne({user : req.user.netid, section : req.body.section, title : req.body.title}, function(err, note) {
+   			if (err) return res.send(500, { error: err });
+   			
+   			var content = note.content;
+
+  			Note.insert({}, function(err) {
+  				res.send({"status" : "success"});
+  			});
+   		});
+   	});
+
 	//Catch all 404's
 	app.get('*', function(req, res){
 		res.redirect('/');

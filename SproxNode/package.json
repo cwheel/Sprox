@@ -20,7 +20,8 @@
     "passport-local": "latest",
     "tabletojson": "latest",
     "js-sha512": "latest",
-    "node-cryptojs-aes": "latest"
+    "node-cryptojs-aes": "latest",
+    "nodemailer" : "latest"
   },
   "devDependencies": {
     "grunt-contrib-watch": "^0.6.1",
