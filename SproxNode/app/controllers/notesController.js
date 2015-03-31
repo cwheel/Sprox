@@ -12,6 +12,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 	//Notebook Attributes
 	$scope.notebookPosition = "Notebook Sections";
 	$scope.showBack = false;
+    $scope.noteDelete = null;
 	var colors = ["#F44336", "#E91E63", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFC107", "#FF9800", "#FF5722", "#795548", "#607D8B"];
 
 	$scope.editorContent = "";
@@ -74,6 +75,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     //A new note was added
     $rootScope.$on("notebookAddNewNote", function (event, item) {
         notebook[curSection][item] = "";
+        curTitle = item;
         currentNotebook = Object.keys(notebook[curSection]);
         $rootScope.$broadcast("notebookChangedSection", curSection);
     });
@@ -114,19 +116,41 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 
     //An item was deleted, update the notebook
     $rootScope.$on("notebookItemDeleted", function (event, item) {
-        if (item.title != undefined) {
-            delete notebook[item.section][item.title];
-
-            //Send a notebookItemSelected event to update the section view
-            currentNotebook = Object.keys(notebook[item.section]);
-            $rootScope.$broadcast("notebookChangedSection", item.section);
-        } else {
-            delete notebook[item.section];
-
-            //Send a notebookBack event to update the root view
-            $rootScope.$broadcast("notebookBack");
-        }
+        $scope.noteDelete = item;
     });
+
+    //Delete an item once the user confirms
+    $scope.deleteItem = function () {
+         $http({
+            method  : 'POST',
+            url     : '/notebook/delete',
+            data    : $.param($scope.noteDelete),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .success(function(resp) {
+            if (angular.fromJson(resp).status == 'success') {
+                if ($scope.noteDelete.title != undefined) {
+                    delete notebook[$scope.noteDelete.section][$scope.noteDelete.title];
+
+                    //Send a notebookItemSelected event to update the section view
+                    currentNotebook = Object.keys(notebook[$scope.noteDelete.section]);
+                    $rootScope.$broadcast("notebookChangedSection", $scope.noteDelete.section);
+                } else {
+                    delete notebook[$scope.noteDelete.section];
+
+                    //Send a notebookBack event to update the root view
+                    $rootScope.$broadcast("notebookBack");
+                }
+
+                $scope.noteDelete = null;
+            }
+        });
+    };
+
+    //Don't delete an item
+    $scope.noDeleteItem =  function () {
+        $scope.noteDelete = null;
+    };
 
     //Monitor changes to the editors content
     $scope.$watch('editorContent', function() {
