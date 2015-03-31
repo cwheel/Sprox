@@ -1,4 +1,23 @@
 <div class="notes">
+	<div id="deleteModel" class="modal fade" tabindex="-1" role="dialog" show-model="deleteModel">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title">Delete {{ noteDelete }}</h4>
+	            </div>
+
+	            <div class="modal-body">
+	                <p>It&#39;ll be gone forever (a really long time).</p>
+	            </div> 
+
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="cacheModel" ng-click="noDelete();">Cancel</button> 
+	                <button type="button" class="btn btn-primary" ng-click="delete();">Delete</button>
+	            </div>
+	        </div>
+    	</div>
+	</div>
+
 	<div id="notesWriter">
 		<textarea ckeditor="editorOptions" ckreadonly="true" ng-model="editorContent"></textarea>
 	</div>
