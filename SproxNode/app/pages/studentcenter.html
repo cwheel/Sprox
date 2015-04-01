@@ -1,4 +1,5 @@
 <div>
+	<!-- Model's Start -->
 	<div id="cacheModel" class="modal fade" tabindex="-1" role="dialog" show-model="cacheModel">
 	    <div class="modal-dialog">
 	        <div class="modal-content">
@@ -46,84 +47,89 @@
 	        </div>
     	</div>
 	</div>
+	<!-- Model's End -->
 
-<div class="row">
-	<div class="col-md-9">
-		<div class="col-md-12">
-		<!-- Student Information Start -->
-			<div class="panel panel-material-light-green" edgeless-panel>
-				<div class="panel-heading scPanelIcon">
-				    <i class="fa fa-pencil"></i>
-				</div>
+	<div class="row">
+		<div class="col-md-9">
+			<div class="col-md-12">
+			<!-- Student Information Start -->
+				<div class="panel panel-material-light-green" edgeless-panel>
+					<div class="panel-heading scPanelIcon">
+					    <i class="fa fa-pencil"></i>
+					</div>
 
-				<div class="panel-heading">
-				    Student Information
-				    <br> 
-				    <div class="scPanelHeaderSubText">Graduating in {{ gradYear }}</div>
-				    
-				</div>
+					<div class="panel-heading">
+					    Student Information
+					    <br> 
+					    <div class="scPanelHeaderSubText">Graduating in {{ gradYear }}</div>
+					    
+					</div>
 
-				<div class="panel-body">
-					<div class="subTitle">Home Address</div>
-					<div class="scPanelSubText">{{ homeAddress[0] }} <br> {{ homeAddress[1] }}</div>
-					<br>
-					<div class="subTitle">School Address</div>
-					<div class="scPanelSubText">{{ schoolAddress[0] }}<br>{{ schoolAddress[1] }}<br>{{ schoolAddress[2] }}</div>
-				</div>
-			</div>
-		</div>
-	<!-- Student Information End -->
-
-	<!-- Housing Information Start-->
-		<div class="col-md-12" ng-show="showRooming">
-			<div class="panel panel-material-light-green" edgeless-panel>
-				<div class="panel-heading scPanelIcon">
-				    <i class="fa fa-home"></i>
-				</div>
-
-				<div class="panel-heading">
-				    Housing at {{ building }}
-				    <br>
-				    <div class="scPanelHeaderSubText">Room {{ roomNumber }} - {{ roomType }}</div>
-				</div>
-				
-				<div class="panel-body">
-					<div class="subTitle">Mail Box Combination</div>
-					<div class="scPanelSubText">{{ mailBox }}</div>
-					<br>
-					<div class="subTitle">Roomate</div>
-					<div class="scPanelSubText">{{ roomate }}</div>
-					<div class="scPanelSubText">{{ roomateEmail }}</div>
-					<br>
-					<div class="subTitle">Roomate Address</div>
-					<div class="scPanelSubText">{{ roomateAddress }}</div>
-					<div class="scPanelSubText">{{ roomateCity }}, {{ roomateState }} {{ roomateZip }}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Housing Information End-->
-
-	<div class="col-md-3">
-		<div class="panel panel-material-cyan" edgeless-panel>
-			<div class="panel-heading">
-			    <div class="dayTitle">{{ classesDay }} Classes</div>
-			</div>
-			
-			<div class="panel-body">
-				<div ng-repeat="class in ct.classes"> 
-					<div class="time-block-15" schedule-free-height = "{{ class.freeTime }}"></div>
-					<div class="scheduleClass shadow-z-1" schedule-class-height= "{{ class.classDuration }}" style=" background: {{ colors[class.classID] }};"> 
-						<div class="scheduleClassTime"> {{ class.time }}</div> 
-						<div class="scheduleClassName">{{ class.name }}</div>
-						<div class="scheduleClasslocation">{{ class.location }}</div>
+					<div class="panel-body">
+						<div class="subTitle">Home Address</div>
+						<div class="scPanelSubText">{{ homeAddress[0] }} <br> {{ homeAddress[1] }}</div>
+						<br>
+						<div class="subTitle">School Address</div>
+						<div class="scPanelSubText">{{ schoolAddress[0] }}<br>{{ schoolAddress[1] }}<br>{{ schoolAddress[2] }}</div>
 					</div>
 				</div>
-				<div class="time-block-15" style="height: {{ ct.endTimePadding/1.5 }};"></div>
+			</div>
+		<!-- Student Information End -->
+
+		<!-- Housing Information Start-->
+			<div class="col-md-12" ng-show="showRooming">
+				<div class="panel panel-material-light-green" edgeless-panel>
+					<div class="panel-heading scPanelIcon">
+					    <i class="fa fa-home"></i>
+					</div>
+
+					<div class="panel-heading">
+					    Housing at {{ building }}
+					    <br>
+					    <div class="scPanelHeaderSubText">Room {{ roomNumber }} - {{ roomType }}</div>
+					</div>
+					
+					<div class="panel-body">
+						<div class="subTitle">Mail Box Combination</div>
+						<div class="scPanelSubText">{{ mailBox }}</div>
+						<br>
+						<div class="subTitle">Roomate</div>
+						<div class="scPanelSubText">{{ roomate }}</div>
+						<div class="scPanelSubText">{{ roomateEmail }}</div>
+						<br>
+						<div class="subTitle">Roomate Address</div>
+						<div class="scPanelSubText">{{ roomateAddress }}</div>
+						<div class="scPanelSubText">{{ roomateCity }}, {{ roomateState }} {{ roomateZip }}</div>
+					</div>
+				</div>
 			</div>
 		</div>
+		<!-- Housing Information End-->
+
+		<!-- Class Schedule Start -->
+		<div class="col-md-3">
+			<div class="col-md-12">
+				<div class="panel panel-material-cyan" edgeless-panel>
+					<div class="panel-heading">
+					    <div class="dayTitle">{{ classesDay }} Classes</div>
+					</div>
+					
+					<div class="panel-body">
+						<div ng-repeat="class in ct.classes"> 
+							<div class="shFreeTime" schedule-free-height = "{{ class.freeTime }}"></div>
+							<div class="shClass shadow-z-1" schedule-class-height= "{{ class.classDuration }}" style=" background: {{ colors[class.classID] }};"> 
+								<div class="shClassTime"> {{ class.time }}</div> 
+								<div class="shClassName">{{ class.prettyName }}</div>
+								<div class="shClasslocation">{{ class.location }}</div>
+							</div>
+						</div>
+						<div class="shFreeTime" style="height: {{ ct.endTimePadding/1.5 }};"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Clas Schedule End -->
 	</div>
-</div>
 </div>
 	
 </div>

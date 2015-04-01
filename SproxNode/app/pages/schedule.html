@@ -1,41 +1,41 @@
 <div class="schedule">
-	<div class="row">
-		<div class="panel panel-material-light-blue schedulebackground col-centered">
+	<div class="row col-md-12">
+		<div class="panel col-md-12 panel-material-light-blue" style="padding-left:0px;padding-right:0px">
 			<div class="panel-heading">
-					<div><span><i class="fa fa-calendar-o"></i></span> Weekly Schedule</div>
+				<div><span><i class="fa fa-calendar-o"></i></span> Weekly Schedule</div>
 			</div>
-			<div class="panel-body col-centered col-md-12">
+			<div class="panel-body col-md-12" edgeless-panel="">
 				<!-- Time Bars -->
-				<div style="top: 70px;" class="timebar"> </div>
-				<div style="top: 130px;" class="timebar"> </div>
-				<div style="top: 190px;" class="timebar"> </div>
-				<div style="top: 250px;" class="timebar"> </div>
-				<div style="top: 310px;" class="timebar"> </div>
-				<div style="top: 370px;" class="timebar"> </div>
-				<div style="top: 430px;" class="timebar"> </div>
-				<div style="top: 490px;" class="timebar"> </div>
-				<div style="top: 550px;" class="timebar"> </div>
-				<div style="top: 610px;" class="timebar"> </div>
-				<div style="top: 670px;" class="timebar"> </div>
+				<div style="top: 70px;"  class="shTimebar"> </div>
+				<div style="top: 130px;" class="shTimebar"> </div>
+				<div style="top: 190px;" class="shTimebar"> </div>
+				<div style="top: 250px;" class="shTimebar"> </div>
+				<div style="top: 310px;" class="shTimebar"> </div>
+				<div style="top: 370px;" class="shTimebar"> </div>
+				<div style="top: 430px;" class="shTimebar"> </div>
+				<div style="top: 490px;" class="shTimebar"> </div>
+				<div style="top: 550px;" class="shTimebar"> </div>
+				<div style="top: 610px;" class="shTimebar"> </div>
+				<div style="top: 670px;" class="shTimebar"> </div>
 
-				<div class="scheduleSpacer"></div>
+				<div class="shSpacer"></div>
 				<div class="center-block col-md-1">
 					<div style="margin-top:45px;"></div>
-					<div ng-repeat="time in times" class="timeName">
+					<div ng-repeat="time in times" class="shTimeName">
 						<div>{{time}}</div>
 					</div>
 				</div>
-				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" ng-class="{scheduleBorderFirst: $first}" class="scheduleBorder center-block col-md-2">
-					<div ng-class="{scheduleNameFirst: curDay($index)}" class="dayName">{{sDay.name}}</div>
+				<div ng-repeat="sDay in weeklySchedule | filter:daysofweek" ng-class="{shBorderFirst: $first}" class="shBorder center-block col-md-2">
+					<div ng-class="{shDayCur: curDay($index)}" class="shDay">{{sDay.name}}</div>
 					<div ng-repeat="class in sDay.classes"> 
-						<div class="time-block-15" style="height: {{ class.freeTime }};"></div>
-						<div class="scheduleClass shadow-z-1" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 
-							<div class="scheduleClassTime"> {{ class.time }}</div> 
-							<div class="scheduleClassName">{{ class.prettyName }}</div>
-							<div class="scheduleClasslocation">{{ class.location }}</div>
+						<div class="shFreeTime" style="height: {{ class.freeTime }};"></div>
+						<div class="shClass shadow-z-1" style="height: {{ class.classDuration }}; background: {{ colors[class.classID] }};"> 
+							<div class="shClassTime"> {{ class.time }}</div> 
+							<div class="shClassName">{{ class.prettyName }}</div>
+							<div class="shClasslocation">{{ class.location }}</div>
 						</div>
 					</div>
-					<div class="time-block-15" style="height: {{ sDay.endTimePadding }};"></div>
+					<div class="shFreeTime" style="height: {{ sDay.endTimePadding }};"></div>
 				</div>
 			</div>
 		</div>
@@ -48,10 +48,10 @@
 					<div>Finals</div>
 				</div>
 				<div class="panel-body">
-					<div class="col-md-2 scheduleFinal" ng-repeat="class in finals">
+					<div class="col-md-2 shFinal" ng-repeat="class in finals">
 						<div>{{ class.name }} </div>
 						<div>{{ class.day }}. {{ class.time }}</div>
-						<div class="scheduleClassLocation">{{ class.location }}</div>
+						<div class="shClassLocation">{{ class.location }}</div>
 					</div>
 				</div>	
 			</div>
