@@ -75,4 +75,26 @@
   padding-top: 1px;
 }
 
+#notebookHelp {
+  color: #FFF;
+  font-size: 11px;
+  position: absolute;
+  bottom: 100px;
+  right: 100px;
+}
+
+#notesArrow {
+  background: url(../src/notesArrow.png);
+  width: 75;
+  height: 50;
+  background-repeat: no-repeat;
+  -webkit-background-size: contain;
+  -ms-background-size: contain;
+  -moz-background-size: contain;
+  background-size: contain;
+  position: absolute;
+  bottom: 40px;
+  left: 60px;
+}
+
 /*# sourceMappingURL=notes.css.map */

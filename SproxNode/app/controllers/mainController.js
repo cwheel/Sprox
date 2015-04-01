@@ -16,7 +16,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	 			{"path" : "mp", "title" : "Map", "dev" : false, "color" : "#666"}];
 
     //Notebook
-    $scope.currentNotebook = null;
+    $scope.currentNotebook = [];
     $scope.notebookSection = "Notebook Sections";
     $scope.curIsSection = false;
     $scope.notesRenaming = "";

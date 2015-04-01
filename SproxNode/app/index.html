@@ -161,12 +161,14 @@
     <!-- Notes Sidebar -->
     <div id="notesSidebar" ng-show="showNotes" ng-swipe-right="hideNotesPane()" class="shadow-z-2">
     	<!-- Note Title -->
-    	<div id="notebookTitle" class="noSelect">
+    	<div id="notebookTitle" class="noSelect" ng-class="{true:'helpBlur', false:''}[currentNotebook.length == 0 && notebookSection == 'Notebook Sections']">
     		<i class="fa fa-chevron-left clickable" ng-show="curIsSection" ng-click="notesBack()"></i>
     		<span ng-show="curIsSection" class="noSelect">&nbsp;&nbsp;&nbsp;</span>
     		{{ notebookSection }}
     	</div>
 
+    	<div id="notebookHelp" ng-if="currentNotebook.length == 0 && notebookSection == 'Notebook Sections'">Add a New Section</div>
+    	<div id="notesArrow" ng-if="currentNotebook.length == 0 && notebookSection == 'Notebook Sections'"></div>
     	<!-- Note item -->
     	<div class="notebookItem noSelect clickable" ng-repeat="item in currentNotebook" sglclick="selectNotesItem(item)" ng-dblclick="notesRenameItem(item)" ng-mouseover="notesCurMouse = item" ng-mouseleave="notesCurMouse = ''">
     		<i class="fa fa-book" ng-show="!curIsSection && notesRenaming != item"></i>
@@ -193,7 +195,7 @@
           	<div class="user pull-right" ng-show="notes">
               <div class="item dropdown" ng-click="showNotesPane()">
                <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa fa-list"></i>
+                  <i class="fa fa-list" style="color: #FFF"></i>
                 </a>
               </div>
             </div>

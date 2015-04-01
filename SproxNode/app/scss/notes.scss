@@ -83,3 +83,22 @@ $sidebar-item-fontsize: 12;
   padding-right: $sidebar-padding;
   padding-top: 1px;
 }
+
+#notebookHelp {
+    color: #FFF;
+    font-size: 11px;
+    position: absolute;
+    bottom: $sidebar-padding*4;
+    right: $sidebar-padding*4;
+}
+
+#notesArrow { 
+  background: url(../src/notesArrow.png);
+  width: 75;
+  height: 50;
+  background-repeat: no-repeat;
+  @include vendor-prefix(background-size, contain);
+  position: absolute;
+  bottom: ($sidebar-padding*4)-60;
+  left: ($sidebar-padding*4)-40;
+}
