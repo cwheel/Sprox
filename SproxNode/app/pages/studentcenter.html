@@ -117,13 +117,13 @@
 					<div class="panel-body">
 						<div ng-repeat="class in ct.classes"> 
 							<div class="shFreeTime" schedule-free-height = "{{ class.freeTime }}"></div>
-							<div class="shClass shadow-z-1" schedule-class-height= "{{ class.classDuration }}" style=" background: {{ colors[class.classID] }};"> 
+							<div class="shClass shadow-z-1" style=" background:{{ colors[class.classID] }}; height:60px"> 
 								<div class="shClassTime"> {{ class.time }}</div> 
 								<div class="shClassName">{{ class.prettyName }}</div>
 								<div class="shClasslocation">{{ class.location }}</div>
 							</div>
 						</div>
-						<div class="shFreeTime" style="height: {{ ct.endTimePadding/1.5 }};"></div>
+						<div class="shFreeTime" schedule-free-height="{{ ct.endTimePadding }}"></div>
 					</div>
 				</div>
 			</div>

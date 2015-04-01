@@ -61,7 +61,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 
     	}
 	});
-	$scope.ct = userData.classesWeekly[2];
+	$scope.ct = userData.classesWeekly[new Date().getDay()];
 
 	if ($scope.ct.length !== 0) {
 		$scope.classesToday = true;
@@ -207,7 +207,7 @@ sprox.directive('scheduleFreeHeight', function($timeout) {
     return {
         link: function(scope, element, attr) {
         	$timeout(function() {
-             	element.css("height", attr.scheduleFreeHeight);
+             	element.css("height", attr.scheduleFreeHeight / 2);
          	},10)
         }
     };
@@ -216,7 +216,7 @@ sprox.directive('scheduleClassHeight', function($timeout) {
     return {
         link: function(scope, element, attr) {
 	        $timeout(function(){
-	            element.css("height", attr.scheduleClassHeight);
+	            element.css("height", 60);
 	        },10)
         }
     };

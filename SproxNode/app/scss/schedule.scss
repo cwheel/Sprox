@@ -8,6 +8,29 @@ All tags in this stylesheet start with "sh"
 
 //Desktop
 @include nonColumnLayout{
+	.shTimebar{
+		height: 1px;
+		position: absolute;
+		width: calc(83.5555% - 30px);
+		background-color: #CCC;
+		margin-left: 11.2%;
+	}
+	.shBorderFirst{
+		border-left: 2px solid #CCC;
+	}
+	.shBorder{
+		border-right: 2px solid #CCC;
+		border-bottom: 2px solid #CCC;
+	}
+	.shSpacer{
+		position: relative;
+    	float: left;
+   		width: 3%;
+    	min-height: 1px;
+	}
+	.shTimeSpacer{
+		margin-top:45px;
+	}
 	.shFreeTime {
 		visibility: hidden;
 	}
@@ -18,12 +41,12 @@ All tags in this stylesheet start with "sh"
 		font-weight: 400;
 		text-align: right;
 	}
-	.shTimebar{
-		height: 1px;
-		position: absolute;
-		width: calc(83.5555% - 30px);
-		background-color: #CCC;
-		margin-left: 11.2%;
+	.shDay{
+		height: 55px;
+	}
+	.shDayCur{
+		color:#000 !important;
+		font-size:16px !important;
 	}
 }
 
@@ -34,13 +57,25 @@ All tags in this stylesheet start with "sh"
 		height: 0px !important;
 	}
 	.shClass {
-		height: 55px;
+		height: 55px !important;
 	}
 	.shTimeName{
 		visibility: hidden;
 	}
 	.shTimeBar{
 		visibility: hidden;
+	}
+	.shMobileHide{
+		visibility: hidden;
+		height: 0px !important;
+	}
+	.shClass{
+		margin-top:20px;
+		margin-bottom:20px;
+	}
+	.shDay{
+		color:#000 !important;
+		font-size:16px !important;
 	}
 }
 
@@ -49,12 +84,6 @@ All tags in this stylesheet start with "sh"
 	height:50px;
 	background-color: green;
 	text-align: center;
-}
-.shSpacer{
-	position: relative;
-    float: left;
-    width: 3%;
-    min-height: 1px;
 }
 .shClass {
 	 text-align: center;
@@ -109,21 +138,10 @@ All tags in this stylesheet start with "sh"
 .shDay{
 	font-size:12px;
     width: 100%;
-    height: 55px;
     color:#CCC;
     text-align: center;
 }
-.shDayCur{
-	color:#000;
-	font-size:16px
-}	
-.shBorderFirst{
-	border-left: 2px solid #CCC;
-}
-.shBorder{
-	border-right: 2px solid #CCC;
-	border-bottom: 2px solid #CCC;
-}
+	
 .shFirstTime{
 	margin-top:45px;
 }
