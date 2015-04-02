@@ -13,9 +13,8 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 	$scope.notebookPosition = "Notebook Sections";
 	$scope.showBack = false;
     $scope.noteDelete = null;
-	var colors = ["#F44336", "#E91E63", "#673AB7", "#3F51B5", "#2196F3", "#00BCD4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFC107", "#FF9800", "#FF5722", "#795548", "#607D8B"];
-
 	$scope.editorContent = "";
+    $scope.deleteItemTitle = "";
 
 	$scope.editorOptions = {
 		language: 'en', 
@@ -36,6 +35,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 
     //A notebook item was clicked
     $rootScope.$on("notebookItemSelected", function (event, item) {
+        autosave = true;
         if (item != null && item != undefined) {
             if (curSection == "Notebook Sections") {
                 currentNotebook = Object.keys(notebook[item]);
@@ -43,8 +43,9 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
                 $rootScope.$broadcast("notebookChangedSection", item);
             } else {
                 autosave = false;
+                $rootScope.$broadcast("notebookSetEditorDisabled", false);
+
                 if (notebook[curSection][item] == "") {
-                    console.log("fetching");
                     $http({
                         method : 'GET',
                         url : '/notebook/note',
@@ -117,6 +118,11 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     //An item was deleted, update the notebook
     $rootScope.$on("notebookItemDeleted", function (event, item) {
         $scope.noteDelete = item;
+        if ($scope.noteDelete.title != undefined) {
+            $scope.deleteItemTitle = $scope.noteDelete.title;
+        } else {
+            $scope.deleteItemTitle = $scope.noteDelete.section;
+        }
     });
 
     //Delete an item once the user confirms
@@ -132,11 +138,24 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
                 if ($scope.noteDelete.title != undefined) {
                     delete notebook[$scope.noteDelete.section][$scope.noteDelete.title];
 
+                    if (Object.keys(notebook[curSection]).length == 0) {
+                        $rootScope.$broadcast("notebookSetEditorDisabled", true);
+                    }
+
+                    if ($scope.deleteItemTitle == curTitle) {
+                        autosave = false;
+                        $scope.editorContent = "";
+                    }
+
                     //Send a notebookItemSelected event to update the section view
                     currentNotebook = Object.keys(notebook[$scope.noteDelete.section]);
                     $rootScope.$broadcast("notebookChangedSection", $scope.noteDelete.section);
                 } else {
                     delete notebook[$scope.noteDelete.section];
+
+                    if (Object.keys(notebook).length == 0) {
+                        $rootScope.$broadcast("notebookSetEditorDisabled", true);
+                    }
 
                     //Send a notebookBack event to update the root view
                     $rootScope.$broadcast("notebookBack");
@@ -170,7 +189,6 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
                 }
             });  
         }
-        
     });
 
 	//CKEditor Fixes.... dirty, dirty fixes...
