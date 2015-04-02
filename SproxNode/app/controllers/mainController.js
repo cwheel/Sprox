@@ -88,7 +88,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
             parent = event.target.offsetParent.id != "notesSidebar";
         } catch (err) {}
 
-    	if (notesPaneDone && event.target.id != "notesSidebar" && parent && event.target.id != "addButtonIcon") {
+    	if (notesPaneDone && event.target.id != "notesSidebar" && parent && event.target.id != "addButtonIcon" && event.target != "button.btn btn-default" && event.target != "button.btn btn-primary") {
     		$scope.showNotes = false;
     	}
     };
@@ -132,8 +132,6 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 
     //Add a new note
     $scope.notesAddNew = function() {
-        $rootScope.$broadcast("notebookSetEditorDisabled", false);
-
         if ($scope.currentNotebook["Untitled Section"] != undefined) {
             $scope.notesCurRename.val = "Untitled Section";
             $scope.notesRenaming = "Untitled Section";
@@ -154,6 +152,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
             .success(function(resp) {
                 if (angular.fromJson(resp).status == 'success') {
                     $rootScope.$broadcast("notebookAddNewNote", "Untitled Note");
+                    $rootScope.$broadcast("notebookSetEditorDisabled", false);
                     $scope.notesCurRename.val = "Untitled Note";
                     $scope.notesRenaming = "Untitled Note";
                 }
