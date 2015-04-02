@@ -80,17 +80,25 @@ module.exports = function(user,passwd) {
 
 				//The horrors of regex live on....
 				//Make the location title case
-				location = location.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+				if (location != null) {
+					location = location.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 
-				//Remove all numbers (i.e cash registers)
-				location = location.replace(/[0-9]/g, '');
+					//Remove all numbers (i.e cash registers)
+					location = location.replace(/[0-9]/g, '');
 
-				//Remove the extra whitespace left over from removing numbers
-				location = location.trim();
+					//Remove the extra whitespace left over from removing numbers
+					location = location.trim();
+				} else {
+					location = '';
+				}
 
 				//Make the cost neutral
-				cost = cost.replace("- ","");
-				cost = cost.replace("+ ","");
+				if (cost != null) {
+					cost = cost.replace("- ","");
+					cost = cost.replace("+ ","");
+				} else {
+					cost = '';
+				}
 
 				return {'time' : time, 'date' : date, 'location' : location, 'cost' : cost};
 			}
@@ -101,7 +109,7 @@ module.exports = function(user,passwd) {
 				var row = getRow(this, i, "odd")
 				
 				//If the transaction was not made by GET itself, add it to the array
-				if (row.location != GetMap.admin && row.location != GetMap.admin2) {
+				if (row.location != GetMap.admin && row.location != GetMap.admin2 && row.location != '') {
 					transactions.push(row);
 				}
 				
@@ -111,7 +119,7 @@ module.exports = function(user,passwd) {
 					var row = getRow(this, i, "even")
 
 					//If the transaction was not made by GET itself, add it to the array
-					if (row.location != GetMap.admin && row.location != GetMap.admin2) {
+					if (row.location != GetMap.admin && row.location != GetMap.admin2 && row.location != '') {
 						transactions.push(row);
 					}
 				}
