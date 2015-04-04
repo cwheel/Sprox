@@ -203,24 +203,6 @@ sprox.directive('edgelessPanel', function() {
         }
     };
 });
-sprox.directive('scheduleFreeHeight', function($timeout) {
-    return {
-        link: function(scope, element, attr) {
-        	$timeout(function() {
-             	element.css("height", attr.scheduleFreeHeight / 2);
-         	},10)
-        }
-    };
-});
-sprox.directive('scheduleClassHeight', function($timeout) {
-    return {
-        link: function(scope, element, attr) {
-	        $timeout(function(){
-	            element.css("height", 60);
-	        },10)
-        }
-    };
-});
 //Directive for controlling Bootstrap model dialogs
 sprox.directive('showModel', function() {
     return {
