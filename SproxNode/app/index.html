@@ -159,7 +159,7 @@
     <div id="content-wrapper" style="overflow-x: hidden">
 
     <!-- Notes Sidebar -->
-    <div id="notesSidebar" ng-show="showNotes" ng-swipe-right="hideNotesPane()" class="shadow-z-2">
+    <div id="notesSidebar" ng-show="showNotes" ng-swipe-right="hideNotesPane()" class="shadow-z-2" ng-if="notes">
     	<!-- Note Title -->
     	<div id="notebookTitle" class="noSelect" ng-class="{true:'helpBlur', false:''}[currentNotebook.length == 0 && notebookSection == 'Notebook Sections']">
     		<i class="fa fa-chevron-left clickable" ng-show="curIsSection" ng-click="notesBack()"></i>
