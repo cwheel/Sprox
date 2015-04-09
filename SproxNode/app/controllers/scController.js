@@ -9,6 +9,11 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.showRooming = false;
 	$scope.colors = colors;
 
+	//Ensure that the mailbox is actually availible, it is not visible at the end of the year even if the student has selected hosuing
+	if ($scope.mailBox == "") {
+		$scope.mailBox = "Not yet released";
+	}
+
 	//Ensure we actually were given a roommate
 	if (userData.roomateEmail != "") {
 		$scope.showRooming = true;
@@ -21,6 +26,21 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		$scope.roomateCity = userData.roomateAddress[0].city;
 		$scope.roomateZip = userData.roomateAddress[0].zip;
 		$scope.roomateState = userData.roomateAddress[0].state;
+
+		//If Spire makes a mess of the roomates name, fix it
+		if ($scope.roomate.indexOf(",") > -1) {
+			var last = $scope.roomate.split(",")[0];
+			var first = $scope.roomate.split(",")[1].split(" ")[0];
+			var middle = $scope.roomate.split(" ")[1];
+
+			$scope.roomate = first + " " + middle + " " + last;
+		}
+
+		//If the room number begins with a 0, get rid of it
+		//Index 5 is the first digit of a room numeber after the Room -
+		if ($scope.roomNumber.indexOf("0") == 0) {
+			$scope.roomNumber = $scope.roomNumber.substring(1);
+		}
 	}
 
 	//We're not showing any models right now
@@ -61,6 +81,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 
     	}
 	});
+
 	$scope.ct = userData.classesWeekly[new Date().getDay()];
 
 	if ($scope.ct.length !== 0) {
