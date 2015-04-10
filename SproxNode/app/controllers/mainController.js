@@ -128,6 +128,11 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.notesRenameItem = function(item) {
         $scope.notesCurRename.val = item;
         $scope.notesRenaming = item;
+    };
+
+    //Begin sharing a notebook note
+    $scope.notesShareItem = function(item) {
+       $rootScope.$broadcast("notebookShareItem", item);
     }
 
     //Add a new note

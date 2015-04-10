@@ -5,6 +5,7 @@
 $sidebar-width: 225px;
 $sidebar-padding: 25px;
 $sidebar-item-fontsize: 12;
+$sidebar-icon-padding: 2;
 
 #notesSidebar {
   display:block!important;
@@ -81,7 +82,13 @@ $sidebar-item-fontsize: 12;
 .notebookDeleteItem {
   float: right;
   padding-right: $sidebar-padding;
-  padding-top: 1px;
+  padding-top: $sidebar-icon-padding;
+}
+
+.notebookShareItem {
+  float: right;
+  padding-right: $sidebar-padding/2;
+  padding-top: $sidebar-icon-padding;
 }
 
 #notebookHelp {

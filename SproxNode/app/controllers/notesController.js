@@ -13,6 +13,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 	$scope.notebookPosition = "Notebook Sections";
 	$scope.showBack = false;
     $scope.noteDelete = null;
+    $scope.noteShare = null;
 	$scope.editorContent = "";
     $scope.deleteItemTitle = "";
 
@@ -96,6 +97,12 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         $rootScope.$broadcast("notebookBack");
     });
 
+    //The notebook is beinging the process of sharing a note
+    $rootScope.$on("notebookShareItem", function (event, item) {
+       $scope.noteShare = item;
+       // $rootScope.$broadcast("notebookBack");
+    });
+
     //A section was renamed, update the notebook
     $rootScope.$on("notebookSectionRenamed", function (event, item) {
         notebook[item.newSection] = notebook[item.section];
@@ -124,6 +131,16 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
             $scope.deleteItemTitle = $scope.noteDelete.section;
         }
     });
+
+    //Cancel the share operation
+    $scope.noShareItem = function () {
+        $scope.noteShare = null;
+    };
+
+    //Confirm the share operation
+    $scope.shareItem = function () {
+        $scope.noteShare = null;
+    };
 
     //Delete an item once the user confirms
     $scope.deleteItem = function () {
