@@ -1,6 +1,6 @@
 sprox.controller('scheduleController',['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
 	$scope.weeklySchedule = {};
-	var days = ["Monday","Tuesday","Wensday","Thursday","Friday"]
+	var days = ["Monday","Tuesday","Wednesday","Thursday","Friday"]
 	var tfhour = false;
 	$scope.showFinals = false;
 	if (userData.finals != undefined){
