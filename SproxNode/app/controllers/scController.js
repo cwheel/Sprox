@@ -100,7 +100,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 			if (parseInt(time) < 2359 && parseInt(time) > $scope.ct.classes[$scope.ct.classes.length - 1].tfh_e) {
 				$scope.classesDay = "Tomorrow's";
 				$scope.ct = userData.classesWeekly[(new Date().getDay() + 1) % 7];
-
+				console.log('Test');
 				if (now.getDay() == 6 || now.getDay() == 5) {
 					$scope.classesToday = false;
 				}
