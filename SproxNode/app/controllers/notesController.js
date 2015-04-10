@@ -18,6 +18,15 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 
 	$scope.editorOptions = {
 		language: 'en', 
+        toolbar: 'full',
+        toolbar_full: [
+            { name: 'basicstyles',
+                items: [ 'Bold', 'Italic', 'Underline', 'Strike' ] },
+            { name: 'paragraph', items: [ 'BulletedList', 'NumberedList' ] },
+            { name: 'editing', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
+            { name: 'styles', items: [ 'Format', 'FontSize', 'TextColor'] },
+            { name: 'insert', items: [ 'Image', 'Table'] },
+        ],
 		uiColor: undefined,
 		tabSpaces: 4,
 		height: 600
@@ -190,7 +199,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
             });  
         }
     });
-
+    /*
 	//CKEditor Fixes.... dirty, dirty fixes...
 	$timeout(function() {
 		//Remove the toolbar spacer
@@ -236,4 +245,5 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         //Remove the bottom bar
        	$("#cke_1_bottom").css('display', 'none');
     }, 700);
+*/
 }]);
