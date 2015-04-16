@@ -27,7 +27,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	 //Load other libraries
 	$ocLazyLoad.load([{
     	name: 'ngCkeditor',
-    	files: ['bower_components/ng-ckeditor/ng-ckeditor.css','bower_components/ng-ckeditor/ng-ckeditor.min.js','bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js']
+    	files: ['bower_components/ng-ckeditor/ng-ckeditor.css','bower_components/ng-ckeditor/ng-ckeditor.js','bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js']
 	},{
 		name: 'leaflet-directive',
 		files: ['bower_components/leaflet/dist/leaflet.js','bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js','style/leaflet.css']
