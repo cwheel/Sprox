@@ -8,15 +8,13 @@ var CryptoJSAES = require('node-cryptojs-aes');
 
 module.exports = function(passport, strategy) {
 	passport.use('local', new strategy(function(username, password, done) {
+		console.log("Authenticating user: '" + username + "' with Spire...");
+
 		var authWithSpire = function() {
-			//Setup the Spire authentication system
-			var spire =  new SpireConnector(username, password);
+			var spire = new SpireConnector(username, password);
 			var spireUser = {};
 			var objFinished = 0;
 
-			console.log("Authenticating user: '" + username + "' with Spire...");
-
-			//The spire object reported some finding some values
 			spire.on('values', function (vals) {
 				objFinished++;
 				spireUser = merge(spireUser, vals);
@@ -196,14 +194,15 @@ module.exports = function(passport, strategy) {
 						var user = JSON.parse(CryptoJSAES.CryptoJS.enc.Utf8.stringify(decrypted));
 						return done(null, user);
 					} catch (err) {
-						user = false;
 						authWithSpire();
 					}
+				} else {
+					authWithSpire();
 				}
+		   	} else {
+		   		authWithSpire();
 		   	}
 		});
-
-		authWithSpire();
 	}));
 
 	//Session serialization

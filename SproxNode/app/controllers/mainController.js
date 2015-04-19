@@ -24,10 +24,10 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.notesCurMouse = "";
 	var notesPaneDone = true;
     var notesDeleteClick = false;
-	 //Load other libraries
+	//Load other libraries
 	$ocLazyLoad.load([{
     	name: 'ngCkeditor',
-    	files: ['bower_components/ng-ckeditor/ng-ckeditor.css','bower_components/ng-ckeditor/ng-ckeditor.min.js','bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js']
+    	files: ['bower_components/ng-ckeditor/ng-ckeditor.css','bower_components/ng-ckeditor/ng-ckeditor.js','bower_components/ng-ckeditor/libs/ckeditor/ckeditor.js']
 	},{
 		name: 'leaflet-directive',
 		files: ['bower_components/leaflet/dist/leaflet.js','bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.min.js','style/leaflet.css']
@@ -128,6 +128,11 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.notesRenameItem = function(item) {
         $scope.notesCurRename.val = item;
         $scope.notesRenaming = item;
+    };
+
+    //Begin sharing a notebook note
+    $scope.notesShareItem = function(item) {
+       $rootScope.$broadcast("notebookShareItem", item);
     }
 
     //Add a new note

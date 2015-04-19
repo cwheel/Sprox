@@ -178,6 +178,7 @@
 		   	</div>
     		<span ng-if="notesRenaming != item">{{ item }}</span>
     		<i class="fa fa-trash-o notebookDeleteItem" ng-click="notesDeleteItem(item)" ng-show="notesCurMouse == item && notesRenaming != item"></i>
+    		<i class="fa fa-share notebookShareItem" ng-click="notesShareItem(item)" ng-show="notesCurMouse == item && notesRenaming != item && curIsSection"></i>
     	</div>
 
     	<!-- Add note button -->
