@@ -50,7 +50,7 @@
 	<!-- Model's End -->
 
 	<div class="row">
-		<div class="col-md-9">
+		<div ng-class="{'col-md-9': classesToday,'col-md-12': !classesToday}">
 			<div class="col-md-12">
 			<!-- Student Information Start -->
 				<div class="panel panel-material-light-green" edgeless-panel>
@@ -107,7 +107,7 @@
 		<!-- Housing Information End-->
 
 		<!-- Class Schedule Start -->
-		<div class="col-md-3">
+		<div ng-if="classesToday" class="col-md-3">
 			<div class="col-md-12">
 				<div class="panel panel-material-cyan" edgeless-panel>
 					<div class="panel-heading">
