@@ -92,9 +92,13 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         $scope.renderEditor();
     });
 
-    //Render the editor on load
+    //Initial Congiruation of CKEditor
     $timeout(function() {
         $scope.renderEditor();
+
+        $scope.$watch('editorDisabled', function() {
+            CKEDITOR.instances.editor1.setReadOnly($scope.editorDisabled);
+        });
     }, 225);
 
     //The disable event for the editor
@@ -274,9 +278,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         $("#cke_37").remove();
 
         //Glue the editor read-state to angular
-        $scope.$watch('editorDisabled', function() {
-            CKEDITOR.instances.editor1.setReadOnly($scope.editorDisabled);
-        });
+        
 
         //Remove the bottom bar
        	$("#cke_1_bottom").css('display', 'none');

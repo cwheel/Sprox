@@ -67,7 +67,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		});
 	}
 
-	//Get the users auth state
+	//Get the users cache state
 	$http({
 	    method : 'GET',
 	    url : '/userInfo/cache'
@@ -76,9 +76,9 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		if (angular.fromJson(resp).status == 'unset') {
     		$scope.cacheModel = true;
     	} else if (angular.fromJson(resp).status == 'cached') {
-
+    		$scope.cacheModel = false;
     	} else if (angular.fromJson(resp).status == 'non-cached') {
-
+    		$scope.cacheModel = false;
     	}
 	});
 
