@@ -83,11 +83,10 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	});
 
 	$scope.ct = userData.classesWeekly[new Date().getDay()];
-
-	if ($scope.ct.length !== 0) {
+	$scope.classesToday = false;
+	if ($scope.ct.classes.length !== 0) {
 		$scope.classesToday = true;
 	}
-
 	$scope.setCurrentClass = function() {
 		var now = new Date();
 		var time;
