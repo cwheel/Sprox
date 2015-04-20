@@ -69,7 +69,11 @@ module.exports = function(passport, strategy) {
 						// Subtraction of Date Objects returns a milisecond time which is converted into minutes
 						tstart = tstop - tstart;
 						return (tstart/60/1000);
-					};	
+					};
+
+					var toTitleCase = function(str) {
+						return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+					}
 					
 					//Iterate the days of the week
 					var classesArray = [];
@@ -83,7 +87,7 @@ module.exports = function(passport, strategy) {
 							if (i == 0) {
 								//Cleans up the time, location and class name from Spire, they're messy
 								allCourses[j].time = allCourses[j].time.split("<br>")[0];
-								allCourses[j].location = allCourses[j].location.split("<br>")[1];
+								allCourses[j].location = toTitleCase(allCourses[j].location.split("<br>")[1].replace(" room","").replace(" rm", "").replace(" Rm", ""));
 								allCourses[j].type = allCourses[j].name.split("<br>")[1].split(" ")[0];
 								allCourses[j].name = allCourses[j].name.replace("<br>","");
 								allCourses[j].prettyName = allCourses[j].name.split("-")[0];

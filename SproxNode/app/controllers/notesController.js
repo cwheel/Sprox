@@ -16,6 +16,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     $scope.noteShare = null;
 	$scope.editorContent = "";
     $scope.deleteItemTitle = "";
+    $scope.editorTitle = "";
 
 	$scope.editorOptions = {
 		language: 'en', 
@@ -50,6 +51,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
                 curSection = item;
                 $rootScope.$broadcast("notebookChangedSection", item);
             } else {
+                $scope.editorTitle = item;
                 autosave = false;
                 $rootScope.$broadcast("notebookSetEditorDisabled", false);
 
@@ -84,7 +86,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     //A truely disgusting piece of work. Should be removed soon, wich seeing as it works pretty well probbaly means never...
     $scope.renderEditor = function() {
         //103px is the height of the top bar with the CKEditor bar as well
-        $(".cke_contents").height($(window).height()-103);
+        return $(".cke_contents").height($(window).height()-103);
     };
 
     //Watch the height and re-render the CKEditors height
@@ -93,13 +95,23 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     });
 
     //Initial Congiruation of CKEditor
-    $timeout(function() {
-        $scope.renderEditor();
+    $scope.preRender = function () {
+        if ($scope.renderEditor().length == 0) {
+            $timeout($scope.preRender, 10);
+        } else {
+            $("#cke_1_top").prepend('<div id="notesWriterTitle"></div>');
 
-        $scope.$watch('editorDisabled', function() {
-            CKEDITOR.instances.editor1.setReadOnly($scope.editorDisabled);
-        });
-    }, 225);
+            $scope.$watch('editorDisabled', function() {
+                CKEDITOR.instances.editor1.setReadOnly($scope.editorDisabled);
+            });
+
+            $scope.$watch('editorTitle', function(newTitle, oldTitle) {
+                $("#notesWriterTitle").html(newTitle);
+            });
+        }
+    }
+
+    $scope.preRender();
 
     //The disable event for the editor
     $rootScope.$on("notebookSetEditorDisabled", function (event, item) {
@@ -146,6 +158,10 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 
     //An item was renamed, update the notebook
     $rootScope.$on("notebookItemRenamed", function (event, item) {
+        if (curTitle == item.title) {
+            $scope.editorTitle = item.newTitle;
+        }
+
         notebook[item.section][item.newTitle] = notebook[item.section][item.title];
         delete notebook[item.section][item.title];
 
@@ -157,11 +173,21 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     //An item was deleted, update the notebook
     $rootScope.$on("notebookItemDeleted", function (event, item) {
         $scope.noteDelete = item;
+
         if ($scope.noteDelete.title != undefined) {
             $scope.deleteItemTitle = $scope.noteDelete.title;
+
+            if (curTitle == $scope.noteDelete.title) {
+                $scope.editorTitle = "";
+            }
         } else {
             $scope.deleteItemTitle = $scope.noteDelete.section;
         }
+    });
+
+    //Update the current notebook title
+    $rootScope.$on("notebookSetTitle", function (event, title) {
+        $scope.editorTitle = title;
     });
 
     //Cancel the share operation
@@ -239,49 +265,4 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
             });  
         }
     });
-    /*
-	//CKEditor Fixes.... dirty, dirty fixes...
-	$timeout(function() {
-		//Remove the toolbar spacer
-        $(".cke_toolbar_break").remove();
-
-        //Add the toolbar titles
-        $("#cke_1_top").prepend('<div id="writerTitle"></div>');
-        $("#cke_1_top").append('<div id="saveStatus"></div>');
-
-        //Glue the title to angular
-        $scope.$watch('writerTitle', function() {
-             $("#writerTitle").html($scope.writerTitle);
-        });
-
-        //Glue the save status to angular
-        $scope.$watch('saveStatus', function() {
-             $("#saveStatus").html($scope.saveStatus);
-        });
-        $scope.$watch('showSaveStatus', function() {
-        	if ($scope.showSaveStatus) {
-        		$("#saveStatus").css("visibility", "visible");
-        	} else {
-        		$("#saveStatus").css("visibility", "hidden");
-        	}
-        });
-
-        //Float the toolbar buttons right
-        $("#cke_1_toolbox").css('float', 'right');
-
-        //Move the fullscreen button
-        var fs = $("#cke_21").clone();
-        $("#cke_21").remove();
-        $("#cke_1_toolbox").append(fs);
-
-        //Remove the source button
-        $("#cke_37").remove();
-
-        //Glue the editor read-state to angular
-        
-
-        //Remove the bottom bar
-       	$("#cke_1_bottom").css('display', 'none');
-    }, 700);
-*/
 }]);

@@ -24,6 +24,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.notesCurMouse = "";
 	var notesPaneDone = true;
     var notesDeleteClick = false;
+
 	//Load other libraries
 	$ocLazyLoad.load([{
     	name: 'ngCkeditor',

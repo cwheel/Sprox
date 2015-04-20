@@ -46,6 +46,14 @@
   padding-left: 2;
 }
 
+#notesWriterTitle {
+  float: left;
+  font-size: 15px;
+  color: #FFF;
+  padding-left: 7px;
+  padding-top: 4px;
+}
+
 #notebookTitle {
   color: #FFF;
   padding: 15px;
