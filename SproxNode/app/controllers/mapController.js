@@ -41,7 +41,8 @@ sprox.controller('mapController',['$scope', '$location', '$timeout', '$http', fu
         defaults: {
                 zoomControl:false,
                 maxZoom:18,
-                minZoom:16
+                minZoom:16,
+                detectRetina:true
             }
         });
 
