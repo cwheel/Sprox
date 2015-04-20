@@ -78,6 +78,27 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         }
     });
 
+    //Return the window height, for a $watch function
+    $scope.getHeight = function() {
+        return $(window).height();
+    };
+
+    //A truely disgusting piece of work. Should be removed soon, wich seeing as it works pretty well probbaly means never...
+    $scope.renderEditor = function() {
+        //103px is the height of the top bar with the CKEditor bar as well
+        $(".cke_contents").height($(window).height()-103);
+    };
+
+    //Watch the height and re-render the CKEditors height
+    $scope.$watch($scope.getHeight, function(newValue, oldValue) {
+        $scope.renderEditor();
+    });
+
+    //Render the editor on load
+    $timeout(function() {
+        $scope.renderEditor();
+    }, 225);
+
     //The disable event for the editor
     $rootScope.$on("notebookSetEditorDisabled", function (event, item) {
         $scope.editorDisabled = item;

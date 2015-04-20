@@ -179,7 +179,7 @@ module.exports = function(passport, strategy) {
 
 			//The spire object reported it was unable to authenticate
 			spire.on('authFailure', function (vals) {
-				console.log("User: '" + username + "' failed authnetication with Spire...");
+				console.log("User: '" + username + "' failed authentication with Spire...");
 				return done(null, false);
 			});
 		};

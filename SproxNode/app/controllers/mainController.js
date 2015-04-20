@@ -76,7 +76,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     //The notebook pullout needs to render outside of the ng-view of the loaded page so it becomes mains problem
     //Using an agregious amount of $rootScope broadcasts to notify the actual notebook controller
     /////////////////////////////////
-
+    
     //Disable the editor at the start
     $rootScope.$broadcast("notebookSetEditorDisabled", true);
 
