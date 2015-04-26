@@ -141,7 +141,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		$http({
 		 	method  : 'POST',
 			url     : '/userInfo/setCache',
-			data    : {'cache' : false},
+			data    : $.param({'cache' : false}),
 			headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
 		})
 		.success(function(resp) {});

@@ -66,8 +66,8 @@ module.exports = function(app) {
 
    	//Cache control
 	app.post('/userInfo/setCache', requireAuth, function(req, res) {
-		if (req.body.cache != null && req.body.password != null) {
-			if (req.body.cache == 'true') {
+		if (req.body.cache != null) {
+			if (req.body.cache == 'true' && req.body.password != null) {
 				CachedUser.findOne({user : sha512(req.user.spireId)}, function(err, user) {
 					var b64 = new Buffer(req.body.password).toString('base64');
 					var encrypted = CryptoJSAES.CryptoJS.AES.encrypt(JSON.stringify(req.user), b64, { format: CryptoJSAES.JsonFormatter });
@@ -95,7 +95,11 @@ module.exports = function(app) {
 				saveUser.save();
 
 				res.send({ status: 'success'});
+			} else {
+				res.send(400, "Missing or invalid request parameters.");
 			}
+		} else {
+			res.send(400, "Missing or invalid request parameters.");
 		}
    	});
 
@@ -137,7 +141,7 @@ module.exports = function(app) {
 		if (userFunds[req.user.spireId] != undefined) {
 			res.send(userFunds[req.user.spireId]);
 		} else {
-			res.send("Error: You must have a session before requesting your funds.");
+			res.send(403, "You must have a session before requesting your funds.");
 		}
    	});
 
