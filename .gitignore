@@ -1,9 +1,6 @@
 sftp-config.json*
 SproxLocal/
-<<<<<<< HEAD
-=======
-SproxWeb/bower_components/
 SproxNode/db
 SproxNode/node_modules
 SproxNode/.sass-cache/
->>>>>>> Bootstrap
+SproxNode/.sass-cache/
