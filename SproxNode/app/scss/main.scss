@@ -1,0 +1,127 @@
+@import "app/style/partials/colors";
+@import "app/style/partials/device";
+@import "app/style/partials/noselect";
+@import "app/style/partials/animation";
+$padding-logo: 5px;
+$theme-dropdown-padding: 3px 20px;
+$avatar-size: 50px;
+$top-bar-size: 20px;
+
+body {
+  background-color: $background-color;
+  overflow-x: hidden;
+}
+
+#loginBack {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	position: absolute;
+	background-image: url(../src/loginBkg.png);
+  	@include vendor-prefix(background-size, cover);
+}
+
+@media screen and (max-width:1199px){
+	.pagefullViewPort{
+		height: calc(100% - 50px);
+	}
+}
+
+@media screen and (min-width:1200px){
+	.pagefullViewPort{
+		height: calc(100% - 60px);
+	}
+}
+
+.noSelect{
+	@include noselect;
+	cursor: default;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.avatar {
+	width: $avatar-size;
+	height: $avatar-size;
+	display: block;
+  	border-radius: 100px;
+  	border: 1px solid #CCCCCC;
+  	padding: 5px;
+}
+
+.toggled-only {
+	white-space: nowrap;
+	overflow: hidden;
+	font-family: 'Alegreya Sans', sans-serif;
+	font-weight: 300;
+}
+
+.top-bar {
+	background: $accent-color !important;
+}
+
+.top-bar-item {
+	float: left;
+	top: $top-bar-size;
+	position: relative;
+	font-size: $top-bar-size;
+	margin-right: $top-bar-size;
+	color: #FFF;
+	line-height: 1;
+}
+
+.col-center {
+	float: none;
+    margin: 0 auto;
+}
+
+.sidebar-top-text {
+	text-align: center;
+  	width: 250px;
+  	text-indent: 0px;
+  	color: #FFF;
+
+  	font-size: 11px;
+}
+
+#sidebar-user-icon {
+	width: 50px;
+  	height: 50px;
+  	margin: 0 auto;
+  	margin-top: 10px;
+  	margin-bottom: 10px;
+  	border-radius: 100px;
+}
+
+.floating-main {
+	float: right;
+	margin-bottom: 50px;
+}
+
+.page  { 
+	right: 0;
+	left: 0;
+	margin-bottom: 0;
+	margin-left: 0;
+	margin-right: 0;
+	padding-bottom: 0;
+	padding-right: 0;
+	padding-left: 0;
+	width: 100%;
+	opacity: 1 !important;
+}
+
+.helpBlur {
+	 @include vendor-prefix(filter, blur(5px));
+}
+
+.modal-dialog {
+	padding-top: 100px;
+}

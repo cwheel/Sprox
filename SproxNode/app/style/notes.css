@@ -1,0 +1,114 @@
+#notesSidebar {
+  display: block !important;
+  right: 0px;
+  position: absolute;
+  width: 225px;
+  background: #37474F;
+  z-index: 1000;
+  height: 100%;
+  -webkit-transition: all ease-out 0.25s;
+  -ms-transition: all ease-out 0.25s;
+  -moz-transition: all ease-out 0.25s;
+  transition: all ease-out 0.25s;
+}
+
+#notesSidebarng-hide-add, #notesSidebar.ng-hide-remove {
+  display: block !important;
+}
+
+@media screen and (max-width: 767px) {
+  #notesSidebar.ng-hide {
+    right: calc(-100% + 70px);
+  }
+
+  #notesSidebar {
+    width: calc(100% - 70px);
+  }
+}
+@media screen and (min-width: 768px) {
+  #notesSidebar.ng-hide {
+    right: -225px;
+  }
+
+  #notesSidebar {
+    width: 225px;
+  }
+}
+#addButton {
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  margin: 15px;
+}
+
+#addButtonIcon {
+  padding-top: 7;
+  padding-left: 2;
+}
+
+#notesWriterTitle {
+  float: left;
+  font-size: 15px;
+  color: #FFF;
+  padding-left: 7px;
+  padding-top: 4px;
+}
+
+#notebookTitle {
+  color: #FFF;
+  padding: 15px;
+}
+
+.notebookItem {
+  padding-left: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #FFF;
+  font-size: 12;
+}
+
+.notebookItem:hover {
+  background: #263238;
+}
+
+.notebookEditField {
+  color: #FFF;
+  width: 175px;
+  font-size: 12;
+}
+
+.notebookDeleteItem {
+  float: right;
+  padding-right: 25px;
+  padding-top: 2;
+}
+
+.notebookShareItem {
+  float: right;
+  padding-right: 12.5px;
+  padding-top: 2;
+}
+
+#notebookHelp {
+  color: #FFF;
+  font-size: 11px;
+  position: absolute;
+  bottom: 100px;
+  right: 100px;
+}
+
+#notesArrow {
+  background: url(../src/notesArrow.png);
+  width: 75;
+  height: 50;
+  background-repeat: no-repeat;
+  -webkit-background-size: contain;
+  -ms-background-size: contain;
+  -moz-background-size: contain;
+  background-size: contain;
+  position: absolute;
+  bottom: 40px;
+  left: 60px;
+}
+
+/*# sourceMappingURL=notes.css.map */

@@ -1,0 +1,160 @@
+/*
+Schedule CSS
+Some Classes shared with Student Center's Class's Well.
+All tags in this stylesheet start with "sh"
+*/
+@media screen and (min-width: 991px) {
+  .shTimebar {
+    height: 1px;
+    position: absolute;
+    width: calc(83.5555% - 30px);
+    background-color: #CCC;
+    margin-left: 11.2%;
+  }
+
+  .shBorderFirst {
+    border-left: 2px solid #CCC;
+  }
+
+  .shBorder {
+    border-right: 2px solid #CCC;
+    border-bottom: 2px solid #CCC;
+  }
+
+  .shSpacer {
+    position: relative;
+    float: left;
+    width: 3%;
+    min-height: 1px;
+  }
+
+  .shTimeSpacer {
+    margin-top: 45px;
+  }
+
+  .shFreeTime {
+    visibility: hidden;
+  }
+
+  .shTimeName {
+    color: #666;
+    height: 60px;
+    font-family: "Roboto",sans-serif;
+    font-weight: 400;
+    text-align: right;
+  }
+
+  .shDay {
+    height: 55px;
+  }
+
+  .shDayCur {
+    color: #000 !important;
+    font-size: 16px !important;
+  }
+}
+@media screen and (max-width: 990px) {
+  .shFreeTime {
+    visibility: hidden;
+    height: 0px !important;
+  }
+
+  .shClass {
+    height: 55px !important;
+  }
+
+  .shTimeName {
+    visibility: hidden;
+  }
+
+  .shTimeBar {
+    visibility: hidden;
+  }
+
+  .shMobileHide {
+    visibility: hidden;
+    height: 0px !important;
+  }
+
+  .shClass {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .shDay {
+    color: #000 !important;
+    font-size: 16px !important;
+  }
+}
+.shWeekDayHeader {
+  height: 50px;
+  background-color: green;
+  text-align: center;
+}
+
+.shClass {
+  text-align: center;
+  position: relative;
+  background: #B2EBF2;
+  border-radius: 3px;
+  color: #DDD;
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  font-weight: 200;
+}
+
+.shClasslocation {
+  position: absolute;
+  bottom: 0;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.shClassTime {
+  text-align: left;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  margin-left: 5px;
+  font-size: 9px;
+}
+
+.shClassName {
+  font-size: 12px;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: 600;
+}
+
+.shFinal {
+  text-align: center;
+  position: relative;
+  background: #B3E5FC;
+  border-radius: 3px;
+  font-size: 10px;
+  overflow: hidden;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+.shDay {
+  font-size: 12px;
+  width: 100%;
+  color: #CCC;
+  text-align: center;
+}
+
+.shFirstTime {
+  margin-top: 45px;
+}
+
+/*# sourceMappingURL=schedule.css.map */

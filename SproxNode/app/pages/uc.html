@@ -1,0 +1,65 @@
+<div class="row">
+	<div class="col-md-6" ng-if="!loading">
+		<div class="panel panel-material-red" edgeless-panel>
+			<div class="panel-heading">My UCard</div>
+
+			<div class="panel-body">
+				<div id="debitValue">{{ debit }}</div>
+				<div class="myCardSubText">Student Debit Account</div>
+				<div id="ddValue">{{ dinningDollars }}</div>
+				<div class="myCardSubText">Dining Dollars</div>
+				<div id="swipesValue">{{ dinningSwipes }} <span id="ofinf" ng-show="cvalue"><span class="myCardKeyWord">&nbsp;of&nbsp;</span> ∞</span> <span class="myCardKeyWord">&nbsp;and&nbsp;</span> {{ guestSwipes }} <span id="swipesWord">guests</span></div>
+				<div class="myCardSubText">Dining Swipes</div>
+				<div id="cardNumber">{{ ucardLibraryBarcode }}</div>
+			</div>
+		</div>
+	</div>
+ 
+	<div class="col-md-6">
+		<div class="panel panel-material-red" edgeless-panel ng-if="!loading">
+			<div class="panel-heading">UCard Usage</div>
+			
+			<div class="panel-body" id="uc-usage">
+				<canvas id="bar" class="chart chart-bar ng-isolate-scope" data="usageData" labels="usageLabels" series="usageSeries" options="options" width="523" style="width: 100%"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12" ng-if="!loading">
+		<div class="panel panel-material-red" edgeless-panel>
+			<div class="panel-heading">uCard Transactions</div>
+			
+			<div class="panel-body">
+				<table class="table table-hover table-condensed bottemless-table">
+					<thead>
+						<tr>
+					   		<th>Location</th>
+					        <th>Date</th>
+					        <th>Time</th>
+					        <th>Cost</th>
+					   	</tr>
+					   	<tr ng-repeat="item in transactions | limitTo:15" class="transaction-item">
+					   		<td>{{ item.location }}</td>
+					   		<td>{{ item.date }}</td>
+					   		<td>{{ item.time }}</td>
+					   		<td>{{ item.cost }}</td>
+					   	</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12" ng-if="loading" id="uc-loader">
+		<div class="row">
+			<div id="uc-loading-title">Loading UCard</div>
+		</div>
+		<div class="row">
+			<div class="sk-spinner sk-spinner-three-bounce">
+			    <div class="sk-bounce1"></div>
+			    <div class="sk-bounce2"></div>
+			    <div class="sk-bounce3"></div>
+		    </div>
+		</div>
+	</div>
+</div>

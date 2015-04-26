@@ -1,0 +1,45 @@
+<div class="notes">
+	<div id="deleteModel" class="modal fade" tabindex="-1" role="dialog" show-model="noteDelete != null">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title">Delete {{ deleteItemTitle }}?</h4>
+	            </div>
+
+	            <div class="modal-body">
+	                <p>It&#39;ll be gone forever (a really long time).</p>
+	            </div> 
+
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" ng-click="noDeleteItem();">Cancel</button> 
+	                <button type="button" class="btn btn-primary" ng-click="deleteItem();">Delete</button>
+	            </div>
+	        </div>
+    	</div>
+	</div>
+
+	<div id="deleteModel" class="modal fade" tabindex="-1" role="dialog" show-model="noteShare != null">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title">Share {{ noteShare }}</h4>
+	            </div>
+
+	            <div class="modal-body">
+                    <div class="form-group">
+        		    	<input type="text" class="form-control floating-label" id="share-user" placeholder="NetID" material-input ng-model="shareForm.netid">
+        	   		</div>
+	            </div> 
+
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" ng-click="noShareItem();">Cancel</button> 
+	                <button type="button" class="btn btn-primary" ng-click="shareItem();">Share</button>
+	            </div>
+	        </div>
+    	</div>
+	</div>
+
+	<div id="notesWriter">
+		<textarea ckeditor="editorOptions" ckreadonly="true" ng-model="editorContent"></textarea>
+	</div>
+</div>

@@ -1,0 +1,38 @@
+.bottemless-table {
+  margin-bottom: 0px;
+}
+
+.myCardSubText {
+  color: #666;
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+
+#cardNumber {
+  font-size: 9px;
+  float: right;
+}
+
+.myCardKeyWord {
+  color: #666;
+  font-size: 12px;
+}
+
+.transaction-item {
+  color: #666;
+  font-size: 10px;
+}
+
+#uc-loading-title {
+  text-align: center;
+}
+
+#uc-loader {
+  padding-top: 100px;
+}
+
+#uc-usage {
+  padding-bottom: 13px;
+}
+
+/*# sourceMappingURL=uc.css.map */

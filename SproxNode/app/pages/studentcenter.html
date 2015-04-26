@@ -1,0 +1,133 @@
+<div>
+	<!-- Model's Start -->
+	<div id="cacheModel" class="modal fade" tabindex="-1" role="dialog" show-model="cacheModel">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h4 class="modal-title">Allow Data Caching?</h4>
+	            </div>
+
+	            <div class="modal-body" ng-if="!authCache">
+	                <p>If you don't like waiting, Sprox can cache some of your information so we don't have to ask Spire for it each time. Your data is encrypted using AES-256, Blowfish and SHA-512.</p>
+	            </div>
+
+	            <div class="modal-body" ng-if="authCache">
+	                <p>To encrypt your data, we'll need you to enter your password again.</p>
+
+
+	            <div class="form-group">
+			    	<input type="password" class="form-control floating-label" id="pass_s" placeholder="Password" material-input ng-model="cacheForm.password">
+		   		</div>
+	            </div>
+
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="cacheModel" ng-click="noCache()">{{ cacheBtn1 }}</button> 
+	                <button type="button" class="btn btn-primary" ng-click="cache()">{{ cacheBtn2 }}</button>
+	            </div>
+	        </div>
+    	</div>
+	</div>
+
+	<div id="notifModel" class="modal fade" tabindex="-1" role="dialog" show-model="notifModel">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="notifModel" aria-hidden="true">×</button>
+	                <h4 class="modal-title">Desktop Notifications</h4>
+	            </div>
+
+	            <div class="modal-body">
+	                <p>As you go through your day, Sprox can send you desktop notifications for changing classes. Sprox will only send one notificaton, 15 minutes prior to each class. Would you like Sprox to send these notifcations?</p>
+	            </div>
+
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="notifModel" ng-click="disableNotifs()">No Thanks</button>
+	                <button type="button" class="btn btn-primary" ng-click="enableNotifs()">Sure</button>
+	            </div>
+	        </div>
+    	</div>
+	</div>
+	<!-- Model's End -->
+
+	<div class="row">
+		<div ng-class="{'col-md-9': classesToday,'col-md-12': !classesToday}">
+			<div class="col-md-12">
+			<!-- Student Information Start -->
+				<div class="panel panel-material-light-green" edgeless-panel>
+					<div class="panel-heading scPanelIcon">
+					    <i class="fa fa-pencil"></i>
+					</div>
+
+					<div class="panel-heading">
+					    Student Information
+					    <br> 
+					    <div class="scPanelHeaderSubText">Graduating in {{ gradYear }}</div>
+					    
+					</div>
+
+					<div class="panel-body">
+						<div class="subTitle">Home Address</div>
+						<div class="scPanelSubText">{{ homeAddress[0] }} <br> {{ homeAddress[1] }}</div>
+						<br>
+						<div class="subTitle">School Address</div>
+						<div class="scPanelSubText">{{ schoolAddress[0] }}<br>{{ schoolAddress[1] }}<br>{{ schoolAddress[2] }}</div>
+					</div>
+				</div>
+			</div>
+		<!-- Student Information End -->
+
+		<!-- Housing Information Start-->
+			<div class="col-md-12" ng-show="showRooming">
+				<div class="panel panel-material-light-green" edgeless-panel>
+					<div class="panel-heading scPanelIcon">
+					    <i class="fa fa-home"></i>
+					</div>
+
+					<div class="panel-heading">
+					    Housing at {{ building }}
+					    <br>
+					    <div class="scPanelHeaderSubText">Room {{ roomNumber }} - {{ roomType }}</div>
+					</div>
+					
+					<div class="panel-body">
+						<div class="subTitle">Mail Box Combination</div>
+						<div class="scPanelSubText">{{ mailBox }}</div>
+						<br>
+						<div class="subTitle">Roomate</div>
+						<div class="scPanelSubText">{{ roomate }}</div>
+						<div class="scPanelSubText">{{ roomateEmail }}</div>
+						<br>
+						<div class="subTitle">Roomate Address</div>
+						<div class="scPanelSubText">{{ roomateAddress }}</div>
+						<div class="scPanelSubText">{{ roomateCity }}, {{ roomateState }} {{ roomateZip }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Housing Information End-->
+
+		<!-- Class Schedule Start -->
+		<div ng-if="classesToday" class="col-md-3">
+			<div class="col-md-12">
+				<div class="panel panel-material-cyan" edgeless-panel>
+					<div class="panel-heading">
+					    <div class="dayTitle">{{ classesDay }} Classes</div>
+					</div>
+					<div class="panel-body">
+						<div ng-repeat="class in ct.classes">
+							<div ng-if="!$first" class="shFreeTime" style="height: 15px;"></div>
+							<div class="shClass shadow-z-1" style=" background:{{ colors[class.classID] }}; height:60px"> 
+								<div class="shClassTime"> {{ class.time }}</div> 
+								<div class="shClassName">{{ class.prettyName }}</div>
+								<div class="shClasslocation">{{ class.location }}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Clas Schedule End -->
+	</div>
+</div>
+	
+</div>

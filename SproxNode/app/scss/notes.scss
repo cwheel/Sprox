@@ -1,0 +1,122 @@
+@import "app/style/partials/device";
+@import "app/style/partials/animation";
+@import "app/style/partials/colors";
+
+$sidebar-width: 225px;
+$sidebar-padding: 25px;
+$sidebar-item-fontsize: 12;
+$sidebar-icon-padding: 2;
+
+#notesSidebar {
+  display:block!important;
+  right: 0px;
+  position: absolute;
+  width: $sidebar-width;
+  background: $sidebar-color;
+  z-index: 1000;
+  height: 100%;
+
+  @include vendor-prefix(transition, all ease-out 0.25s);
+}
+ 
+#notesSidebarng-hide-add, #notesSidebar.ng-hide-remove {
+  display:block!important;
+}
+ 
+@include mobileCollapsed {
+	#notesSidebar.ng-hide {
+	  right: calc(-100% + 70px);
+	}
+
+	#notesSidebar {
+		width: calc(100% - 70px);
+	}
+}
+
+@include mobileNotCollapsed {
+	#notesSidebar.ng-hide {
+	  right: -$sidebar-width;
+	}
+
+	#notesSidebar {
+		width: $sidebar-width;
+	}
+}
+
+#addButton {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    margin: 15px;
+}
+
+#addButtonIcon {
+	//Bad, should fix the main class
+  padding-top: 7;
+  padding-left: 2;
+}
+
+#notesWriterTitle {
+  float: left;
+  font-size: 15px;
+  color: #FFF;
+
+  //Bad, should be calculated
+  padding-left: 7px;
+  padding-top: 4px;
+}
+
+#notebookTitle {
+  color: #FFF;
+  padding: 15px;
+}
+
+
+.notebookItem {
+	padding-left: $sidebar-padding;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #FFF;
+  font-size: $sidebar-item-fontsize;
+}
+
+.notebookItem:hover {
+	background: #263238;
+}
+
+.notebookEditField {
+  color: #FFF;
+  width: $sidebar-width - $sidebar-padding*2;
+  font-size: $sidebar-item-fontsize;
+}
+
+.notebookDeleteItem {
+  float: right;
+  padding-right: $sidebar-padding;
+  padding-top: $sidebar-icon-padding;
+}
+
+.notebookShareItem {
+  float: right;
+  padding-right: $sidebar-padding/2;
+  padding-top: $sidebar-icon-padding;
+}
+
+#notebookHelp {
+    color: #FFF;
+    font-size: 11px;
+    position: absolute;
+    bottom: $sidebar-padding*4;
+    right: $sidebar-padding*4;
+}
+
+#notesArrow { 
+  background: url(../src/notesArrow.png);
+  width: 75;
+  height: 50;
+  background-repeat: no-repeat;
+  @include vendor-prefix(background-size, contain);
+  position: absolute;
+  bottom: ($sidebar-padding*4)-60;
+  left: ($sidebar-padding*4)-40;
+}

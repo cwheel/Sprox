@@ -1,0 +1,88 @@
+@import "app/style/partials/animation";
+@import "app/style/partials/device";
+
+$login-padding: 150px;
+$login-text-padding: 10px;
+$login-title-size: 20px;
+
+.loginFrame {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#loginContainer {
+  padding-right: 50px;
+  padding-left: 50px;
+  margin-top: $login-padding;
+}
+
+#loginButton {
+  width: 100%;
+}
+
+#login-title {
+  font-size: $login-title-size;
+  margin-bottom: $login-title-size/2;
+}
+
+
+#loginBottomText {
+  color: #FFF;
+  font-size: 9px;
+
+  position: absolute;
+  bottom: $login-text-padding;
+  left: $login-text-padding;
+
+  @include animation(0s, 5s, slideFromLeft);
+}
+
+@include keyframe(slideFromLeft) {
+    0% {
+        left: -100%;
+    }
+    60%{
+        left: -100%;
+    }
+    100% {
+        left: $login-text-padding;
+    }
+}
+
+.fadeInAnimation {
+  @include animation (0s, 1s, fadein);
+}
+
+.fadeInAnimation.ng-exit{
+  opacity:1;
+  @include vendor-prefix("transition-duration","1s");
+}
+
+.fadeInAnimation.ng-enter-active{
+  opacity:0;
+}
+
+@include keyframe(fadein){
+  0%{
+    opacity:0;
+  }
+  70%{
+    opacity:.9;
+  }
+  100%{
+    opacity:1;
+  }
+}
+
+@include mobileCollapsed {
+  #loginBottomText  {
+      visibility: hidden;
+  } 
+}
+
+@include mobileNotCollapsed {
+  #loginBottomText {
+      visibility: visible;
+  } 
+}
