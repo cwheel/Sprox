@@ -7,6 +7,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     var curSection = "Notebook Sections";
     var curTitle = "";
     var autosave = false;
+    var newShares = {};
     $scope.editorDisabled = true;
 
 	//Notebook Attributes
@@ -39,6 +40,12 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     })
     .success(function(resp) {
         notebook = angular.fromJson(resp);
+    
+        if (notebook['newShares'] != undefined) {
+            newShares = notebook['newShares'];
+            delete notebook.newShares;
+        }
+
         currentNotebook = Object.keys(notebook);
     });
 
@@ -99,10 +106,11 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         if ($scope.renderEditor().length == 0) {
             $timeout($scope.preRender, 10);
         } else {
-            $("#cke_1_top").prepend('<div id="notesWriterTitle"></div>');
+            var editor = Object.keys(CKEDITOR.instances)[0].replace("editor","");
+            $(".cke_top").prepend('<div id="notesWriterTitle"></div>');
 
             $scope.$watch('editorDisabled', function() {
-                CKEDITOR.instances.editor1.setReadOnly($scope.editorDisabled);
+                CKEDITOR.instances[Object.keys(CKEDITOR.instances)[0]].setReadOnly($scope.editorDisabled);
             });
 
             $scope.$watch('editorTitle', function(newTitle, oldTitle) {
@@ -144,7 +152,6 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     //The notebook is beinging the process of sharing a note
     $rootScope.$on("notebookShareItem", function (event, item) {
        $scope.noteShare = item;
-       // $rootScope.$broadcast("notebookBack");
     });
 
     //A section was renamed, update the notebook
@@ -197,12 +204,23 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 
     //Confirm the share operation
     $scope.shareItem = function () {
-        $scope.noteShare = null;
+        $http({
+            method  : 'POST',
+            url     : '/notebook/share',
+            data    : $.param({title : $scope.noteShare
+                , recipient : $scope.shareForm.netid, section : curSection}),
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .success(function(resp) {
+            if (angular.fromJson(resp).status == 'success') {
+                $scope.noteShare = null;
+            }
+        });
     };
 
     //Delete an item once the user confirms
     $scope.deleteItem = function () {
-         $http({
+        $http({
             method  : 'POST',
             url     : '/notebook/delete',
             data    : $.param($scope.noteDelete),

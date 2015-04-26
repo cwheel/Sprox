@@ -61,6 +61,7 @@ module.exports = function(passport, strategy) {
 						//Same deal as calcStartTh
 						return time.split("- ")[1].replace("AM"," AM").replace("PM"," PM");
 					};
+					
 					var DiffTime = function(start, stop){
 						// Creates A Date Object with a static start Date
 						var tstart = new Date("02/08/14 " + start);
@@ -112,21 +113,20 @@ module.exports = function(passport, strategy) {
 									if (!((code >= 48) && (code <= 57))) {
 										arrayName = arrayName.slice(0,-2);
 									}
-
 									
-									//If it exists in the array give it the same number. Smart Pushing to save a var
+									//If it exists in the array give it the same number.
 									var indexArray = classesArray.indexOf(arrayName);
-									if (indexArray == -1){
+									if (indexArray == -1) {
 										allCourses[j].classID = classesArray.length;
 										classesArray.push(arrayName);
-									}else{
+									} else {
 										allCourses[j].classID = indexArray;
 									}
 
 								}
 
 								//Add the current class to the day in question
-								//Objects are Refrences.... what is this Java. Convert to JSON and back into an object is the easiest deep copy I have found.
+								//'Deep copy' with stringify
 								spireUser.classesWeekly[i].classes[index] = JSON.parse(JSON.stringify(allCourses[j]));
 								//Removes the Days that the class Happens from the Time Tag
 								spireUser.classesWeekly[i].classes[index].time = spireUser.classesWeekly[i].classes[index].time.replace("Mo","").replace("Tu","").replace("We","").replace("Th","").replace("Fr","");
@@ -145,13 +145,13 @@ module.exports = function(passport, strategy) {
 							//This is used to determine how much time is between the current class and the last class
 							spireUser.classesWeekly[curday].classes[curclass].freeTime = DiffTime(startTime, spireUser.classesWeekly[curday].classes[curclass].th_s);
 
-							//Similar to Free Time, Class Duration takes in the Start Time and the End time, together the function determines how many minutes are in your class.
+							//Similar to Free Time, Class Duration takes in the Start Time and the End time, together the function determines how many minutes are in the class.
 							spireUser.classesWeekly[curday].classes[curclass].classDuration = DiffTime(spireUser.classesWeekly[curday].classes[curclass].th_s, spireUser.classesWeekly[curday].classes[curclass].th_e);
 
 							//Sets the StartTime to the end of the class time to use in the freeTime calculation
 							startTime = spireUser.classesWeekly[curday].classes[curclass].th_e;
 
-							// Creates the Amount of Free Time you have between all the classes. This function ignores breaks in between classes (15 minutes) and the the First Classes Free Time.
+							// Creates the amount of free time you have between all the classes. This function ignores breaks in between classes (15 minutes) and the the first classes free yime.
 							if (curclass != 0 && spireUser.classesWeekly[curday].classes[curclass].freeTime > 15){
 								freeTimeTotal = freeTimeTotal + spireUser.classesWeekly[curday].classes[curclass].freeTime;
 							}
@@ -165,16 +165,17 @@ module.exports = function(passport, strategy) {
 						spireUser.classesWeekly[curday].endTimePadding = DiffTime(startTime,"6:45 PM");
 						spireUser.classesWeekly[curday].freeTimeTotal = freeTimeTotal;
 
-						//Reset Variables for the Next Day
+						//Reset variables for the next Day
 						freeTimeTotal = 0;
 						startTime = "8:00 AM";
 					}
 
-					//Remove <br> Tags from Certain Elements Creating an Array of Each Line
+					//Remove <br> tags from certain elements creating an array of each line
 					spireUser.homeAddress = spireUser.homeAddress.split("<br>");
 					spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
 
 					//Keep a hash of the users password on hand, useful for verification later
+					//TODO: Delete it after caching, its useless to keep around
 					spireUser.passValidator = bcrypt.hashSync(password, 10);
 
 					return done(null, spireUser);
@@ -188,12 +189,19 @@ module.exports = function(passport, strategy) {
 			});
 		};
 
+		//The actual auth cycle
+		//Check if the user is cahced in the db
 		CachedUser.findOne({user : sha512(username)}, function(err, user) {
+			//Is the user?
 			if (user != null) {
+				//Cool they are
 				if (user.cached) {
+					//Decrypt their data using their password
+					//TODO: Change to a storage key instead of a password
 					var b64 = new Buffer(password).toString('base64');
 					var decrypted = CryptoJSAES.CryptoJS.AES.decrypt(JSON.stringify(user.spire), b64, { format: CryptoJSAES.JsonFormatter });
 
+					//Failed? They entered their password wrong or changed it... yay...
 					try {
 						var user = JSON.parse(CryptoJSAES.CryptoJS.enc.Utf8.stringify(decrypted));
 						return done(null, user);

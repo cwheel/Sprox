@@ -121,3 +121,7 @@ body {
 .helpBlur {
 	 @include vendor-prefix(filter, blur(5px));
 }
+
+.modal-dialog {
+	padding-top: 100px;
+}

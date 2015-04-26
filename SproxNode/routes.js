@@ -230,7 +230,7 @@ module.exports = function(app) {
    	//Notebook note rename
    	app.post('/notebook/rename', requireAuth, function(req, res) {
 		if (req.user.netid == null || req.body.section == null || req.body.title == null || req.body.newTitle == null) {
-			res.send(400, "Missing or invalid request parameters.")
+			res.send(400, "Missing or invalid request parameters.");
 		}
 
 		Note.findOneAndUpdate({user : req.user.netid, section : req.body.section, title : req.body.title}, {title: req.body.newTitle}, {upsert:true}, function(err, doc){
@@ -242,7 +242,7 @@ module.exports = function(app) {
    	//Notebook note rename
    	app.post('/notebook/renameSection', requireAuth, function(req, res) {
 		if (req.user.netid == null || req.body.section == null || req.body.newSection == null) {
-			res.send(400, "Missing or invalid request parameters.")
+			res.send(400, "Missing or invalid request parameters.");
 		}
 
 		Note.update({user : req.user.netid, section : req.body.section}, {section: req.body.newSection}, {multi: true}, function(err){
@@ -254,7 +254,7 @@ module.exports = function(app) {
    	//Fetch a users notebook sections for sharing
    	app.get('/notebook/getSections', requireAuth, function(req, res) {
 		if (req.query.user == null) {
-			res.send(400, "Missing or invalid request parameters.")
+			res.send(400, "Missing or invalid request parameters.");
 		}
 
 		Note.find({user : req.query.user}, function(err, notes) {
@@ -277,18 +277,22 @@ module.exports = function(app) {
 
    	//Share a section in a notebook
    	app.post('/notebook/share', requireAuth, function(req, res) {
-		if (req.user.netid == null || req.body.user == null || req.body.section == null || req.body.title == null) { 
-			res.send(400, "Missing or invalid request parameters.")
+   		console.log(req.body);
+		if (req.user.netid == null || req.body.recipient == null || req.body.section == null || req.body.title == null) { 
+			res.send(400, "Missing or invalid request parameters.");
 		}
 
 		Note.findOne({user : req.user.netid, section : req.body.section, title : req.body.title}, function(err, note) {
    			if (err) return res.send(500, { error: err });
-   			
-   			var content = note.content;
 
-  			Note.insert({}, function(err) {
-  				res.send({"status" : "success"});
-  			});
+   			if (note != null) {
+   				var shareNote = new Note({user : req.body.recipient, owner : req.user.netid, section : "newShares", title : req.body.section + " - " + req.body.title, content : note.content});
+   				shareNote.save();
+
+   				res.send({"status" : "success"});
+   			} else {
+   				res.send(400, "Invalid request parameters.");
+   			}
    		});
    	});
 
