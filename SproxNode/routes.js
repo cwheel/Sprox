@@ -3,6 +3,7 @@ var UmassGet = require('./serviceConnectors/getConnector');
 var UmassParking = require('./serviceConnectors/parkingConnector');
 var CachedUser = require('./models/user');
 var Note = require('./models/note');
+var User = require('./models/user');
 var sha512 = require('js-sha512');
 var CryptoJSAES = require('node-cryptojs-aes');
 var bcrypt = require('bcrypt');
@@ -106,6 +107,8 @@ module.exports = function(app) {
    	//Return the cache state
 	app.get('/userInfo/cache', requireAuth, function(req, res) {
 		CachedUser.findOne({user : sha512(req.user.netid)}, function(err, user) {
+			if (err) return res.send(500, { error: err });
+
 			if (user == null) {
 				res.send({ status: 'unset'});
 		   	} else if (user.cached) {
@@ -195,7 +198,11 @@ module.exports = function(app) {
    				layout[note.section][note.title] = "";
    			});
 
-   			res.send(layout);
+	   		User.findOne({user : sha512(req.user.netid)}, function(err, user) {
+			    if (err) return res.send(500, { error: err });
+			    layout["notebookState"] = user.noteState;
+			    res.send(layout);
+			});
    		});
    	});
 
@@ -281,7 +288,6 @@ module.exports = function(app) {
 
    	//Share a section in a notebook
    	app.post('/notebook/share', requireAuth, function(req, res) {
-   		console.log(req.body);
 		if (req.user.netid == null || req.body.recipient == null || req.body.section == null || req.body.title == null) { 
 			res.send(400, "Missing or invalid request parameters.");
 		}
@@ -298,6 +304,18 @@ module.exports = function(app) {
    				res.send(400, "Invalid request parameters.");
    			}
    		});
+   	});
+
+   	//Set the current notebook to resume for future use
+   	app.post('/notebook/setResumeNote', requireAuth, function(req, res) {
+		if (req.user.netid == null || req.body.section == null || req.body.title == null) { 
+			res.send(400, "Missing or invalid request parameters.");
+		}
+
+   		User.findOneAndUpdate({user : sha512(req.user.netid)}, {noteState : req.body}, {upsert:true}, function(err, user) {
+		    if (err) return res.send(500, { error: err });
+		    res.send({ status: 'success'});
+		});
    	});
 
 	//Catch all 404's

@@ -8,6 +8,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     var curTitle = "";
     var autosave = false;
     var newShares = {};
+    var noteState = {};
     $scope.editorDisabled = true;
 
 	//Notebook Attributes
@@ -18,6 +19,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 	$scope.editorContent = "";
     $scope.deleteItemTitle = "";
     $scope.editorTitle = "";
+    $scope.showWelcome = false;
 
 	$scope.editorOptions = {
 		language: 'en', 
@@ -43,7 +45,31 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     
         if (notebook['newShares'] != undefined) {
             newShares = notebook['newShares'];
-            delete notebook.newShares;
+            delete notebook['newShares'];
+        }
+
+        noteState = notebook['notebookState'];
+        delete notebook['notebookState'];
+
+        if (noteState.title == "WelcomeToNotebook" && noteState.section == "WelcomeToNotebook") {
+             $scope.showWelcome = true;
+        } else {
+            autosave = false;
+            curSection = noteState.section;
+
+            $http({
+                method : 'GET',
+                url : '/notebook/note',
+                params: noteState
+            })
+            .success(function(content) {
+                notebook[curSection][noteState.title] = content;
+                curNote = noteState.title;
+                curTitle = noteState.title;
+                $scope.editorContent = notebook[curSection][noteState.title];
+                $scope.editorTitle = noteState.title;
+                autosave = true;
+            });
         }
 
         currentNotebook = Object.keys(notebook);
@@ -62,6 +88,18 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
                 autosave = false;
                 $rootScope.$broadcast("notebookSetEditorDisabled", false);
 
+                $http({
+                    method  : 'POST',
+                    url     : '/notebook/setResumeNote',
+                    data    : $.param({title : item, section : curSection}),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                .success(function(resp) {
+                    if (angular.fromJson(resp).status != 'success') {
+                        console.warn("Failed to update the users resume note.");
+                    }
+                });
+
                 if (notebook[curSection][item] == "") {
                     $http({
                         method : 'GET',
@@ -72,6 +110,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
                         notebook[curSection][item] = content;
                         curNote = item;
                         curTitle = item;
+                        $scope.editorTitle = curTitle;
                         $scope.editorContent = notebook[curSection][item];
                         autosave = true;
                     });
