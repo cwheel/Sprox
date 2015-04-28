@@ -12,7 +12,7 @@
   transition: all ease-out 0.25s;
 }
 
-#notesSidebarng-hide-add, #notesSidebar.ng-hide-remove {
+#notesSidebar.ng-hide-add, #notesSidebar.ng-hide-remove {
   display: block !important;
 }
 
@@ -109,6 +109,13 @@
   position: absolute;
   bottom: 40px;
   left: 60px;
+}
+
+#notesbookPulloutWelcome {
+  z-index: 100;
+  color: #FFF;
+  position: absolute;
+  right: 22px;
 }
 
 /*# sourceMappingURL=notes.css.map */

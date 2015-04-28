@@ -19,8 +19,8 @@ $sidebar-icon-padding: 2;
   @include vendor-prefix(transition, all ease-out 0.25s);
 }
  
-#notesSidebarng-hide-add, #notesSidebar.ng-hide-remove {
-  display:block!important;
+#notesSidebar.ng-hide-add, #notesSidebar.ng-hide-remove {
+  display: block !important;
 }
  
 @include mobileCollapsed {
@@ -119,4 +119,11 @@ $sidebar-icon-padding: 2;
   position: absolute;
   bottom: ($sidebar-padding*4)-60;
   left: ($sidebar-padding*4)-40;
+}
+
+#notesbookPulloutWelcome {
+  z-index: 100;
+  color: #FFF;
+  position: absolute;
+  right: 22px;
 }

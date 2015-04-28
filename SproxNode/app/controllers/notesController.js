@@ -19,7 +19,6 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 	$scope.editorContent = "";
     $scope.deleteItemTitle = "";
     $scope.editorTitle = "";
-    $scope.showWelcome = false;
 
 	$scope.editorOptions = {
 		language: 'en', 
@@ -52,7 +51,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         delete notebook['notebookState'];
 
         if (noteState.title == "WelcomeToNotebook" && noteState.section == "WelcomeToNotebook") {
-             $scope.showWelcome = true;
+             $rootScope.$broadcast("notebookShowWelcome", null);
         } else {
             autosave = false;
             curSection = noteState.section;

@@ -118,8 +118,41 @@ body {
 	opacity: 1 !important;
 }
 
-.helpBlur {
+.help-blur {
 	 @include vendor-prefix(filter, blur(5px));
+}
+
+.help-overlay {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background: rgb(36, 36, 36);
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	opacity: 0.75;
+
+	@include vendor-prefix(transition, all ease-out 0.25s);
+}
+
+.help-overlay.ng-hide-add, .help-overlay.ng-hide-remove {
+  display: block !important;
+}
+
+.help-overlay.ng-hide {
+  opacity: 0;
+}
+
+.help-highlight {
+	border-radius: 300px;
+	background: rgb(60, 181, 255);
+	opacity: 0.5;
+	width: 200px;
+	height: 200px;
+	position: absolute;
+	top: -100px;
+	right: -100px;
+	border: 2px solid rgb(165, 201, 223);
 }
 
 .modal-dialog {

@@ -114,11 +114,42 @@ body {
   opacity: 1 !important;
 }
 
-.helpBlur {
+.help-blur {
   -webkit-filter: blur(5px);
   -ms-filter: blur(5px);
   -moz-filter: blur(5px);
   filter: blur(5px);
+}
+
+.help-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: #242424;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  opacity: 0.75;
+  -webkit-transition: all ease-out 0.25s;
+  -ms-transition: all ease-out 0.25s;
+  -moz-transition: all ease-out 0.25s;
+  transition: all ease-out 0.25s;
+}
+
+.help-overlay.ng-hide-add, .help-overlay.ng-hide-remove {
+  display: block !important;
+}
+
+.help-overlay.ng-hide {
+  opacity: 0;
+}
+
+.help-highlight {
+  border-radius: 300px;
+  background: blue;
+  opacity: 0.5;
+  width: 300px;
+  height: 300px;
 }
 
 .modal-dialog {

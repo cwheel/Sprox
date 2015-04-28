@@ -22,6 +22,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     $scope.notesRenaming = "";
     $scope.notesCurRename = {val : ""};
     $scope.notesCurMouse = "";
+    $scope.showWelcome = false;
 	var notesPaneDone = true;
     var notesDeleteClick = false;
 
@@ -43,6 +44,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
         if ($location.path() == "/nb") {
         	$scope.notes = true;
         } else {
+            $scope.showWelcome = false;
         	$scope.notes = false;
         }
     });
@@ -101,6 +103,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 
     	$timeout(function () {
     		notesPaneDone = true;
+            $scope.showWelcome = false;
     	}, 250);
     };
 
@@ -227,6 +230,11 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
             
             $scope.notebookSection = item;
         }
+    });
+
+    //Check if we should show the welcome panel
+    $rootScope.$on('notebookShowWelcome', function(event, args) {
+       $scope.showWelcome = true;
     });
 
     //Watch for changes to the current notebook view
