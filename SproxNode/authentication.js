@@ -6,9 +6,24 @@ var sha512 = require('js-sha512');
 var bcrypt = require('bcrypt');
 var CryptoJSAES = require('node-cryptojs-aes');
 
-module.exports = function(passport, strategy) {
+module.exports = function(passport, strategy, whitelist) {
 	passport.use('local', new strategy(function(username, password, done) {
-		console.log("Authenticating user: '" + username + "' with Spire...");
+		console.log("[Auth-General] Received authentication request for user: '" + username + "'");
+
+		if (whitelist != null) {
+			var valid = false;
+			for (var i = whitelist.length - 1; i >= 0; i--) {
+				if (whitelist[i] == username) {
+					valid = true;
+					break;
+				}
+			}
+
+			if (!valid) {
+				console.log("[Auth-General] A whitelist entry for user: '" + username + "' was not found, denying user.");
+				return done(null, false);
+			}
+		}
 
 		var authWithSpire = function() {
 			var spire = new SpireConnector(username, password);
@@ -20,7 +35,7 @@ module.exports = function(passport, strategy) {
 				spireUser = merge(spireUser, vals);
 
 				if (objFinished == Object.keys(SpireMap.map).length) {
-					console.log("User: '" + username + "' passed authentication with Spire!");
+					console.log("[Auth-Spire] User: '" + username + "' passed authentication with Spire!");
 					
 					//Spire data post processing
 					var days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -184,7 +199,7 @@ module.exports = function(passport, strategy) {
 
 			//The spire object reported it was unable to authenticate
 			spire.on('authFailure', function (vals) {
-				console.log("User: '" + username + "' failed authentication with Spire...");
+				console.log("[Auth-Spire] User: '" + username + "' failed authentication with Spire...");
 				return done(null, false);
 			});
 		};
@@ -204,8 +219,10 @@ module.exports = function(passport, strategy) {
 					//Failed? They entered their password wrong or changed it... yay...
 					try {
 						var user = JSON.parse(CryptoJSAES.CryptoJS.enc.Utf8.stringify(decrypted));
+						console.log("[Auth-Cache] Successfully decrypted user cache for: '" + username + "'");
 						return done(null, user);
 					} catch (err) {
+						console.log("[Auth-Cache] Failed to decrypt user cache for: '" + username + "'");
 						authWithSpire();
 					}
 				} else {

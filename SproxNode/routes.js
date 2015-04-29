@@ -121,7 +121,7 @@ module.exports = function(app) {
 
 	//GET (i.e UCard info)
 	app.post('/userInfo/ucard', requireAuth, function(req, res) {
-		console.log("Fetching GET information for user: '" + req.body.username + "'...");
+		console.log("[Service-GET] Fetching GET information for user: '" + req.body.username + "'...");
 
 		var get = new UmassGet(req.body.username, req.body.password);
 		var fetched = [];
@@ -130,7 +130,7 @@ module.exports = function(app) {
 			fetched.push(vals);
 
 			if (fetched.length > 1) {
-				console.log("Finished fetching GET information for user: '" + req.body.username + "'!");
+				console.log("[Service-GET] Finished fetching GET information for user: '" + req.body.username + "'!");
 
 				//Cache their funds for later
 				userFunds[req.user.spireId] = fetched;
