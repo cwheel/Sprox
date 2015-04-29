@@ -15,6 +15,26 @@
     animation-fill-mode: forwards;
 }
 
+@mixin animation-infinite ($delay, $duration, $animation) {
+    -webkit-animation-delay: $delay;
+    -webkit-animation-duration: $duration;
+    -webkit-animation-name: $animation;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+ 
+    -moz-animation-delay: $delay;
+    -moz-animation-duration: $duration;
+    -moz-animation-name: $animation;
+    -moz-animation-fill-mode: forwards;
+    -moz-animation-iteration-count: infinite;
+ 
+    animation-delay: $delay;
+    animation-duration: $duration;
+    animation-name: $animation;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+}
+
 @mixin keyframe ($animation_name) {
     @-webkit-keyframes $animation_name {
         @content;
