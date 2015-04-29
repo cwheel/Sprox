@@ -39,7 +39,7 @@
   animation-fill-mode: forwards;
 }
 
-@-webkit-keyframes $animation_name {
+@-webkit-keyframes slideFromLeft {
   0% {
     left: -100%;
   }
@@ -50,7 +50,7 @@
     left: 10px;
   }
 }
-@-moz-keyframes $animation_name {
+@-moz-keyframes slideFromLeft {
   0% {
     left: -100%;
   }
@@ -61,7 +61,7 @@
     left: 10px;
   }
 }
-@keyframes $animation_name {
+@keyframes slideFromLeft {
   0% {
     left: -100%;
   }
@@ -99,7 +99,7 @@
   opacity: 0;
 }
 
-@-webkit-keyframes $animation_name {
+@-webkit-keyframes fadein {
   0% {
     opacity: 0;
   }
@@ -110,7 +110,7 @@
     opacity: 1;
   }
 }
-@-moz-keyframes $animation_name {
+@-moz-keyframes fadein {
   0% {
     opacity: 0;
   }
@@ -121,7 +121,7 @@
     opacity: 1;
   }
 }
-@keyframes $animation_name {
+@keyframes fadein {
   0% {
     opacity: 0;
   }

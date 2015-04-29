@@ -21,30 +21,33 @@
     -webkit-animation-name: $animation;
     -webkit-animation-fill-mode: forwards;
     -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: ease-in-out;
  
     -moz-animation-delay: $delay;
     -moz-animation-duration: $duration;
     -moz-animation-name: $animation;
     -moz-animation-fill-mode: forwards;
     -moz-animation-iteration-count: infinite;
- 
+    -moz-animation-timing-function: ease-in-out;
+
     animation-delay: $delay;
     animation-duration: $duration;
     animation-name: $animation;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
+    animation-timing-function: ease-in;
 }
 
 @mixin keyframe ($animation_name) {
-    @-webkit-keyframes $animation_name {
+    @-webkit-keyframes #{$animation_name} {
         @content;
     }
  
-    @-moz-keyframes $animation_name {
+    @-moz-keyframes #{$animation_name} {
         @content;
     }
  
-    @keyframes $animation_name {
+    @keyframes #{$animation_name} {
         @content;
     }
 }

@@ -148,51 +148,72 @@ body {
   border-radius: 300px;
   background: #3cb5ff;
   opacity: 0.5;
-  width: 200px;
-  height: 200px;
+  width: 175;
+  height: 175;
   position: absolute;
   top: -100px;
   right: -100px;
   border: 2px solid #a5c9df;
-  -webkit-animation-delay: 0;
-  -webkit-animation-duration: 2;
+  -webkit-animation-delay: 0s;
+  -webkit-animation-duration: 1s;
   -webkit-animation-name: help-highlight;
   -webkit-animation-fill-mode: forwards;
   -webkit-animation-iteration-count: infinite;
-  -moz-animation-delay: 0;
-  -moz-animation-duration: 2;
+  -webkit-animation-timing-function: ease-in-out;
+  -moz-animation-delay: 0s;
+  -moz-animation-duration: 1s;
   -moz-animation-name: help-highlight;
   -moz-animation-fill-mode: forwards;
   -moz-animation-iteration-count: infinite;
-  animation-delay: 0;
-  animation-duration: 2;
+  -moz-animation-timing-function: ease-in-out;
+  animation-delay: 0s;
+  animation-duration: 1s;
   animation-name: help-highlight;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
 }
 
-@-webkit-keyframes $animation_name {
-  from {
-    opacity: 0;
+@-webkit-keyframes help-highlight {
+  0% {
+    width: 175;
+    height: 175;
   }
-  to {
-    opacity: 1;
+  50% {
+    width: 200;
+    height: 200;
   }
-}
-@-moz-keyframes $animation_name {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+  100% {
+    width: 175;
+    height: 175;
   }
 }
-@keyframes $animation_name {
-  from {
-    opacity: 0;
+@-moz-keyframes help-highlight {
+  0% {
+    width: 175;
+    height: 175;
   }
-  to {
-    opacity: 1;
+  50% {
+    width: 200;
+    height: 200;
+  }
+  100% {
+    width: 175;
+    height: 175;
+  }
+}
+@keyframes help-highlight {
+  0% {
+    width: 175;
+    height: 175;
+  }
+  50% {
+    width: 200;
+    height: 200;
+  }
+  100% {
+    width: 175;
+    height: 175;
   }
 }
 .modal-dialog {

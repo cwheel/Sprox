@@ -7,6 +7,8 @@ $theme-dropdown-padding: 3px 20px;
 $avatar-size: 50px;
 $top-bar-size: 20px;
 
+$help-highlight-size: 175;
+
 body {
   background-color: $background-color;
   overflow-x: hidden;
@@ -147,21 +149,27 @@ body {
 	border-radius: 300px;
 	background: rgb(60, 181, 255);
 	opacity: 0.5;
-	width: 200px;
-	height: 200px;
+	width: $help-highlight-size;
+	height: $help-highlight-size;
 	position: absolute;
 	top: -100px;
 	right: -100px;
 	border: 2px solid rgb(165, 201, 223);
-	@include animation-infinite(0, 2, help-highlight);
+	@include animation-infinite(0s, 1s, help-highlight);
 }
 
 @include keyframe (help-highlight) {
-	from {
-		 opacity: 0;
+	0% {
+		 width: $help-highlight-size;
+		 height: $help-highlight-size;
 	}
-	to {
-		opacity: 1;
+	50% {
+		width: $help-highlight-size + 25;
+		height: $help-highlight-size + 25;
+	}
+	100% {
+		width: $help-highlight-size;
+		height: $help-highlight-size;
 	}
 }
 
