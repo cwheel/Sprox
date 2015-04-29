@@ -6,6 +6,8 @@ $sidebar-width: 225px;
 $sidebar-padding: 25px;
 $sidebar-item-fontsize: 12;
 $sidebar-icon-padding: 2;
+$welcome-height: 200;
+$welcome-width: 500;
 
 #notesSidebar {
   display:block!important;
@@ -123,13 +125,22 @@ $sidebar-icon-padding: 2;
 
 #notesWelcomeArrow {
   background: url(../src/notesWelcomeArrow.png);
-  width: 500;
-  height: 200;
+  width: $welcome-height;
+  height: $welcome-width;
   background-repeat: no-repeat;
   @include vendor-prefix(background-size, contain);
   position: absolute;
   right: 50px;
   top: 50px;
+}
+
+#notes-help-text {
+  color: #FFF;
+  z-index: 100;
+  position: absolute;
+  right: $welcome-height + 75;
+  top: $welcome-width - 10;
+  font-size:20
 }
 
 #notesbookPulloutWelcome {

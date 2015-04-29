@@ -112,8 +112,8 @@
 }
 
 #notesWelcomeArrow {
-  background: url(../src/otesWelcomeArrow.png);
-  width: 500;
+  background: url(../src/notesWelcomeArrow.png);
+  width: 200;
   height: 500;
   background-repeat: no-repeat;
   -webkit-background-size: contain;
@@ -123,6 +123,15 @@
   position: absolute;
   right: 50px;
   top: 50px;
+}
+
+#notes-help-text {
+  color: #FFF;
+  z-index: 100;
+  position: absolute;
+  right: 275;
+  top: 490;
+  font-size: 20;
 }
 
 #notesbookPulloutWelcome {
