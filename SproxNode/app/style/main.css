@@ -154,8 +154,6 @@ body {
   top: -100px;
   right: -100px;
   border: 2px solid #a5c9df;
-<<<<<<< HEAD
-=======
   -webkit-animation-delay: 0;
   -webkit-animation-duration: 2;
   -webkit-animation-name: help-highlight;
@@ -196,7 +194,6 @@ body {
   to {
     opacity: 1;
   }
->>>>>>> 04f4524de35bcc214525329dd3bd503a240dd9b5
 }
 .modal-dialog {
   padding-top: 100px;
