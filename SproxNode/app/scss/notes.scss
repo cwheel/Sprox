@@ -121,6 +121,17 @@ $sidebar-icon-padding: 2;
   left: ($sidebar-padding*4)-40;
 }
 
+#notesWelcomeArrow {
+  background: url(../src/notesWelcomeArrow.png);
+  width: 500;
+  height: 200;
+  background-repeat: no-repeat;
+  @include vendor-prefix(background-size, contain);
+  position: absolute;
+  right: 50px;
+  top: 50px;
+}
+
 #notesbookPulloutWelcome {
   z-index: 100;
   color: #FFF;

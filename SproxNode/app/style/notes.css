@@ -111,6 +111,20 @@
   left: 60px;
 }
 
+#notesWelcomeArrow {
+  background: url(../src/otesWelcomeArrow.png);
+  width: 500;
+  height: 500;
+  background-repeat: no-repeat;
+  -webkit-background-size: contain;
+  -ms-background-size: contain;
+  -moz-background-size: contain;
+  background-size: contain;
+  position: absolute;
+  right: 50px;
+  top: 50px;
+}
+
 #notesbookPulloutWelcome {
   z-index: 100;
   color: #FFF;
