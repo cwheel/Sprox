@@ -81,6 +81,7 @@ module.exports = function(app) {
 
 					var objUser = saveUser.toObject();
 					delete objUser.user;
+					delete objUser._id;
 
 					CachedUser.update({user: saveUser.user}, objUser, {upsert: true}, function(err){return err});
 
