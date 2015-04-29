@@ -125,8 +125,8 @@ $welcome-width: 500;
 
 #notesWelcomeArrow {
   background: url(../src/notesWelcomeArrow.png);
-  width: $welcome-height;
-  height: $welcome-width;
+  width: $welcome-width;
+  height: $welcome-height;
   background-repeat: no-repeat;
   @include vendor-prefix(background-size, contain);
   position: absolute;
@@ -138,8 +138,8 @@ $welcome-width: 500;
   color: #FFF;
   z-index: 100;
   position: absolute;
-  right: $welcome-height + 75;
-  top: $welcome-width - 10;
+  right: $welcome-width + 75;
+  top: $welcome-height - 10;
   font-size:20
 }
 

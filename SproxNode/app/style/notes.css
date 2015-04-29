@@ -113,8 +113,8 @@
 
 #notesWelcomeArrow {
   background: url(../src/notesWelcomeArrow.png);
-  width: 200;
-  height: 500;
+  width: 500;
+  height: 200;
   background-repeat: no-repeat;
   -webkit-background-size: contain;
   -ms-background-size: contain;
@@ -129,8 +129,8 @@
   color: #FFF;
   z-index: 100;
   position: absolute;
-  right: 275;
-  top: 490;
+  right: 575;
+  top: 190;
   font-size: 20;
 }
 
