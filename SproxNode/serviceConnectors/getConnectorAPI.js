@@ -1,7 +1,7 @@
 var Spooky = require('spooky');
 var GetMap = require('.././maps/get.js');
 
-module.exports = function(user,passwd,socket) {
+module.exports = function(user,passwd) {
 	var spooky = new Spooky({child: {transport: 'stdio'}}, function (err) {
 		//Initialize the generic auth page
 	    spooky.start(GetMap.entryURL);
@@ -19,119 +19,122 @@ module.exports = function(user,passwd,socket) {
 	    spooky.then(function(){});
 
 	    //Check if the login failed
-		spooky.then([{authFailure : GetMap.authFailure, "socket" : socket}, function() {
+		spooky.then([{authFailure : GetMap.authFailure}, function() {
 			if (this.getPageContent().indexOf(authFailure) > -1) {
-	    		socket.emit('authenticateStatusAPI', { status: 'failure' });
+	    		this.emit('authFailure', null); 
 	    		this.exit();
 	    	} else {
-	    		socket.emit('authenticateStatusAPI', { status: 'success' });
+	    		this.emit('authSuccess', null); 
 	    	}
 	    }]);
 
 	    //Wait for the main page to load and indicate an end to the redirects
 		spooky.waitForSelector(GetMap.redirectsDone, function() {});
-		
-		//Find each value of the UCard property
-		spooky.then([{tags : GetMap.userTags, vClass : GetMap.valueClass}, function() {
-			var vals = {};
 
-			for (var tag in tags) {
-				vals[tags[tag]] = this.evaluate(function (tag, valueClass) {
-					return $('.account_name:contains("' + tag + '")').parent().find('.' + valueClass)[0].innerHTML;
-				}, tag, vClass);
-			}
+		var readValues = function () {
+			//Find each value of the UCard property
+			spooky.then([{tags : GetMap.userTags, vClass : GetMap.valueClass}, function() {
+				var vals = {};
 
-			//Report the UCard values
-			this.emit('values', vals);
-	    }]);
-
-
-		//Get the users transaction history (Goes back 200 transactions)
-		spooky.thenOpen("https://get.cbord.com/umass/full/history.php", function () {});
-
-		//Iterate over the transactions
-		spooky.then([{'GetMap' : GetMap.transactionAttribs}, function() {
-	   		var transactions = [];
-
-	   		var numEven = this.evaluate(function () {
-				return document.getElementsByClassName("odd").length;
-			});
-
-			var numOdd = this.evaluate(function () {
-				return document.getElementsByClassName("odd").length;
-			});
-
-			//Get the specified transaction as an object
-			var getRow = function (pageInstance, row, type) {
-		   		var time = pageInstance.evaluate(function (row, type, mapObject) {
-					return document.getElementsByClassName(type)[row].getElementsByClassName(mapObject.mainElem)[0].getElementsByClassName(mapObject.time)[0].innerHTML;
-				}, row, type, GetMap.date);
-				var date = pageInstance.evaluate(function (row, type, mapObject) {
-					return document.getElementsByClassName(type)[row].getElementsByClassName(mapObject.mainElem)[0].getElementsByClassName(mapObject.date)[0].innerHTML;
-				}, row, type, GetMap.date);
-				var location = pageInstance.evaluate(function (row, type, mapObject) {
-					return document.getElementsByClassName(type)[row].getElementsByClassName(mapObject)[0].innerHTML;
-				}, row, type, GetMap.location);
-				var cost = pageInstance.evaluate(function (row, type, mapObject) {
-					return document.getElementsByClassName(type)[row].getElementsByClassName(mapObject)[0].innerHTML;
-				}, row, type, GetMap.cost);
-
-				//If the value is meaningless, make it one swipe
-				if (cost == GetMap.swipe) {
-					cost = "One Swipe";
+				for (var tag in tags) {
+					vals[tags[tag]] = this.evaluate(function (tag, valueClass) {
+						return $('.account_name:contains("' + tag + '")').parent().find('.' + valueClass)[0].innerHTML;
+					}, tag, vClass);
 				}
 
-				//The horrors of regex live on....
-				//Make the location title case
-				if (location != null) {
-					location = location.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+				//Report the UCard values
+				this.emit('funds', vals);
+		    }]);
 
-					//Remove all numbers (i.e cash registers)
-					location = location.replace(/[0-9]/g, '');
+			//Get the users transaction history (Goes back 200 transactions)
+			spooky.thenOpen("https://get.cbord.com/umass/full/history.php", function () {});
 
-					//Remove the extra whitespace left over from removing numbers
-					location = location.trim();
-				} else {
-					location = '';
+			//Iterate over the transactions
+			spooky.then([{'GetMap' : GetMap.transactionAttribs}, function() {
+		   		var transactions = [];
+
+		   		var numEven = this.evaluate(function () {
+					return document.getElementsByClassName("odd").length;
+				});
+
+				var numOdd = this.evaluate(function () {
+					return document.getElementsByClassName("odd").length;
+				});
+
+				//Get the specified transaction as an object
+				var getRow = function (pageInstance, row, type) {
+			   		var time = pageInstance.evaluate(function (row, type, mapObject) {
+						return document.getElementsByClassName(type)[row].getElementsByClassName(mapObject.mainElem)[0].getElementsByClassName(mapObject.time)[0].innerHTML;
+					}, row, type, GetMap.date);
+					var date = pageInstance.evaluate(function (row, type, mapObject) {
+						return document.getElementsByClassName(type)[row].getElementsByClassName(mapObject.mainElem)[0].getElementsByClassName(mapObject.date)[0].innerHTML;
+					}, row, type, GetMap.date);
+					var location = pageInstance.evaluate(function (row, type, mapObject) {
+						return document.getElementsByClassName(type)[row].getElementsByClassName(mapObject)[0].innerHTML;
+					}, row, type, GetMap.location);
+					var cost = pageInstance.evaluate(function (row, type, mapObject) {
+						return document.getElementsByClassName(type)[row].getElementsByClassName(mapObject)[0].innerHTML;
+					}, row, type, GetMap.cost);
+
+					//If the value is meaningless, make it one swipe
+					if (cost == GetMap.swipe) {
+						cost = "One Swipe";
+					}
+
+					//The horrors of regex live on....
+					//Make the location title case
+					if (location != null) {
+						location = location.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+
+						//Remove all numbers (i.e cash registers)
+						location = location.replace(/[0-9]/g, '');
+
+						//Remove the extra whitespace left over from removing numbers
+						location = location.trim();
+					} else {
+						location = '';
+					}
+
+					//Make the cost neutral
+					if (cost != null) {
+						cost = cost.replace("- ","");
+						cost = cost.replace("+ ","");
+					} else {
+						cost = '';
+					}
+
+					return {'time' : time, 'date' : date, 'location' : location, 'cost' : cost};
 				}
 
-				//Make the cost neutral
-				if (cost != null) {
-					cost = cost.replace("- ","");
-					cost = cost.replace("+ ","");
-				} else {
-					cost = '';
-				}
-
-				return {'time' : time, 'date' : date, 'location' : location, 'cost' : cost};
-			}
-
-			//Merge the even and odd arrays (used by GET for alternating rows)
-			for (var i = 0; i < numOdd; i++) {
-				//Fetch the odd row
-				var row = getRow(this, i, "odd")
-				
-				//If the transaction was not made by GET itself, add it to the array
-				if (row.location != GetMap.admin && row.location != GetMap.admin2 && row.location != '') {
-					transactions.push(row);
-				}
-				
-				//Make sure we have an accessable even row, even's will run our before odd
-				if (i < numEven) {
+				//Merge the even and odd arrays (used by GET for alternating rows)
+				for (var i = 0; i < numOdd; i++) {
 					//Fetch the odd row
-					var row = getRow(this, i, "even")
-
+					var row = getRow(this, i, "odd")
+					
 					//If the transaction was not made by GET itself, add it to the array
 					if (row.location != GetMap.admin && row.location != GetMap.admin2 && row.location != '') {
 						transactions.push(row);
 					}
+					
+					//Make sure we have an accessable even row, even's will run our before odd
+					if (i < numEven) {
+						//Fetch the odd row
+						var row = getRow(this, i, "even")
+
+						//If the transaction was not made by GET itself, add it to the array
+						if (row.location != GetMap.admin && row.location != GetMap.admin2 && row.location != '') {
+							transactions.push(row);
+						}
+					}
 				}
-			}
 
-			//Report the transaction history
-			this.emit('values', transactions);
-	    }]);
+				//Report the transaction history
+				this.emit('history', transactions);
+		    }]);
+		};
 
+		readValues();
+		
 		spooky.run();
 	});
 

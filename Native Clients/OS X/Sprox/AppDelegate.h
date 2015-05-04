@@ -16,6 +16,8 @@
     IBOutlet NSTextField *pass;
     
     SocketIO *socket;
+    NSDictionary *funds;
+    NSDictionary *transactions;
     int pane;
 }
 
