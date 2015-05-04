@@ -1,0 +1,6 @@
+framework module SocketIO {
+  umbrella header "SocketIO.h"
+
+  export *
+  module * { export * }
+}

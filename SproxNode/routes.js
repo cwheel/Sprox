@@ -319,7 +319,7 @@ module.exports = function(app) {
    	});
 
 	//Catch all 404's
-	app.get('*', function(req, res){
-		res.redirect('/');
-	});
+	//app.get('*', function(req, res){
+	//	res.redirect('/');
+	//});
 };

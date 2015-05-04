@@ -8,11 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SSKeychain.h"
+#import <SocketIO/SocketIO.h>
+#import <SocketIO/SocketIOPacket.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, SocketIODelegate> {
     IBOutlet NSTextField *user;
     IBOutlet NSTextField *pass;
     
+    SocketIO *socket;
     int pane;
 }
 

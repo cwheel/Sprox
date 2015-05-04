@@ -1,0 +1,29 @@
+ {
+  "name": "Sprox",
+  "version": "4.5.50",
+  "description": "A simple replacement for UMass Go",
+  "main": "server.js",
+
+  "dependencies": {
+    "bcrypt": "latest",
+    "body-parser": "latest",
+    "casperjs": "latest",
+    "cookie-parser": "latest",
+    "express": "latest",
+    "express-session": "latest",
+    "grunt": "latest",
+    "grunt-contrib-sass": "latest",
+    "grunt-nodemon": "latest",
+    "grunt-shell-spawn": "latest",
+    "js-sha512": "latest",
+    "merge": "latest",
+    "method-override": "latest",
+    "mongoose": "latest",
+    "node-cryptojs-aes": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "phantomjs": "latest",
+    "spooky": "latest",
+    "socket.io": "~0.9"
+  }
+}

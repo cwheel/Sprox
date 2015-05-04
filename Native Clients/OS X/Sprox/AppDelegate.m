@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#define k_SERVER_URL @"http://localhost:3000/login"
 
 @interface AppDelegate ()
 
@@ -30,9 +29,36 @@
     }
 }
 
+- (void)socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet {
+    id respDict = [NSJSONSerialization JSONObjectWithData:[packet.data dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    NSLog(packet.data);
+    if([respDict isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *resp = respDict;
+        if ([[resp valueForKey:@"name"] isEqualToString:@"authenticateStatusAPI"]) {
+            if ([[[resp valueForKey:@"args"][0] valueForKey:@"status"] isEqualToString:@"success"]) {
+                NSLog(@"Authentication attempt succeeded");
+            } else {
+                NSLog(@"Authentication attempt failed; try re-entering your username/password.");
+            }
+        }
+    } else {
+        NSLog(@"Could not parse SocketIO responce.");
+    }
+}
+
 - (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password {
+    socket = [[SocketIO alloc] initWithDelegate:self];
+    [socket connectToHost:@"localhost" onPort:3000];
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:username forKey:@"username"];
+    [dict setObject:password forKey:@"password"];
+    
+    [socket sendEvent:@"authenticateAPI" withData:dict];
+    
+    /*
     //Build the request
-    NSData *post = [[NSString stringWithFormat:@"username=%@&password=%@", username, password] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSData *post = [[NSString stringWithFormat:@"username=%@&pasSocketIO *socketIOsword=%@", username, password] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:k_SERVER_URL]];
     
     //Setup the request prams
@@ -64,7 +90,7 @@
                 
             }
         });
-    });
+    });*/
 }
 
 @end

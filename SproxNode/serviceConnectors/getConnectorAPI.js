@@ -1,7 +1,7 @@
 var Spooky = require('spooky');
 var GetMap = require('.././maps/get.js');
 
-module.exports = function(user,passwd) {
+module.exports = function(user,passwd,socket) {
 	var spooky = new Spooky({child: {transport: 'stdio'}}, function (err) {
 		//Initialize the generic auth page
 	    spooky.start(GetMap.entryURL);
@@ -17,11 +17,14 @@ module.exports = function(user,passwd) {
 	  	//Catch all of possible redirects (Authn and SAML2)
 	    spooky.then(function(){});
 	    spooky.then(function(){});
-	    
-	    spooky.then([{authFailure : GetMap.authFailure}, function() {
+
+	    //Check if the login failed
+		spooky.then([{authFailure : GetMap.authFailure, "socket" : socket}, function() {
 			if (this.getPageContent().indexOf(authFailure) > -1) {
-	    		this.emit('authFailure', null);
+	    		socket.emit('authenticateStatusAPI', { status: 'failure' });
 	    		this.exit();
+	    	} else {
+	    		socket.emit('authenticateStatusAPI', { status: 'success' });
 	    	}
 	    }]);
 

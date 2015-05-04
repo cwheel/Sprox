@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>834D39BF-DF57-46C3-A112-FE7D6ED3BFB9</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Sprox</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>50AD70BDCB4F504638F50365D52BB62573848C56</key>
+		<string>https://bitbucket.org/nosedive25/sprox.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Native Clients/OS X/Sprox.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>50AD70BDCB4F504638F50365D52BB62573848C56</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/nosedive25/sprox.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>50AD70BDCB4F504638F50365D52BB62573848C56</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>50AD70BDCB4F504638F50365D52BB62573848C56</string>
+			<key>IDESourceControlWCCName</key>
+			<string>sprox</string>
+		</dict>
+	</array>
+</dict>
+</plist>
