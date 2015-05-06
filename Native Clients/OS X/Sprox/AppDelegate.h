@@ -8,20 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SSKeychain.h"
-#import <SocketIO/SocketIO.h>
-#import <SocketIO/SocketIOPacket.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, SocketIODelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
     IBOutlet NSTextField *user;
     IBOutlet NSTextField *pass;
     
-    SocketIO *socket;
     NSDictionary *funds;
     NSDictionary *transactions;
     int pane;
 }
 
 - (IBAction)next:(id)sender;
+- (IBAction)testGet:(id)sender;
 - (void)loginWithUsername:(NSString *)user andPassword:(NSString *)pass;
 
 @end

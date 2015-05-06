@@ -29,39 +29,76 @@
     }
 }
 
-- (void)socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet {
-    id respDict = [NSJSONSerialization JSONObjectWithData:[packet.data dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+- (IBAction)testGet:(id)sender {
+    //Build the request
+    NSData *post = [[NSString stringWithFormat:@"username=%@&password=%@", [user stringValue], [pass stringValue]] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost:3000/userInfo/ucard"]];
     
-    if([respDict isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *resp = respDict;
-        NSString *event = [resp valueForKey:@"name"];
+    //Setup the request prams
+    [req setHTTPMethod:@"POST"];
+    [req setHTTPBody:post];
+    [req setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    
+    //Dispatch a new task
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //Send out the request
+        NSHTTPURLResponse *response = nil;
+        NSData *resp = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
+        id respDict = [NSJSONSerialization JSONObjectWithData:resp options:0 error:nil];
         
-        if ([event isEqualToString:@"authenticateStatusAPI"]) {
-            if ([[[resp valueForKey:@"args"][0] valueForKey:@"status"] isEqualToString:@"success"]) {
-                NSLog(@"Authentication attempt succeeded");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //Check if we got a dictionary back
+            NSLog([[NSString alloc] initWithData:resp encoding:NSUTF8StringEncoding]);
+            if([respDict isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *status = respDict;
+                
+                //Successful auth
+                if ([[status valueForKey:@"loginStatus"] isEqualToString:@"valid"]) {
+                    NSLog([status description]);
+                } else {
+                    NSLog(@"Auth failed");
+                }
             } else {
-                NSLog(@"Authentication attempt failed; try re-entering your username/password.");
+                NSLog(@"Error parsing responce");
             }
-        } else if ([event isEqualToString:@"getFundsAPI"]) {
-            funds = [resp valueForKey:@"args"][0];
-            NSLog([funds description]);
-        } else if ([event isEqualToString:@"getHistoryAPI"]) {
-            transactions = [resp valueForKey:@"args"][0];
-        }
-    } else {
-        NSLog(@"Could not parse SocketIO responce.");
-    }
+        });
+    });
 }
 
 - (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password {
-    socket = [[SocketIO alloc] initWithDelegate:self];
-    [socket connectToHost:@"localhost" onPort:3000];
+    //Build the request
+    NSData *post = [[NSString stringWithFormat:@"username=%@&password=%@", username, password] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost:3000/login"]];
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:username forKey:@"username"];
-    [dict setObject:password forKey:@"password"];
+    //Setup the request prams
+    [req setHTTPMethod:@"POST"];
+    [req setHTTPBody:post];
+    [req setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     
-    [socket sendEvent:@"authenticateAPI" withData:dict];
+    //Dispatch a new task
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //Send out the request
+        NSHTTPURLResponse *response = nil;
+        NSData *resp = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
+        id respDict = [NSJSONSerialization JSONObjectWithData:resp options:0 error:nil];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //Check if we got a dictionary back
+            if([respDict isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *status = respDict;
+                
+                //Successful auth
+                if ([[status valueForKey:@"loginStatus"] isEqualToString:@"valid"]) {
+                    [SSKeychain setPassword:password forService:@"Sprox Desktop" account:username];
+                } else {
+                    NSLog(@"Auth failed");
+                    
+                }
+            } else {
+                NSLog(@"Error parsing responce");
+            }
+        });
+    });
 }
 
 @end
