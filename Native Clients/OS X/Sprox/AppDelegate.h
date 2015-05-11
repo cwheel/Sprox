@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <QuartzCore/QuartzCore.h>
 #import "SSKeychain.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
@@ -19,6 +20,9 @@
     
     NSDictionary *funds;
     NSDictionary *transactions;
+    NSString *username;
+    NSString *password;
+    NSString *sproxServer;
     int pane;
 }
 
@@ -34,4 +38,3 @@
 - (void)postToURL:(NSURL *)url  withParameters:(NSString *)params andCallback:(SEL)callback;
 
 @end
-

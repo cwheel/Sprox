@@ -16,13 +16,24 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    [setup setWantsLayer:YES];
-    [setup addSubview:pane1];
+    NSArray *accounts = [SSKeychain accountsForService:@"Sprox Desktop"];
+    sproxServer = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"SproxServer"];
     
-    [_window makeKeyWindow];
-    [_window makeFirstResponder:user];
-    
-    pane = 1;
+    //Set to one for debug
+    if ([accounts count] > 1) {
+        [_window close];
+        
+        username = [accounts objectAtIndex:0];
+        password = [SSKeychain passwordForService:@"Sprox Desktop" account:username];
+    } else {
+        [setup setWantsLayer:YES];
+        [setup addSubview:pane1];
+        
+        [_window makeKeyWindow];
+        [_window makeFirstResponder:user];
+        
+        pane = 1;
+    }
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -33,8 +44,11 @@
 
 - (IBAction)next:(id)sender {
     if (pane == 1) {
-        [self postToURL:[NSURL URLWithString:@"http://localhost:3000/login"]
-              withParameters:[NSString stringWithFormat:@"username=%@&password=%@", [user stringValue], [pass stringValue]]
+        username = [user stringValue];
+        password = [pass stringValue];
+        
+        [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/login", sproxServer]]
+              withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
               andCallback:@selector(loginCompleted:)];
     } else if (pane == 2) {
         [_window close];
@@ -42,8 +56,8 @@
 }
 
 - (IBAction)testGet:(id)sender {
-    [self postToURL:[NSURL URLWithString:@"http://localhost:3000/userInfo/ucard"]
-          withParameters:[NSString stringWithFormat:@"username=%@&password=%@", [user stringValue], [pass stringValue]]
+    [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucard", sproxServer]]
+          withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
           andCallback:@selector(incomingUcardData:)];
 }
 
@@ -51,13 +65,33 @@
 
 - (void)loginCompleted:(NSDictionary *)status {
     if ([[status valueForKey:@"loginStatus"] isEqualToString:@"valid"]) {
-        [SSKeychain setPassword:[pass stringValue] forService:@"Sprox Desktop" account:[user stringValue]];
+        [SSKeychain setPassword:password forService:@"Sprox Desktop" account:username];
         
         pane = 2;
         [[setup animator] replaceSubview:pane1 with:pane2];
         [next setTitle:@"Finish"];
     } else {
-        NSLog(@"Auth failed");
+        static int numberOfShakes = 3;
+        static float durationOfShake = 0.5f;
+        static float vigourOfShake = 0.05f;
+        
+        CGRect frame = [_window frame];
+        CAKeyframeAnimation *shakeAnimation = [CAKeyframeAnimation animation];
+        
+        CGMutablePathRef shakePath = CGPathCreateMutable();
+        CGPathMoveToPoint(shakePath, NULL, NSMinX(frame), NSMinY(frame));
+        for (NSInteger index = 0; index < numberOfShakes; index++){
+            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) - frame.size.width * vigourOfShake, NSMinY(frame));
+            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) + frame.size.width * vigourOfShake, NSMinY(frame));
+        }
+        CGPathCloseSubpath(shakePath);
+        shakeAnimation.path = shakePath;
+        shakeAnimation.duration = durationOfShake;
+        
+        [_window setAnimations:[NSDictionary dictionaryWithObject: shakeAnimation forKey:@"frameOrigin"]];
+        [[_window animator] setFrameOrigin:[_window frame].origin];
+        
+        [pass setStringValue:@""];
     }
 }
 

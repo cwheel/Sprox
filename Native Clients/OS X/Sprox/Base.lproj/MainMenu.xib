@@ -705,8 +705,12 @@ U3Byb3ggEFNldHVwA
             <rect key="frame" x="0.0" y="5" width="437" height="238"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
+                <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GC1-iA-k82">
+                    <rect key="frame" x="154" y="90" width="128" height="128"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSApplicationIcon" id="kuP-4q-4Tt"/>
+                </imageView>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1nT-Ux-TqN">
-                    <rect key="frame" x="20" y="20" width="193" height="22"/>
+                    <rect key="frame" x="20" y="45" width="193" height="22"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Username" drawsBackground="YES" id="oA6-4g-k3b">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -716,12 +720,8 @@ U3Byb3ggEFNldHVwA
                         <outlet property="nextKeyView" destination="Lbs-U5-fu7" id="OIb-No-tnV"/>
                     </connections>
                 </textField>
-                <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GC1-iA-k82">
-                    <rect key="frame" x="154" y="90" width="128" height="128"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="NSApplicationIcon" id="kuP-4q-4Tt"/>
-                </imageView>
                 <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lbs-U5-fu7">
-                    <rect key="frame" x="224" y="20" width="193" height="22"/>
+                    <rect key="frame" x="224" y="45" width="193" height="22"/>
                     <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Password" drawsBackground="YES" usesSingleLineMode="YES" id="0C6-pB-qem">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>

@@ -144,7 +144,7 @@ module.exports = function(app) {
    	app.get('/userInfo/ucard', requireAuth, function(req, res) {
 		if (userFunds[req.user.spireId] != undefined) {
 			res.send(userFunds[req.user.spireId]);
-		} else {
+		} else { 
 			res.send(403, "You must have a session before requesting your funds.");
 		}
    	});
