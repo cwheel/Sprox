@@ -29,7 +29,9 @@
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>LSUIElement</key>
-	<true/>
+	<false/>
+	<key>SproxServer</key>
+	<string>http://localhost:3000</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

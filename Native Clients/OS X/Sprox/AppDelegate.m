@@ -16,50 +16,95 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    pane = 0;
+    NSArray *accounts = [SSKeychain accountsForService:@"Sprox Desktop"];
+    sproxServer = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"SproxServer"];
+    
+    //Set to one for debug
+    if ([accounts count] > 1) {
+        [_window close];
+        
+        username = [accounts objectAtIndex:0];
+        password = [SSKeychain passwordForService:@"Sprox Desktop" account:username];
+    } else {
+        [setup setWantsLayer:YES];
+        [setup addSubview:pane1];
+        
+        [_window makeKeyWindow];
+        [_window makeFirstResponder:user];
+        
+        pane = 1;
+    }
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
 }
 
+#pragma mark Actions
+
 - (IBAction)next:(id)sender {
-    if (pane == 0) {
-        [self loginWithUsername:[user stringValue] andPassword:[pass stringValue]];
+    if (pane == 1) {
+        username = [user stringValue];
+        password = [pass stringValue];
+        
+        [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/login", sproxServer]]
+              withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
+              andCallback:@selector(loginCompleted:)];
+    } else if (pane == 2) {
+        [_window close];
     }
 }
 
-- (void)socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet {
-    id respDict = [NSJSONSerialization JSONObjectWithData:[packet.data dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-    NSLog(packet.data);
-    if([respDict isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *resp = respDict;
-        if ([[resp valueForKey:@"name"] isEqualToString:@"authenticateStatusAPI"]) {
-            if ([[[resp valueForKey:@"args"][0] valueForKey:@"status"] isEqualToString:@"success"]) {
-                NSLog(@"Authentication attempt succeeded");
-            } else {
-                NSLog(@"Authentication attempt failed; try re-entering your username/password.");
-            }
-        }
+- (IBAction)testGet:(id)sender {
+    [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucard", sproxServer]]
+          withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
+          andCallback:@selector(incomingUcardData:)];
+}
+
+#pragma mark Callbacks
+
+- (void)loginCompleted:(NSDictionary *)status {
+    if ([[status valueForKey:@"loginStatus"] isEqualToString:@"valid"]) {
+        [SSKeychain setPassword:password forService:@"Sprox Desktop" account:username];
+        
+        pane = 2;
+        [[setup animator] replaceSubview:pane1 with:pane2];
+        [next setTitle:@"Finish"];
     } else {
-        NSLog(@"Could not parse SocketIO responce.");
+        static int numberOfShakes = 3;
+        static float durationOfShake = 0.5f;
+        static float vigourOfShake = 0.05f;
+        
+        CGRect frame = [_window frame];
+        CAKeyframeAnimation *shakeAnimation = [CAKeyframeAnimation animation];
+        
+        CGMutablePathRef shakePath = CGPathCreateMutable();
+        CGPathMoveToPoint(shakePath, NULL, NSMinX(frame), NSMinY(frame));
+        for (NSInteger index = 0; index < numberOfShakes; index++){
+            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) - frame.size.width * vigourOfShake, NSMinY(frame));
+            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) + frame.size.width * vigourOfShake, NSMinY(frame));
+        }
+        CGPathCloseSubpath(shakePath);
+        shakeAnimation.path = shakePath;
+        shakeAnimation.duration = durationOfShake;
+        
+        [_window setAnimations:[NSDictionary dictionaryWithObject: shakeAnimation forKey:@"frameOrigin"]];
+        [[_window animator] setFrameOrigin:[_window frame].origin];
+        
+        [pass setStringValue:@""];
     }
 }
 
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password {
-    socket = [[SocketIO alloc] initWithDelegate:self];
-    [socket connectToHost:@"localhost" onPort:3000];
-    
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:username forKey:@"username"];
-    [dict setObject:password forKey:@"password"];
-    
-    [socket sendEvent:@"authenticateAPI" withData:dict];
-    
-    /*
+- (void)incomingUcardData:(NSDictionary *)ucard {
+    NSLog([ucard description]);
+}
+
+#pragma mark Helpers
+
+- (void)postToURL:(NSURL *)url withParameters:(NSString *)params andCallback:(SEL)callback {
     //Build the request
-    NSData *post = [[NSString stringWithFormat:@"username=%@&pasSocketIO *socketIOsword=%@", username, password] dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:k_SERVER_URL]];
+    NSData *post = [params dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:url];
     
     //Setup the request prams
     [req setHTTPMethod:@"POST"];
@@ -76,21 +121,18 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             //Check if we got a dictionary back
             if([respDict isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *status = respDict;
+                NSDictionary *resp = respDict;
                 
-                //Successful auth
-                if ([[status valueForKey:@"loginStatus"] isEqualToString:@"valid"]) {
-                    
-                } else {
-                    //Failed to auth
-                    
-                }
+                //Perform the callback
+                IMP imp = [self methodForSelector:callback];
+                void (*_callback)(id, SEL, NSDictionary *) = (void *)imp;
+                _callback(self, callback, resp);
             } else {
-                //Successful auth
-                
+                //Could not understand the servers responce, throw an error
+                [NSError errorWithDomain:@"Error parsing responce from server" code:NSURLErrorDownloadDecodingFailedToComplete userInfo:nil];
             }
         });
-    });*/
+    });
 }
 
 @end

@@ -7,20 +7,34 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <QuartzCore/QuartzCore.h>
 #import "SSKeychain.h"
-#import <SocketIO/SocketIO.h>
-#import <SocketIO/SocketIOPacket.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate, SocketIODelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate> {
     IBOutlet NSTextField *user;
     IBOutlet NSTextField *pass;
+    IBOutlet NSView *setup;
+    IBOutlet NSView *pane1;
+    IBOutlet NSView *pane2;
+    IBOutlet NSButton *next;
     
-    SocketIO *socket;
+    NSDictionary *funds;
+    NSDictionary *transactions;
+    NSString *username;
+    NSString *password;
+    NSString *sproxServer;
     int pane;
 }
 
+//Actions
 - (IBAction)next:(id)sender;
-- (void)loginWithUsername:(NSString *)user andPassword:(NSString *)pass;
+- (IBAction)testGet:(id)sender;
+
+//Callbacks
+- (void)loginCompleted:(NSDictionary *)status;
+- (void)incomingUcardData:(NSDictionary *)ucard;
+
+//Helpers
+- (void)postToURL:(NSURL *)url  withParameters:(NSString *)params andCallback:(SEL)callback;
 
 @end
-
