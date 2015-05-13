@@ -16,7 +16,10 @@
     IBOutlet NSView *setup;
     IBOutlet NSView *pane1;
     IBOutlet NSView *pane2;
+    IBOutlet NSView *pane3;
     IBOutlet NSButton *next;
+    IBOutlet NSTextField *paneTitle;
+    IBOutlet NSProgressIndicator *setupSyncSpinner;
     
     NSDictionary *funds;
     NSDictionary *transactions;
@@ -36,5 +39,6 @@
 
 //Helpers
 - (void)postToURL:(NSURL *)url  withParameters:(NSString *)params andCallback:(SEL)callback;
+- (CATransition *)slideAnimation;
 
 @end

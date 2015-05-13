@@ -27,10 +27,13 @@
         password = [SSKeychain passwordForService:@"Sprox Desktop" account:username];
     } else {
         [setup setWantsLayer:YES];
+        [setup setAnimations:[NSDictionary dictionaryWithObject:[self slideAnimation] forKey:@"subviews"]];
         [setup addSubview:pane1];
         
         [_window makeKeyWindow];
         [_window makeFirstResponder:user];
+        
+        [paneTitle setStringValue:@"Login"];
         
         pane = 1;
     }
@@ -50,7 +53,7 @@
         [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/login", sproxServer]]
               withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
               andCallback:@selector(loginCompleted:)];
-    } else if (pane == 2) {
+    } else if (pane == 3) {
         [_window close];
     }
 }
@@ -69,7 +72,14 @@
         
         pane = 2;
         [[setup animator] replaceSubview:pane1 with:pane2];
-        [next setTitle:@"Finish"];
+        
+        [setupSyncSpinner startAnimation:nil];
+        [next setHidden:YES];
+        [paneTitle setStringValue:@"Syncing"];
+        
+        [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucard", sproxServer]]
+         withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
+            andCallback:@selector(incomingUcardData:)];
     } else {
         static int numberOfShakes = 3;
         static float durationOfShake = 0.5f;
@@ -96,6 +106,12 @@
 }
 
 - (void)incomingUcardData:(NSDictionary *)ucard {
+    NSLog(@"dfgf");
+    [next setTitle:@"Finish"];
+    [next setHidden:NO];
+    [paneTitle setStringValue:@"Setup Complete"];
+    [[setup animator] replaceSubview:pane2 with:pane3];
+    
     NSLog([ucard description]);
 }
 
@@ -105,7 +121,7 @@
     //Build the request
     NSData *post = [params dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:url];
-    
+    NSLog([url absoluteString]);
     //Setup the request prams
     [req setHTTPMethod:@"POST"];
     [req setHTTPBody:post];
@@ -122,7 +138,7 @@
             //Check if we got a dictionary back
             if([respDict isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *resp = respDict;
-                
+                NSLog([resp description]);
                 //Perform the callback
                 IMP imp = [self methodForSelector:callback];
                 void (*_callback)(id, SEL, NSDictionary *) = (void *)imp;
@@ -133,6 +149,13 @@
             }
         });
     });
+}
+
+- (CATransition *)slideAnimation {
+    CATransition *transition = [CATransition animation];
+    [transition setType:kCATransitionMoveIn];
+    [transition setSubtype:kCATransitionFromRight];
+    return transition;
 }
 
 @end
