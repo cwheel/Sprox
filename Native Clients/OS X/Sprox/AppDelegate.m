@@ -18,13 +18,19 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     NSArray *accounts = [SSKeychain accountsForService:@"Sprox Desktop"];
     sproxServer = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"SproxServer"];
+    pane = -1;
     
     //Set to one for debug
-    if ([accounts count] > 1) {
-        [_window close];
+    if ([accounts count] > 0) {
+        [_window orderOut:nil];
         
-        username = [accounts objectAtIndex:0];
+        username = [[accounts objectAtIndex:0] objectForKey:@"acct"];
         password = [SSKeychain passwordForService:@"Sprox Desktop" account:username];
+        
+        [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/login", sproxServer]]
+         withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
+            andCallback:@selector(authCompleted:)];
+        
     } else {
         [setup setWantsLayer:YES];
         [setup setAnimations:[NSDictionary dictionaryWithObject:[self slideAnimation] forKey:@"subviews"]];
@@ -54,7 +60,7 @@
               withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
               andCallback:@selector(loginCompleted:)];
     } else if (pane == 3) {
-        [_window close];
+        [_window orderOut:sender];
     }
 }
 
@@ -77,9 +83,9 @@
         [next setHidden:YES];
         [paneTitle setStringValue:@"Syncing"];
         
-        [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucard", sproxServer]]
-         withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
-            andCallback:@selector(incomingUcardData:)];
+       [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucard", sproxServer]]
+            withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
+            andCallback:@selector(ucardInitialized:)];
     } else {
         static int numberOfShakes = 3;
         static float durationOfShake = 0.5f;
@@ -105,23 +111,80 @@
     }
 }
 
-- (void)incomingUcardData:(NSDictionary *)ucard {
-    NSLog(@"dfgf");
-    [next setTitle:@"Finish"];
-    [next setHidden:NO];
-    [paneTitle setStringValue:@"Setup Complete"];
-    [[setup animator] replaceSubview:pane2 with:pane3];
+- (void)authCompleted:(NSDictionary *)status {
+    if ([[status valueForKey:@"loginStatus"] isEqualToString:@"valid"]) {
+        ucardTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(ucardUpdate:) userInfo:nil repeats:YES];
+    } else {
+        [ucardTimer invalidate];
+        
+        [setup setWantsLayer:YES];
+        [setup setAnimations:[NSDictionary dictionaryWithObject:[self slideAnimation] forKey:@"subviews"]];
+        [setup addSubview:pane1];
+        
+        [_window makeKeyWindow];
+        [_window makeFirstResponder:user];
+        
+        [paneTitle setStringValue:@"Login"];
+        
+        pane = 1;
+    }
+}
+
+- (void)ucardInitialized:(NSDictionary *)ucard {
+    if ([[ucard objectForKey:@"status"] isEqualToString:@"success"]) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSData *fundsRaw = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucardFunds", sproxServer]]];
+            NSData *transactionsRaw = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucardTransactions", sproxServer]]];
+            
+            funds = [NSJSONSerialization JSONObjectWithData:fundsRaw options:0 error:nil];
+            transactions = [NSJSONSerialization JSONObjectWithData:transactionsRaw options:0 error:nil];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog([funds description]);
+                NSLog([transactions description]);
+                
+                //This is being called from setup
+                if (pane != -1) {
+                    [next setTitle:@"Finish"];
+                    [next setHidden:NO];
+                    [paneTitle setStringValue:@"Setup Complete"];
+                    [[setup animator] replaceSubview:pane2 with:pane3];
+                    pane = 3;
+                    
+                    ucardTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(ucardUpdate:) userInfo:nil repeats:YES];
+                }
+            });
+        });
+    } else {
+        NSLog(@"Failed to parse server responce. Aborting.");
+    }
+}
+
+- (void)ucardUpdate:(NSTimer *)timer {
+    NSData *authRaw = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/authStatus", sproxServer]]];
+    NSDictionary *auth = [NSJSONSerialization JSONObjectWithData:authRaw options:0 error:nil];
     
-    NSLog([ucard description]);
+    if ([[auth objectForKey:@"authStatus"] isEqualToString:@"valid"]) {
+        [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucard", sproxServer]]
+         withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
+            andCallback:@selector(ucardInitialized:)];
+    } else {
+        [ucardTimer invalidate];
+        
+        [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/login", sproxServer]]
+         withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
+            andCallback:@selector(authCompleted:)];
+    }
 }
 
 #pragma mark Helpers
 
 - (void)postToURL:(NSURL *)url withParameters:(NSString *)params andCallback:(SEL)callback {
     //Build the request
+    params = [params stringByAppendingString:@"&api=true"];
     NSData *post = [params dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:url];
-    NSLog([url absoluteString]);
+
     //Setup the request prams
     [req setHTTPMethod:@"POST"];
     [req setHTTPBody:post];
@@ -132,17 +195,16 @@
         //Send out the request
         NSHTTPURLResponse *response = nil;
         NSData *resp = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
-        id respDict = [NSJSONSerialization JSONObjectWithData:resp options:0 error:nil];
-        
+        id respObj = [NSJSONSerialization JSONObjectWithData:resp options:0 error:nil];
         dispatch_async(dispatch_get_main_queue(), ^{
             //Check if we got a dictionary back
-            if([respDict isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *resp = respDict;
-                NSLog([resp description]);
+            if([respObj isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *_resp = respObj;
+
                 //Perform the callback
                 IMP imp = [self methodForSelector:callback];
                 void (*_callback)(id, SEL, NSDictionary *) = (void *)imp;
-                _callback(self, callback, resp);
+                _callback(self, callback, _resp);
             } else {
                 //Could not understand the servers responce, throw an error
                 [NSError errorWithDomain:@"Error parsing responce from server" code:NSURLErrorDownloadDecodingFailedToComplete userInfo:nil];

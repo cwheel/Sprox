@@ -124,6 +124,22 @@ module.exports = function(app) {
 	app.post('/userInfo/ucard', requireAuth, function(req, res) {
 		console.log("[Service-GET] Fetching GET information for user: '" + req.body.username + "'...");
 
+		if (userFunds[req.user.spireId] != undefined) {
+			var now = new Date();
+
+			if (now.getTime() - userFunds[req.user.spireId]['valid'].getTime() < 1000*60*3) {
+				if (req.body.api == 'true') {
+					res.send({status : 'success'});
+					return;
+				} else {
+					res.send(userFunds[req.user.spireId]['ucard']);
+					return;
+				}
+			} else {
+				delete userFunds[req.user.spireId];
+			}
+		}
+
 		var get = new UmassGet(req.body.username, req.body.password);
 		var fetched = [];
 
@@ -134,18 +150,41 @@ module.exports = function(app) {
 				console.log("[Service-GET] Finished fetching GET information for user: '" + req.body.username + "'!");
 
 				//Cache their funds for later
-				userFunds[req.user.spireId] = fetched;
-				res.send(fetched);
+				userFunds[req.user.spireId] = {"ucard" : fetched, "valid" : new Date()};
+
+				if (req.body.api == 'true') {
+					res.send({status : 'success'});
+				} else {
+					res.send(fetched);
+				}
 			}
 		});
    	});
 
-	//GET via a GET request, used only to restore the users session
+	//GET via a GET request, used only to restore the users session (Web Only)
    	app.get('/userInfo/ucard', requireAuth, function(req, res) {
 		if (userFunds[req.user.spireId] != undefined) {
-			res.send(userFunds[req.user.spireId]);
+			res.send(userFunds[req.user.spireId]['ucard']);
 		} else { 
 			res.send(403, "You must have a session before requesting your funds.");
+		}
+   	});
+
+   	//Funds via a GET request, used only in API where the Cocoa JSON parser is literally usless (API Only)
+   	app.get('/userInfo/ucardFunds', requireAuth, function(req, res) {
+		if (userFunds[req.user.spireId] != undefined) {
+			res.send(userFunds[req.user.spireId]['ucard'][0]);
+		} else { 
+			res.send({status : "init_needed_failure"});
+		}
+   	});
+
+   	//Funds via a GET request, used only in API where the Cocoa JSON parser is literally usless (API Only)
+   	app.get('/userInfo/ucardTransactions', requireAuth, function(req, res) {
+		if (userFunds[req.user.spireId] != undefined) {
+			res.send(userFunds[req.user.spireId]['ucard'][1]);
+		} else { 
+			res.send({status : "init_needed_failure"});
 		}
    	});
 
@@ -320,7 +359,7 @@ module.exports = function(app) {
    	});
 
 	//Catch all 404's
-	//app.get('*', function(req, res){
-	//	res.redirect('/');
-	//});
+	app.get('*', function(req, res){
+		res.redirect('/');
+	});
 };

@@ -22,10 +22,11 @@
     IBOutlet NSProgressIndicator *setupSyncSpinner;
     
     NSDictionary *funds;
-    NSDictionary *transactions;
+    NSArray *transactions;
     NSString *username;
     NSString *password;
     NSString *sproxServer;
+    NSTimer *ucardTimer;
     int pane;
 }
 
@@ -38,7 +39,7 @@
 - (void)incomingUcardData:(NSDictionary *)ucard;
 
 //Helpers
-- (void)postToURL:(NSURL *)url  withParameters:(NSString *)params andCallback:(SEL)callback;
 - (CATransition *)slideAnimation;
+- (void)postToURL:(NSURL *)url withParameters:(NSString *)params andCallback:(SEL)callback;
 
 @end
