@@ -27,6 +27,7 @@
                 <outlet property="setup" destination="zjl-Ib-vdX" id="qiS-w9-0AT"/>
                 <outlet property="setupSyncSpinner" destination="IzK-eW-Y8F" id="MdH-bV-2YG"/>
                 <outlet property="statusMenu" destination="adj-th-TfT" id="zjH-io-blc"/>
+                <outlet property="statusMenuLoading" destination="BVd-6r-sMt" id="hZ4-UE-cwJ"/>
                 <outlet property="swipes" destination="gDG-EX-k8t" id="XqJ-zI-Icm"/>
                 <outlet property="user" destination="1nT-Ux-TqN" id="2ab-S8-COe"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
@@ -815,7 +816,15 @@ U3Byb3ggEFNldHVwA
                     <modifierMask key="keyEquivalentModifierMask"/>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="785" y="710.5"/>
+            <point key="canvasLocation" x="781.5" y="716.5"/>
+        </menu>
+        <menu id="BVd-6r-sMt">
+            <items>
+                <menuItem title="Loading UCard..." id="jWu-3S-6X1">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="756" y="828.5"/>
         </menu>
     </objects>
     <resources>

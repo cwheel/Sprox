@@ -23,6 +23,7 @@
     IBOutlet NSProgressIndicator *loginSpinner;
     
     IBOutlet NSMenu *statusMenu;
+    IBOutlet NSMenu *statusMenuLoading;
     NSStatusItem *statusItem;
     BOOL statusRendered;
     
@@ -49,9 +50,9 @@
 
 //Callbacks
 - (void)loginCompleted:(NSDictionary *)status;
-- (void)incomingUcardData:(NSDictionary *)ucard;
 - (void)authCompleted:(NSDictionary *)status;
 - (void)ucardInitialized:(NSDictionary *)ucard;
+- (void)ucardUpdate:(NSTimer *)timer;
 
 //Helpers
 - (CATransition *)slideAnimation;

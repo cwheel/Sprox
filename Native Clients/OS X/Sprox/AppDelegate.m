@@ -20,8 +20,8 @@
     sproxServer = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"SproxServer"];
     pane = -1;
     
-    //Set to one for debug
-    if ([accounts count] > 1) {
+    if ([accounts count] > 0) {
+        [self renderMenuItem];
         [_window orderOut:nil];
         
         username = [[accounts objectAtIndex:0] objectForKey:@"acct"];
@@ -162,7 +162,7 @@
             transactions = [NSJSONSerialization JSONObjectWithData:transactionsRaw options:0 error:nil];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self renderMenuItem];
+                [statusItem setMenu:statusMenu];
                 
                 if ([funds valueForKey:@"dd"] == [NSNull null]) {
                     [dd setHidden:YES];
@@ -177,6 +177,8 @@
                 
                 //This is being called from setup, hence the non -1ness
                 if (pane != -1) {
+                    [self renderMenuItem];
+
                     [next setTitle:@"Finish"];
                     [next setHidden:NO];
                     [paneTitle setStringValue:@"Setup Complete"];
@@ -251,18 +253,16 @@
         statusRendered = !statusRendered;
         
         statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-        NSImage *light = [NSImage imageNamed:@"statusDark"];
-        NSImage *dark = [NSImage imageNamed:@"statusLight"];
+        NSImage *dark = [NSImage imageNamed:@"statusDark"];
         
-        [light setTemplate:YES];
         [dark setTemplate:YES];
         
-        [statusItem setImage:light];
-        [statusItem setAlternateImage:dark];
+        [statusItem setImage:dark];
+        [statusItem setAlternateImage:[NSImage imageNamed:@"statusLight"]];
         
         [statusItem setHighlightMode:YES];
         
-        [statusItem setMenu:statusMenu];
+        [statusItem setMenu:statusMenuLoading];
     }
     
 }
