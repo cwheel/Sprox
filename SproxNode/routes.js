@@ -193,6 +193,11 @@ module.exports = function(app) {
 		res.send(req.user);
    	});
 
+	//Provide basic user info for desktop clients, (i.e Cocoa is incapable of parsing anything multilevel) (API only)
+   	app.get('/userInfo/spireBasic', requireAuth, function(req, res) {
+		res.send({'fullname' : req.user.studentFullname, 'major' : req.user.major});
+   	});
+
 	//Parking
 	app.get('/parking', function(req, res) {
 		var parking = new UmassParking("req.query.username", "req.query.password");

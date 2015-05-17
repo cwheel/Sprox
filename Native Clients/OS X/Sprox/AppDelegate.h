@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SSKeychain.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate> {
+@interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate> {
     IBOutlet NSTextField *user;
     IBOutlet NSTextField *pass;
     IBOutlet NSView *setup;
@@ -20,9 +20,22 @@
     IBOutlet NSButton *next;
     IBOutlet NSTextField *paneTitle;
     IBOutlet NSProgressIndicator *setupSyncSpinner;
+    IBOutlet NSProgressIndicator *loginSpinner;
+    
+    IBOutlet NSMenu *statusMenu;
+    NSStatusItem *statusItem;
+    BOOL statusRendered;
+    
+    IBOutlet NSMenuItem *dd;
+    IBOutlet NSMenuItem *swipes;
+    IBOutlet NSMenuItem *debit;
+    IBOutlet NSMenuItem *sName;
+    IBOutlet NSMenuItem *sMajor;
     
     NSDictionary *funds;
+    NSDictionary *studentInfo;
     NSArray *transactions;
+    
     NSString *username;
     NSString *password;
     NSString *sproxServer;
@@ -32,14 +45,17 @@
 
 //Actions
 - (IBAction)next:(id)sender;
-- (IBAction)testGet:(id)sender;
+- (IBAction)openSprox:(id)sender;
 
 //Callbacks
 - (void)loginCompleted:(NSDictionary *)status;
 - (void)incomingUcardData:(NSDictionary *)ucard;
+- (void)authCompleted:(NSDictionary *)status;
+- (void)ucardInitialized:(NSDictionary *)ucard;
 
 //Helpers
 - (CATransition *)slideAnimation;
+- (void)renderMenuItem;
 - (void)postToURL:(NSURL *)url withParameters:(NSString *)params andCallback:(SEL)callback;
 
 @end

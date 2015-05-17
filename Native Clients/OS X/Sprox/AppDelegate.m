@@ -21,7 +21,7 @@
     pane = -1;
     
     //Set to one for debug
-    if ([accounts count] > 0) {
+    if ([accounts count] > 1) {
         [_window orderOut:nil];
         
         username = [[accounts objectAtIndex:0] objectForKey:@"acct"];
@@ -43,6 +43,12 @@
         
         pane = 1;
     }
+    
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+}
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification{
+    return YES;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -59,20 +65,22 @@
         [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/login", sproxServer]]
               withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
               andCallback:@selector(loginCompleted:)];
+        
+        [loginSpinner startAnimation:sender];
     } else if (pane == 3) {
         [_window orderOut:sender];
     }
 }
 
-- (IBAction)testGet:(id)sender {
-    [self postToURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucard", sproxServer]]
-          withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
-          andCallback:@selector(incomingUcardData:)];
+- (IBAction)openSprox:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:sproxServer]];
 }
 
 #pragma mark Callbacks
 
 - (void)loginCompleted:(NSDictionary *)status {
+    [loginSpinner stopAnimation:nil];
+    
     if ([[status valueForKey:@"loginStatus"] isEqualToString:@"valid"]) {
         [SSKeychain setPassword:password forService:@"Sprox Desktop" account:username];
         
@@ -136,14 +144,38 @@
             NSData *fundsRaw = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucardFunds", sproxServer]]];
             NSData *transactionsRaw = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/ucardTransactions", sproxServer]]];
             
+            if (!studentInfo) {
+                NSData *infoRaw = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/userInfo/spireBasic", sproxServer]]];
+                studentInfo = [NSJSONSerialization JSONObjectWithData:infoRaw options:0 error:nil];
+            }
+            
+            /*
+             NSUserNotification *notification = [[NSUserNotification alloc] init];
+             notification.title = @"Hello, World!";
+             notification.informativeText = @"A notification";
+             notification.soundName = NSUserNotificationDefaultSoundName;
+             
+             [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
+             */
+            
             funds = [NSJSONSerialization JSONObjectWithData:fundsRaw options:0 error:nil];
             transactions = [NSJSONSerialization JSONObjectWithData:transactionsRaw options:0 error:nil];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog([funds description]);
-                NSLog([transactions description]);
+                [self renderMenuItem];
                 
-                //This is being called from setup
+                if ([funds valueForKey:@"dd"] == [NSNull null]) {
+                    [dd setHidden:YES];
+                } else {
+                    [dd setTitle:[NSString stringWithFormat:@"Dining Dollars: %@", [funds valueForKey:@"dd"]]];
+                }
+                
+                [debit setTitle:[NSString stringWithFormat:@"Debit: %@", [funds valueForKey:@"debit"]]];
+                [swipes setTitle:[NSString stringWithFormat:@"Swipes Left: %@", [funds valueForKey:@"swipes"]]];
+                [sName setTitle:[studentInfo valueForKey:@"fullname"]];
+                [sMajor setTitle:[studentInfo valueForKey:@"major"]];
+                
+                //This is being called from setup, hence the non -1ness
                 if (pane != -1) {
                     [next setTitle:@"Finish"];
                     [next setHidden:NO];
@@ -196,6 +228,7 @@
         NSHTTPURLResponse *response = nil;
         NSData *resp = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:nil];
         id respObj = [NSJSONSerialization JSONObjectWithData:resp options:0 error:nil];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             //Check if we got a dictionary back
             if([respObj isKindOfClass:[NSDictionary class]]) {
@@ -211,6 +244,27 @@
             }
         });
     });
+}
+
+- (void)renderMenuItem {
+    if (!statusRendered) {
+        statusRendered = !statusRendered;
+        
+        statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+        NSImage *light = [NSImage imageNamed:@"statusDark"];
+        NSImage *dark = [NSImage imageNamed:@"statusLight"];
+        
+        [light setTemplate:YES];
+        [dark setTemplate:YES];
+        
+        [statusItem setImage:light];
+        [statusItem setAlternateImage:dark];
+        
+        [statusItem setHighlightMode:YES];
+        
+        [statusItem setMenu:statusMenu];
+    }
+    
 }
 
 - (CATransition *)slideAnimation {

@@ -13,14 +13,21 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="dd" destination="Rkn-Qi-u8o" id="VIq-ot-YYt"/>
+                <outlet property="debit" destination="VH0-Ly-dMg" id="YyI-Wa-SWt"/>
+                <outlet property="loginSpinner" destination="Biz-Et-0na" id="8EJ-w8-Mqq"/>
                 <outlet property="next" destination="wFS-Ai-gEl" id="RYg-fj-BXs"/>
                 <outlet property="pane1" destination="YF9-eH-IJC" id="YJY-wH-8Xq"/>
                 <outlet property="pane2" destination="APr-Wv-aw4" id="tIT-1K-1Jf"/>
                 <outlet property="pane3" destination="jzk-K2-7Ke" id="JGK-Uh-bM0"/>
                 <outlet property="paneTitle" destination="2g6-VT-0w2" id="mG0-M4-Ze3"/>
                 <outlet property="pass" destination="Lbs-U5-fu7" id="lrW-wZ-hO3"/>
+                <outlet property="sMajor" destination="pqC-di-44D" id="wAg-DE-4cc"/>
+                <outlet property="sName" destination="T1F-uA-MHj" id="0FY-FC-6vx"/>
                 <outlet property="setup" destination="zjl-Ib-vdX" id="qiS-w9-0AT"/>
                 <outlet property="setupSyncSpinner" destination="IzK-eW-Y8F" id="MdH-bV-2YG"/>
+                <outlet property="statusMenu" destination="adj-th-TfT" id="zjH-io-blc"/>
+                <outlet property="swipes" destination="gDG-EX-k8t" id="XqJ-zI-Icm"/>
                 <outlet property="user" destination="1nT-Ux-TqN" id="2ab-S8-COe"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -719,7 +726,7 @@ U3Byb3ggEFNldHVwA
                 </subviews>
             </view>
             <contentBorderThickness minY="32"/>
-            <point key="canvasLocation" x="522.5" y="397"/>
+            <point key="canvasLocation" x="598.5" y="464"/>
         </window>
         <customView id="YF9-eH-IJC">
             <rect key="frame" x="0.0" y="0.0" width="438" height="189"/>
@@ -747,8 +754,11 @@ U3Byb3ggEFNldHVwA
                         </allowedInputSourceLocales>
                     </secureTextFieldCell>
                 </secureTextField>
+                <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Biz-Et-0na">
+                    <rect key="frame" x="211" y="43" width="16" height="16"/>
+                </progressIndicator>
             </subviews>
-            <point key="canvasLocation" x="621" y="709.5"/>
+            <point key="canvasLocation" x="1103" y="412.5"/>
         </customView>
         <customView id="APr-Wv-aw4">
             <rect key="frame" x="0.0" y="0.0" width="438" height="189"/>
@@ -766,28 +776,47 @@ U3Byb3ggEFNldHVwA
                     </textFieldCell>
                 </textField>
             </subviews>
-            <point key="canvasLocation" x="991" y="489.5"/>
-        </customView>
-        <customView id="K9X-5m-SD5">
-            <rect key="frame" x="0.0" y="0.0" width="163" height="96"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <point key="canvasLocation" x="455.5" y="344"/>
+            <point key="canvasLocation" x="1103" y="647.5"/>
         </customView>
         <customView id="jzk-K2-7Ke">
             <rect key="frame" x="0.0" y="0.0" width="438" height="189"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="43V-hg-4x3">
-                    <rect key="frame" x="162" y="86" width="114" height="18"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="done" id="8Cp-BY-DX5">
+                    <rect key="frame" x="141" y="85" width="156" height="18"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Sprox is ready to use!" id="8Cp-BY-DX5">
                         <font key="font" metaFont="system" size="15"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
             </subviews>
-            <point key="canvasLocation" x="1143" y="654.5"/>
+            <point key="canvasLocation" x="1103" y="888.5"/>
         </customView>
+        <menu id="adj-th-TfT">
+            <items>
+                <menuItem title="First Last" id="T1F-uA-MHj">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="openSprox:" target="Voe-Tx-rLC" id="rah-P5-cmb"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Major" id="pqC-di-44D">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="VnI-hJ-Trn"/>
+                <menuItem title="Debit" id="VH0-Ly-dMg">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Swipes" id="gDG-EX-k8t">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Dining" id="Rkn-Qi-u8o">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="785" y="710.5"/>
+        </menu>
     </objects>
     <resources>
         <image name="NSApplicationIcon" width="128" height="128"/>
