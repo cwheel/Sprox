@@ -826,8 +826,15 @@ U3Byb3ggEFNldHVwA
             </items>
             <point key="canvasLocation" x="756" y="828.5"/>
         </menu>
+        <imageView id="Jlf-Io-Xu7">
+            <rect key="frame" x="0.0" y="0.0" width="1920" height="200"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="umass" id="nKZ-QQ-jMp"/>
+            <point key="canvasLocation" x="1833" y="415"/>
+        </imageView>
     </objects>
     <resources>
         <image name="NSApplicationIcon" width="128" height="128"/>
+        <image name="umass" width="1920" height="200"/>
     </resources>
 </document>

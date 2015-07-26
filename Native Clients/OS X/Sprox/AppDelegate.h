@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/QuartzCore.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #import "SSKeychain.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSUserNotificationCenterDelegate> {

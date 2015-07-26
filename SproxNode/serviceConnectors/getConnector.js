@@ -2,7 +2,11 @@ var Spooky = require('spooky');
 var GetMap = require('.././maps/get.js');
 
 module.exports = function(user,passwd) {
-	var spooky = new Spooky({child: {transport: 'stdio'}}, function (err) {
+	var spooky = new Spooky({child: {
+            transport: 'http',
+            "ssl-protocol": "any",
+            "ignore-ssl-errors": true
+        }}, function (err) {
 		//Initialize the generic auth page
 	    spooky.start(GetMap.entryURL);
 
@@ -124,11 +128,14 @@ module.exports = function(user,passwd) {
 					}
 				}
 			}
-
+			spooky.on('console', function (line) {
+			    console.log(line);
+			});
 			//Report the transaction history
 			this.emit('values', transactions);
 	    }]);
 
+		
 		spooky.run();
 	});
 
