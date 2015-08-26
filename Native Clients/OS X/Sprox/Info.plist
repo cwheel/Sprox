@@ -32,6 +32,17 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>Sprox</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sprox</string>
+			</array>
+		</dict>
+	</array>
 	<key>SproxServer</key>
 	<string>http://localhost:3000</string>
 </dict>

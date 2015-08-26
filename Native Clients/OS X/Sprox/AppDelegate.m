@@ -15,11 +15,24 @@
 
 @implementation AppDelegate
 
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+    [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleURLEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
+}
+
+- (void)handleURLEvent:(NSAppleEventDescriptor*)event withReplyEvent:(NSAppleEventDescriptor*)replyEvent {
+    NSString *url = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
+    NSLog(@"%@", url);
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     NSArray *accounts = [SSKeychain accountsForService:@"Sprox Desktop"];
     sproxServer = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"SproxServer"];
     pane = -1;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> ab46fd062dac5e84b01c090d3a5c297ea2170df0
     if ([accounts count] > 1) {
         [self renderMenuItem];
         [_window orderOut:nil];
@@ -95,22 +108,18 @@
             withParameters:[NSString stringWithFormat:@"username=%@&password=%@", username, password]
             andCallback:@selector(ucardInitialized:)];
     } else {
-        static int numberOfShakes = 3;
-        static float durationOfShake = 0.5f;
-        static float vigourOfShake = 0.05f;
-        
         CGRect frame = [_window frame];
         CAKeyframeAnimation *shakeAnimation = [CAKeyframeAnimation animation];
         
         CGMutablePathRef shakePath = CGPathCreateMutable();
         CGPathMoveToPoint(shakePath, NULL, NSMinX(frame), NSMinY(frame));
-        for (NSInteger index = 0; index < numberOfShakes; index++){
-            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) - frame.size.width * vigourOfShake, NSMinY(frame));
-            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) + frame.size.width * vigourOfShake, NSMinY(frame));
+        for (NSInteger index = 0; index < 3; index++){
+            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) - frame.size.width * 0.05f, NSMinY(frame));
+            CGPathAddLineToPoint(shakePath, NULL, NSMinX(frame) + frame.size.width * 0.05f, NSMinY(frame));
         }
         CGPathCloseSubpath(shakePath);
         shakeAnimation.path = shakePath;
-        shakeAnimation.duration = durationOfShake;
+        shakeAnimation.duration = 0.5f;
         
         [_window setAnimations:[NSDictionary dictionaryWithObject: shakeAnimation forKey:@"frameOrigin"]];
         [[_window animator] setFrameOrigin:[_window frame].origin];
