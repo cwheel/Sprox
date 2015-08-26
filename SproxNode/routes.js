@@ -140,7 +140,7 @@ module.exports = function(app) {
 			}
 		}
 
-		var get = new UmassGet(req.body.username, req.body.password);
+		//var get = new UmassGet(req.body.username, req.body.password);
 		var fetched = [];
 
 		get.on('values', function (vals) {

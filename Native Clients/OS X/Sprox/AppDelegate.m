@@ -20,7 +20,7 @@
     sproxServer = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"SproxServer"];
     pane = -1;
     
-    if ([accounts count] > 0) {
+    if ([accounts count] > 1) {
         [self renderMenuItem];
         [_window orderOut:nil];
         
@@ -156,7 +156,7 @@
              notification.soundName = NSUserNotificationDefaultSoundName;
              
              [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
-             */
+            */
             
             funds = [NSJSONSerialization JSONObjectWithData:fundsRaw options:0 error:nil];
             transactions = [NSJSONSerialization JSONObjectWithData:transactionsRaw options:0 error:nil];
