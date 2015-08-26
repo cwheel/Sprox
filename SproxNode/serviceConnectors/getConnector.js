@@ -3,10 +3,9 @@ var GetMap = require('.././maps/get.js');
 
 module.exports = function(user,passwd) {
 	var spooky = new Spooky({child: {
-            transport: 'http',
-            "ssl-protocol": "any",
-            "ignore-ssl-errors": true
+            transport: 'http'
         }}, function (err) {
+
 		//Initialize the generic auth page
 	    spooky.start(GetMap.entryURL);
 
@@ -15,13 +14,18 @@ module.exports = function(user,passwd) {
 	        this.fill('#query', {
 	            'j_username': user,
 	            'j_password' : passwd
-	        }, true);
+	        }, false);
 	    }]);
 
-	  	//Catch all of possible redirects (Authn and SAML2)
+	  	//Trigger the login button (As of 8/26/15, having Spooky submit causes a redirect loop)
+	    spooky.then(function(){
+	    	this.click("#login_submit");
+	    });
+
+	    //Catch all of possible redirects (Authn and SAML2)
 	    spooky.then(function(){});
-	    spooky.then(function(){});
-	    
+
+	    //Check for an authentication failure
 	    spooky.then([{authFailure : GetMap.authFailure}, function() {
 			if (this.getPageContent().indexOf(authFailure) > -1) {
 	    		this.emit('authFailure', null);
@@ -128,9 +132,7 @@ module.exports = function(user,passwd) {
 					}
 				}
 			}
-			spooky.on('console', function (line) {
-			    console.log(line);
-			});
+
 			//Report the transaction history
 			this.emit('values', transactions);
 	    }]);

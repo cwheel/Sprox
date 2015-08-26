@@ -1,6 +1,6 @@
 module.exports = {
 	entryURL : "https://get.cbord.com/umass/full/login.php",
-	redirectsDone : ".date",
+	redirectsDone : "#get_funds_overview",
 	authFailure: "Authentication Failed",
 	valueClass : "balance",
 
