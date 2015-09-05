@@ -1,6 +1,10 @@
 module.exports = {
-	entryURL : "https://parking.umass.edu/myaccount.php/mypermits",
+	entryURL : "https://umass.t2hosted.com/cmn/auth_ext.aspx",
+	permitsURL : "https://umass.t2hosted.com/cmn/viewpermits.aspx",
 	authFailure: "Authentication Failed",
 	redirectsDone : "#topbannercontainer",
-	tag : "dataTable"
+	oddPermit : "tableOddRow",
+	evenPermit : "tableEvenRow",
+	authButton : "#ctl00_ctl01_MainContentPlaceHolder_T2Main_cmdExtLogin",
+	permitsLoaded : "#ctl00_ctl01_MainContentPlaceHolder_T2Main_lblHeader"  
 };

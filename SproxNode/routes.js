@@ -141,10 +141,6 @@ module.exports = function(app) {
 		}
 
 		var get = new UmassGet(req.body.username, req.body.password);
-		get.on('console', function (line) {
-			    console.log(line);
-		});
-
 		var fetched = [];
 
 		get.on('values', function (vals) {
@@ -203,15 +199,10 @@ module.exports = function(app) {
    	});
 
 	//Parking
-	app.get('/parking', function(req, res) {
-		var parking = new UmassParking("req.query.username", "req.query.password");
-
-		parking.on('console', function (line) {
-    		console.log(line);
-		});
+	app.post('/parking', function(req, res) {
+		var parking = new UmassParking(req.body.username, req.body.password);
 
 		parking.on('values', function(vals) {
-			vals = "<div> test </div>" + "<tbody>" + vals + "</tbody>"
 			res.send(vals);
 		});
 
