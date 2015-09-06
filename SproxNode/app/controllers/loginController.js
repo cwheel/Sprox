@@ -43,11 +43,12 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 				    $scope.$emit('loginCompleted', null);
 				});
 
-				//Set funds to 0, letting the Student Center controller know we're fetching the funds and this isn't just a restore
+				//Let the Student Center controller know we're fetching the funds and this isn't just a restore
 				funds = 0;
+				parking = 0;
 
 				//Send a request for the users UCard funds
-				/*$http({
+				$http({
 			     	method  : 'POST',
 			    	url     : '/userInfo/ucard',
 			    	data    : $.param($scope.login),
@@ -60,7 +61,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 			    	} else {
 			    		console.warn("Failed to authenticate with UCard.");
 			    	}
-			    });*/
+			    });
 
 		    	//Send a request for the users parking permits 
 		    	$http({

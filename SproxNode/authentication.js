@@ -102,7 +102,6 @@ module.exports = function(passport, strategy, whitelist) {
 							//Only fix the location and time during the first pass, subsequent passes will render them invalid
 							if (i == 0) {
 								//Cleans up the time, location and class name from Spire, they're messy
-								console.log(allCourses[j].location);
 								//Check for Online Classes
 								if(allCourses[j].location.indexOf("On-Line") == -1){
 									allCourses[j].time = allCourses[j].time.split("<br>")[0];

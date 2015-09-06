@@ -166,9 +166,9 @@ module.exports = function(app) {
 	//GET via a GET request, used only to restore the users session (Web Only)
    	app.get('/userInfo/ucard', requireAuth, function(req, res) {
 		if (sessionCacheExists(req.user.netid, "ucard")) {
-			res.sendfetchSessionCacheEntry(req.user.netid, "ucard");
+			res.send(fetchSessionCacheEntry(req.user.netid, "ucard"));
 		} else { 
-			res.send(403, "You must have a session before requesting your funds.");
+			res.status(403).send("You must have a session before requesting your funds.");
 		}
    	});
 
@@ -233,7 +233,7 @@ module.exports = function(app) {
 		if (sessionCacheExists(req.user.netid, "parking")) {
 			res.send(fetchSessionCacheEntry(req.user.netid, "parking"));
 		} else { 
-			res.send(403, "You must have a session before requesting your permits.");
+			res.status(403).send("You must have a session before requesting your permits.");
 		}
    	});
 

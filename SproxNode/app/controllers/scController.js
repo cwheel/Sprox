@@ -44,8 +44,8 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		}
 	}
 
-	//Ensure that the user has parking permit
-	if (parking == null) {
+	//We're restoring from an existing session
+	if (funds != 0) {
 		$http({
 		    method : 'GET',
 		    url : '/userInfo/parking'
@@ -54,6 +54,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 			//If the auth was valid, save the response
 	    	if (angular.fromJson(resp).status != 'authFailure') {
 	    		parking = angular.fromJson(resp);
+	    		$scope.showParking = true;
 	    	} else {
 	    		console.warn("Failed to authenticate with Parking Services.");
 	    	}
@@ -101,7 +102,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 
 	//Check if we got a permits list back from Parking Serivces
 	$scope.checkParking = function() {
-		if (parking !== null) {
+		if (parking != null && parking != 0) {
 			$scope.showParking = true;
 
 			if (parking.length > 0) {
@@ -114,7 +115,9 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	    			}
 	    		}
 
-	    		$scope.parkingPermitNumber = parking[i].permit;
+	    		$scope.parkingPermitNumber = parking[active].permit;
+	    		$scope.parkingPermitLot = parking[active].permit.substring(3).substring(0,2);
+	    		$scope.parkingPermitDaysValid = moment(parking[active].end).fromNow();
 	    	}
 		} else {
 			$timeout($scope.checkParking, 500);

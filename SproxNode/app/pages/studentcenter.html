@@ -71,9 +71,12 @@
 						<br>
 						<div class="subTitle">School Address</div>
 						<div class="scPanelSubText">{{ schoolAddress[0] }}<br>{{ schoolAddress[1] }}<br>{{ schoolAddress[2] }}</div>
+
 						<div id="parkingPermit" ng-show="showParking">
+							<br>
 							<div class="subTitle">Parking Permit</div>
-							<div class="scPanelSubText">{{ parkingPermitNumber }}</div>
+							<div class="scPanelSubText">Lot {{ parkingPermitLot }}, {{ parkingPermitNumber }}</div>
+							<div class="scPanelSubText">Expires {{ parkingPermitDaysValid }}</div>
 						</div>
 					</div>
 				</div>
