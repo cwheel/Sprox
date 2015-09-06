@@ -51,8 +51,8 @@
 
 	<div class="row">
 		<div ng-class="{'col-md-9': classesToday,'col-md-12': !classesToday}">
+		<!-- Student Information Start -->
 			<div class="col-md-12">
-			<!-- Student Information Start -->
 				<div class="panel panel-material-light-green" edgeless-panel>
 					<div class="panel-heading scPanelIcon">
 					    <i class="fa fa-pencil"></i>
@@ -71,6 +71,10 @@
 						<br>
 						<div class="subTitle">School Address</div>
 						<div class="scPanelSubText">{{ schoolAddress[0] }}<br>{{ schoolAddress[1] }}<br>{{ schoolAddress[2] }}</div>
+						<div id="parkingPermit" ng-show="showParking">
+							<div class="subTitle">Parking Permit</div>
+							<div class="scPanelSubText">{{ parkingPermitNumber }}</div>
+						</div>
 					</div>
 				</div>
 			</div>

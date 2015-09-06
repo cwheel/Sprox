@@ -8,6 +8,7 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	$scope.ct = userData.classesWeekly.Tu;
 	$scope.showRooming = false;
 	$scope.colors = colors;
+	$scope.showParking = false;
 
 	//Ensure that the mailbox is actually availible, it is not visible at the end of the year even if the student has selected hosuing
 	if ($scope.mailBox == "") {
@@ -37,10 +38,26 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 		}
 
 		//If the room number begins with a 0, get rid of it
-		//Index 5 is the first digit of a room numeber after the Room -
+		//Index 5 is the first digit of a room numeber after the Room number
 		if ($scope.roomNumber.indexOf("0") == 0) {
 			$scope.roomNumber = $scope.roomNumber.substring(1);
 		}
+	}
+
+	//Ensure that the user has parking permit
+	if (parking == null) {
+		$http({
+		    method : 'GET',
+		    url : '/userInfo/parking'
+		})
+		.success(function(resp) {
+			//If the auth was valid, save the response
+	    	if (angular.fromJson(resp).status != 'authFailure') {
+	    		parking = angular.fromJson(resp);
+	    	} else {
+	    		console.warn("Failed to authenticate with Parking Services.");
+	    	}
+		});
 	}
 
 	//We're not showing any models right now
@@ -82,11 +99,37 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
     	}
 	});
 
+	//Check if we got a permits list back from Parking Serivces
+	$scope.checkParking = function() {
+		if (parking !== null) {
+			$scope.showParking = true;
+
+			if (parking.length > 0) {
+	    		//Find the active permit (Hopefully only one can be active at a time...)
+	    		var active = 0;
+	    		for (var i = 0; i < parking.length; i++) {
+	    			if (parking[i].status == "Active") {
+	    				active = i;
+	    				break;
+	    			}
+	    		}
+
+	    		$scope.parkingPermitNumber = parking[i].permit;
+	    	}
+		} else {
+			$timeout($scope.checkParking, 500);
+		}
+	}
+
+	$scope.checkParking();
+
 	$scope.ct = userData.classesWeekly[new Date().getDay()];
 	$scope.classesToday = false;
+
 	if ($scope.ct.classes.length !== 0) {
 		$scope.classesToday = true;
 	}
+
 	$scope.setCurrentClass = function() {
 		var now = new Date();
 		var time;

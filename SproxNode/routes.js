@@ -10,7 +10,7 @@ var bcrypt = require('bcrypt');
 //var TableToJson = require('tabletojson');
 
 module.exports = function(app) {
-	var userFunds = {};
+	var userSession = {};
 
 	function requireAuth(req, res, next) {
 		if (req.isAuthenticated()) {
@@ -25,8 +25,8 @@ module.exports = function(app) {
 
 	//The login worked
 	app.get('/login/success', function(req, res){
-		if (userFunds[req.user.spireId] != undefined) {
-			delete userFunds[req.user.spireId];
+		if (userSession[req.user.spireId] != undefined) {
+			delete userSession[req.user.spireId];
 		}
 
 		res.send({ loginStatus: 'valid' });
@@ -46,8 +46,8 @@ module.exports = function(app) {
 
 	//Logout
 	app.get('/logout', requireAuth, function(req, res){
-		if (userFunds[req.user.spireId] != undefined) {
-			delete userFunds[req.user.spireId];
+		if (userSession[req.user.spireId] != undefined) {
+			delete userSession[req.user.spireId];
 		}
 		
 		req.logout();
@@ -124,23 +124,25 @@ module.exports = function(app) {
 	app.post('/userInfo/ucard', requireAuth, function(req, res) {
 		console.log("[Service-GET] Fetching GET information for user: '" + req.body.username + "'...");
 
-		if (userFunds[req.user.spireId] != undefined) {
-			var now = new Date();
-
-			if (now.getTime() - userFunds[req.user.spireId]['valid'].getTime() < 1000*60*3) {
+		if (sessionCacheExists(req.body.username, "ucard")) {
+			if (sessionCacheEntryValid(req.body.username, "ucard")) {
 				if (req.body.api == 'true') {
 					res.send({status : 'success'});
 					return;
 				} else {
-					res.send(userFunds[req.user.spireId]['ucard']);
+					res.send(fetchSessionCacheEntry(req.body.username, "ucard"));
 					return;
 				}
 			} else {
-				delete userFunds[req.user.spireId];
+				sessionCacheRemoveEntry(req.body.username, "ucard");
 			}
 		}
 
 		var get = new UmassGet(req.body.username, req.body.password);
+		get.on('console', function (line) {
+		    console.log(line);
+		});
+
 		var fetched = [];
 
 		get.on('values', function (vals) {
@@ -150,12 +152,12 @@ module.exports = function(app) {
 				console.log("[Service-GET] Finished fetching GET information for user: '" + req.body.username + "'!");
 
 				//Cache their funds for later
-				userFunds[req.user.spireId] = {"ucard" : fetched, "valid" : new Date()};
+				setSessionCacheEntry(req.body.username, "ucard", fetched, minutes(30));
 
 				if (req.body.api == 'true') {
 					res.send({status : 'success'});
 				} else {
-					res.send(fetched);
+					res.send(userSession[req.body.username]["ucard"]);
 				}
 			}
 		});
@@ -163,26 +165,26 @@ module.exports = function(app) {
 
 	//GET via a GET request, used only to restore the users session (Web Only)
    	app.get('/userInfo/ucard', requireAuth, function(req, res) {
-		if (userFunds[req.user.spireId] != undefined) {
-			res.send(userFunds[req.user.spireId]['ucard']);
+		if (sessionCacheExists(req.user.netid, "ucard")) {
+			res.sendfetchSessionCacheEntry(req.user.netid, "ucard");
 		} else { 
 			res.send(403, "You must have a session before requesting your funds.");
 		}
    	});
 
-   	//Funds via a GET request, used only in API where the Cocoa JSON parser is literally usless (API Only)
+   	//Funds via a GET request, used only in API where the Cocoa JSON parser is literally useless (API Only)
    	app.get('/userInfo/ucardFunds', requireAuth, function(req, res) {
-		if (userFunds[req.user.spireId] != undefined) {
-			res.send(userFunds[req.user.spireId]['ucard'][0]);
+		if (userSession[req.user.spireId] != undefined) {
+			res.send(userSession[req.user.spireId]['ucard'][0]);
 		} else { 
 			res.send({status : "init_needed_failure"});
 		}
    	});
 
-   	//Funds via a GET request, used only in API where the Cocoa JSON parser is literally usless (API Only)
+   	//Funds via a GET request, used only in API where the Cocoa JSON parser is literally useless (API Only)
    	app.get('/userInfo/ucardTransactions', requireAuth, function(req, res) {
-		if (userFunds[req.user.spireId] != undefined) {
-			res.send(userFunds[req.user.spireId]['ucard'][1]);
+		if (userSession[req.user.spireId] != undefined) {
+			res.send(userSession[req.user.spireId]['ucard'][1]);
 		} else { 
 			res.send({status : "init_needed_failure"});
 		}
@@ -199,23 +201,47 @@ module.exports = function(app) {
    	});
 
 	//Parking
-	app.post('/parking', function(req, res) {
+	app.post('/userInfo/parking', function(req, res) {
+		console.log("[Service-Parking] Fetching Parking information for user: '" + req.body.username + "'...");
+
+		if (sessionCacheExists(req.user.spireId, "parking")) {
+			if (sessionCacheEntryValid(req.user.spireId, "parking")) {
+				res.send(fetchSessionCacheEntry(req.user.spireId, "parking"));
+				return;
+			} else {
+				sessionCacheRemoveEntry(req.user.spireId, "parking");
+			}
+		}
+
 		var parking = new UmassParking(req.body.username, req.body.password);
 
 		parking.on('values', function(vals) {
+			setSessionCacheEntry(req.body.username, "parking", vals, minutes(30));
+
 			res.send(vals);
+			console.log("[Service-Parking] Fetching Parking information for user: '" + req.body.username + "'!");
 		});
 
 		parking.on('authFailure', function() {
 			res.send({ status : 'authFailure' });
+			console.log("[Service-GET] Failed to fetch Parking information for user: '" + req.body.username + "'...");
 		});
-
 	});
+
+	//Parking via a GET request, used only to restore the users session (Web Only)
+   	app.get('/userInfo/parking', requireAuth, function(req, res) {
+		if (sessionCacheExists(req.user.netid, "parking")) {
+			res.send(fetchSessionCacheEntry(req.user.netid, "parking"));
+		} else { 
+			res.send(403, "You must have a session before requesting your permits.");
+		}
+   	});
+
 
 	//Notebook save
 	app.post('/notebook/save', requireAuth, function(req, res) {
 		if (req.user.netid == null || req.body.section == null || req.body.title == null || req.body.content == null) {
-			res.send(400, "Missing or invalid request parameters.")
+			res.send(400, "Missing or invalid request parameters.");
 		}
 
 		Note.findOneAndUpdate({user : req.user.netid, section : req.body.section, title : req.body.title}, {content: req.body.content}, {upsert:true}, function(err, doc){
@@ -362,4 +388,63 @@ module.exports = function(app) {
 	app.get('*', function(req, res){
 		res.redirect('/');
 	});
+
+	//Insert a piece of data into the session cache
+	function setSessionCacheEntry(user, entryTitle, entryData, lifespan) {
+		if (userSession[user] == undefined) {
+			userSession[user] = {}
+		}
+
+		userSession[user][entryTitle] = entryData;
+		userSession[user][entryTitle].valid = new Date();
+		userSession[user][entryTitle].lifespan = lifespan;
+	}
+
+	//Returns an item from the session cache
+	function fetchSessionCacheEntry(user, entryTitle) {
+		if (!sessionCacheExists(user, entryTitle)) {
+			return null;
+		}
+
+		return userSession[user][entryTitle];
+	}
+
+	//Returns true if a session cache entry is still valid, returns false otherwise
+	function sessionCacheEntryValid(user, entryTitle) {
+		var now = new Date();
+
+		if (!sessionCacheExists(user, entryTitle)) {
+			return false;
+		}
+
+		if (now.getTime() - userSession[user][entryTitle].valid.getTime() < userSession[user][entryTitle].lifespan) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	//Returns true if an entry exists for the user and item, returns false otherwise
+	function sessionCacheExists(user, entryTitle) {
+		if (userSession[user] == undefined || userSession[user][entryTitle] == undefined) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	//Removes a session cache entry, returns true on success, false on failure
+	function sessionCacheRemoveEntry(user, entryTitle) {
+		if (!sessionCacheExists(user, entryTitle)) {
+			return false;
+		} else {
+			delete userSession[user][entryTitle];
+			return true;
+		}
+	}
+
+	//Returns the specified number of minutes in milliseconds
+	function minutes(min) {
+		return 60 * 1000 * min;
+	}
 };

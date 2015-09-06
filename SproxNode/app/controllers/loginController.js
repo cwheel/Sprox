@@ -47,7 +47,7 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 				funds = 0;
 
 				//Send a request for the users UCard funds
-				$http({
+				/*$http({
 			     	method  : 'POST',
 			    	url     : '/userInfo/ucard',
 			    	data    : $.param($scope.login),
@@ -60,7 +60,22 @@ sprox.controller('loginController',['$scope', '$location', '$timeout', '$rootSco
 			    	} else {
 			    		console.warn("Failed to authenticate with UCard.");
 			    	}
-			    });
+			    });*/
+
+		    	//Send a request for the users parking permits 
+		    	$http({
+		    	    method  : 'POST',
+		    	    url     : '/userInfo/parking',
+		    	    data    : $.param($scope.login),
+		    	    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+		    	})
+		    	.success(function(resp) {
+		    		if (angular.fromJson(resp).status != 'authFailure') {
+		        		parking = angular.fromJson(resp);
+		        	} else {
+		        		console.warn("Failed to authenticate with Parking Services.");
+		        	}
+		    	});
 			} else {
 				//User failed to login, notify them
 				shouldSetWittyStatus = false;
