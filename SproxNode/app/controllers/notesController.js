@@ -128,7 +128,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
         return $(window).height();
     };
 
-    //A truely disgusting piece of work. Should be removed soon, wich seeing as it works pretty well probbaly means never...
+    //A truely disgusting piece of work. Should be removed soon, which seeing as it works pretty well probaly means never...
     $scope.renderEditor = function() {
         //103px is the height of the top bar with the CKEditor bar as well
         return $(".cke_contents").height($(window).height()-103);
@@ -212,6 +212,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 
         //Send a notebookItemSelected event to update the section view
         currentNotebook = Object.keys(notebook[item.section]);
+        $rootScope.$broadcast("notebookItemSelected", item.newTitle);
         $rootScope.$broadcast("notebookChangedSection", item.section);
     });
 
