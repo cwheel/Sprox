@@ -2,6 +2,16 @@ sprox.controller('ucController',['$scope', '$location', '$timeout', function($sc
 	$scope.transactions = null;
 	$scope.loading = true;
 
+	$scope.options = {
+		multiTooltipTemplate : function (label) {
+			if (label.datasetLabel == "Cash") {
+				return label.datasetLabel + ': $' + label.value.toFixed(2).toString();
+			} else {
+				return label.datasetLabel + ': ' + label.value.toString();
+			}
+		} 
+	}; 
+
 	$scope.usageLabels = [];
 	$scope.usageSeries = ['Cash', 'Swipes'];
 

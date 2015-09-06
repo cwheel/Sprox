@@ -139,9 +139,9 @@ module.exports = function(app) {
 		}
 
 		var get = new UmassGet(req.body.username, req.body.password);
-		get.on('console', function (line) {
+		/*get.on('console', function (line) {
 		    console.log(line);
-		});
+		});*/
 
 		var fetched = [];
 
