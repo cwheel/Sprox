@@ -124,13 +124,8 @@ module.exports = function(passport, strategy, whitelist) {
 								if (allCourses[j].classID == undefined){
 									//A very conveint \n charector before the name of the class
 
-									var arrayName = allCourses[j].name.split('\n')[0];
+									var arrayName = allCourses[j].name.split('\n')[0].split('-')[0];
 									var code = arrayName.charCodeAt(arrayName.length - 2);
-
-									//removes the last 2 charectors of Discussion and Lab Sections to match their normal Lecture Section. 48 to 57 are the range of ASCII numbers.
-									if (!((code >= 48) && (code <= 57))) {
-										arrayName = arrayName.slice(0,-2);
-									}
 									
 									//If it exists in the array give it the same number.
 									var indexArray = classesArray.indexOf(arrayName);
