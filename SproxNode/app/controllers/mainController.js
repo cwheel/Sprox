@@ -201,7 +201,9 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     }
 
     //Handles enter key in the edit field of a note name
-    $scope.notebookRenameItemEnter = function (keyEvent) {
+    $scope.notebookRenameItem = function (keyEvent) {
+        if ($scope.notesRenaming == )
+
         if (keyEvent.which === 13) {
             $scope.notesSaveRename();
 

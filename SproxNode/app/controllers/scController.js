@@ -103,9 +103,9 @@ sprox.controller('studentCenterController',['$scope', '$location', '$timeout', '
 	//Check if we got a permits list back from Parking Serivces
 	$scope.checkParking = function() {
 		if (parking != null && parking != 0) {
-			$scope.showParking = true;
-
 			if (parking.length > 0) {
+				$scope.showParking = true;
+				
 	    		//Find the active permit (Hopefully only one can be active at a time...)
 	    		var active = 0;
 	    		for (var i = 0; i < parking.length; i++) {
