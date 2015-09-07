@@ -1,3 +1,17 @@
+<div ng-show="showTopbar" class="top-bar row header">
+  <div style="padding-left:15px">
+  	<div class="user pull-right" ng-show="notes">
+      <div class="item dropdown" ng-click="showNotesPane()">
+       <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-list" style="color: #FFF"></i>
+          <i id="notesbookPulloutWelcome" class="fa fa-list" style="color: #FFF" ng-if="showWelcome"></i>
+        </a>
+      </div>
+    </div>
+  	<i class="fa fa-bars top-bar-item clickable" ng-click="toggleSidebar()"></i>
+  	<span class="top-bar-item">Sprox</span>
+  </div>
+</div>
 <div class="notes">
 	<div id="deleteModel" class="modal fade" tabindex="-1" role="dialog" show-model="noteDelete != null">
 	    <div class="modal-dialog">

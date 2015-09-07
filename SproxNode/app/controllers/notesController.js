@@ -1,6 +1,8 @@
 sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', '$rootScope', function($scope, $location, $timeout, $http, $rootScope) {
 	//Enable fullscreen
 	$scope.fullscreen = true;
+    $scope.customTopBar = true;
+
 
 	//Notebook data
 	var notebook = {};

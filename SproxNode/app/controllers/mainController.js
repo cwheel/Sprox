@@ -6,14 +6,6 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 	$scope.showNotes = false;
 	$scope.selectedIndex = 0;
 	$scope.userMenu = false;
-	$scope.notes = false;
-	$scope.tabs = [{"path" : "sc", "title" : "Student Center", "dev" : false, "color" : "#FFC107"},
-	 			{"path" : "sh", "title" : "Schedule", "dev" : false, "color" : "#4caf50"},
-	 			{"path" : "nb", "title" : "Notebook", "dev" : false, "color" : "#9C27B0"},
-	 			{"path" : "cs", "title" : "Club Search", "dev" : false, "color" : "#666"}, 
-	 			{"path" : "uc", "title" : "UCard", "dev" : false, "color" : "#f44336"}, 
-	 			{"path" : "pk", "title" : "Parking", "dev" : true, "color" : "#666"}, 
-	 			{"path" : "mp", "title" : "Map", "dev" : false, "color" : "#666"}];
 
     //Notebook
     $scope.currentNotebook = [];
@@ -324,6 +316,19 @@ sprox.directive('fullViewport', function($timeout) {
         			$(".row.header").css("margin-bottom","15px");
         		}
         	}, 10);
+        }
+    };
+});
+sprox.directive('customTopbar', function($timeout) {
+    return {
+        link: function(scope, element, attr) {
+            $timeout(function() {
+                if (attr.customTopbar == "true"){
+                    $("#standardTopbar").css("display","none");
+                }else {
+                    $("#standardTopbar").css("display","block");
+                }
+            }, 10);
         }
     };
 });

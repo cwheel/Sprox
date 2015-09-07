@@ -201,22 +201,14 @@
       <div class="page-content">
         <!-- Header Bar -->
         <!-- showNotes = !showNotes  to show the notes-->
-        <div ng-show="showTopbar" class="top-bar row header">
-          <div style="padding-left:15px">
-          	<div class="user pull-right" ng-show="notes">
-              <div class="item dropdown" ng-click="showNotesPane()">
-               <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa fa-list" style="color: #FFF"></i>
-                  <i id="notesbookPulloutWelcome" class="fa fa-list" style="color: #FFF" ng-if="showWelcome"></i>
-                </a>
-              </div>
-            </div>
-          	<i class="fa fa-bars top-bar-item clickable" ng-click="toggleSidebar()"></i>
-          	<span class="top-bar-item">Sprox</span>
+          <div ng-show="showTopbar" id="standardTopbar" class="top-bar row header">
+              <div style="padding-left:15px">
+	          <i class="fa fa-bars top-bar-item clickable" ng-click="toggleSidebar()"></i>
+	          <span class="top-bar-item">Sprox</span>
           </div>
         </div>
         <!-- End Header Bar -->
-        <div full-viewport="{{ fullscreen }}" class="{{ pageClass }} col-xs-12 view page" ng-view=""></div>
+        <div full-viewport="{{ fullscreen }}" custom-topbar="{{ customTopBar }}" class="{{ pageClass }} col-xs-12 view page" ng-view=""></div>
       </div><!-- End Page Content -->
     </div><!-- End Content Wrapper -->
   </div><!-- End Page Wrapper -->

@@ -1,3 +1,14 @@
+<!-- Custom TopBar -->
+<div ng-show="showTopbar" class="top-bar row header">
+	<div style="padding-left:15px">
+  		<i class="fa fa-bars top-bar-item clickable" ng-click="toggleSidebar()"></i>
+  		<span class="top-bar-item">Sprox</span>
+  		<div class="top-bar-item">
+			<input class="form-control" id="MapSearch" placeholder="Search Map" ng-model="search" material-input spellcheck="false">
+		</div>
+  	</div>
+</div>
+
 <div ng-controller="mapController">
 	<leaflet maxbounds="maxBounds" center="center" tiles="tiles" markers="pointFound" defaults="defaults" class="mapContent"></leaflet>
 </div>
