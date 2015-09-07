@@ -12,6 +12,9 @@ module.exports = function(user,passwd) {
 	    spooky.then([{"t2Button": ParkingMap.authButton}, function() {
 	    	this.click(t2Button);
 	    }]);
+
+	    //Wait the Shibboleth
+	    spooky.then(function () {});
 	    
 	    //Fill the login form
 	  	spooky.then([{"user": user, "passwd": passwd}, function () {
