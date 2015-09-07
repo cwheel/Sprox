@@ -167,6 +167,7 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     //A new note was added
     $rootScope.$on("notebookAddNewNote", function (event, item) {
         notebook[curSection][item] = "";
+        $scope.editorContent = "";
         curTitle = item;
         currentNotebook = Object.keys(notebook[curSection]);
         $rootScope.$broadcast("notebookChangedSection", curSection);

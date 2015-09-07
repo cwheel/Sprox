@@ -11,6 +11,7 @@ var bcrypt = require('bcrypt');
 
 module.exports = function(app) {
 	var userSession = {};
+	var mitmPort = Math.floor(Math.random() * 60000) + 10000
 
 	function requireAuth(req, res, next) {
 		if (req.isAuthenticated()) {
@@ -138,29 +139,37 @@ module.exports = function(app) {
 			}
 		}
 
-		var get = new UmassGet(req.body.username, req.body.password);
-		/*get.on('console', function (line) {
-		    console.log(line);
-		});*/
+		mitmPort++;
+		var mitm = require('child_process').exec("mitmproxy -p " + mitmPort);
+		console.log("[Service-GET] Started GET access proxy on port " + mitmPort);
 
-		var fetched = [];
+		setTimeout(function() {
+			var get = new UmassGet(req.body.username, req.body.password, mitmPort);
+			get.on('console', function (line) {
+			    console.log(line);
+			});
 
-		get.on('values', function (vals) {
-			fetched.push(vals);
+			var fetched = [];
 
-			if (fetched.length > 1) {
-				console.log("[Service-GET] Finished fetching GET information for user: '" + req.body.username + "'!");
+			get.on('values', function (vals) {
+				fetched.push(vals);
 
-				//Cache their funds for later
-				setSessionCacheEntry(req.body.username, "ucard", fetched, minutes(30));
+				if (fetched.length > 1) {
+					console.log("[Service-GET] Finished fetching GET information for user: '" + req.body.username + "'!");
 
-				if (req.body.api == 'true') {
-					res.send({status : 'success'});
-				} else {
-					res.send(userSession[req.body.username]["ucard"]);
+					//Cache their funds for later
+					setSessionCacheEntry(req.body.username, "ucard", fetched, minutes(30));
+
+					if (req.body.api == 'true') {
+						res.send({status : 'success'});
+					} else {
+						res.send(userSession[req.body.username]["ucard"]);
+					}
+
+					mitm.kill('SIGINT');
 				}
-			}
-		});
+			});
+		}, 500);
    	});
 
 	//GET via a GET request, used only to restore the users session (Web Only)
