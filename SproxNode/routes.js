@@ -145,9 +145,9 @@ module.exports = function(app) {
 
 		setTimeout(function() {
 			var get = new UmassGet(req.body.username, req.body.password, mitmPort);
-			get.on('console', function (line) {
+			/*get.on('console', function (line) {
 			    console.log(line);
-			});
+			});*/
 
 			var fetched = [];
 
@@ -169,7 +169,7 @@ module.exports = function(app) {
 					mitm.kill('SIGINT');
 				}
 			});
-		}, 500);
+		}, 1000);
    	});
 
 	//GET via a GET request, used only to restore the users session (Web Only)
