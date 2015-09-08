@@ -1,4 +1,4 @@
-sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog','$ocLazyLoad', '$http','$cookieStore', '$document', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad, $http, $cookieStore, $document) {
+sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$location', 'ngDialog', '$ocLazyLoad', '$http', '$cookieStore', '$document', function($rootScope, $scope, $timeout, $location, ngDialog, $ocLazyLoad, $http, $cookieStore, $document) {
 	//Initilization
 	$scope.showTopbar = false;
 	$scope.showSearch = false;
@@ -129,7 +129,7 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
     //Begin sharing a notebook note
     $scope.notesShareItem = function(item) {
        $rootScope.$broadcast("notebookShareItem", item);
-    }
+    };
 
     //Add a new note
     $scope.notesAddNew = function() {
@@ -202,8 +202,6 @@ sprox.controller('mainController',['$rootScope', '$scope', '$timeout', '$locatio
 
     //Handles enter key in the edit field of a note name
     $scope.notebookRenameItem = function (keyEvent) {
-        if ($scope.notesRenaming == )
-
         if (keyEvent.which === 13) {
             $scope.notesSaveRename();
 
