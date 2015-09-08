@@ -22,6 +22,17 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
     $scope.deleteItemTitle = "";
     $scope.editorTitle = "";
 
+    //Notebook
+    $scope.currentNotebook = [];
+    $scope.notebookSection = "Notebook Sections";
+    $scope.curIsSection = false;
+    $scope.notesRenaming = "";
+    $scope.notesCurRename = {val : ""};
+    $scope.notesCurMouse = "";
+    $scope.showWelcome = false;
+    var notesPaneDone = true;
+    var notesDeleteClick = false;
+
 	$scope.editorOptions = {
 		language: 'en', 
         toolbar: 'full',
@@ -75,6 +86,182 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
 
         currentNotebook = Object.keys(notebook);
     });
+
+    //Disable the editor at the start
+    $rootScope.$broadcast("notebookSetEditorDisabled", true);
+
+    //Hide the notebook pullout view
+    $scope.hideNotesPane = function(event) {
+        var parent = false;
+
+        try {
+            parent = event.target.offsetParent.id != "notesSidebar";
+        } catch (err) {}
+
+        if (notesPaneDone && event.target.id != "notesSidebar" && parent && event.target.id != "addButtonIcon" && event.target != "button.btn btn-default" && event.target != "button.btn btn-primary") {
+            $scope.showNotes = false;
+        }
+    };
+
+    //Show the notebook pullout view
+    $scope.showNotesPane = function() {
+        $scope.showNotes = true;
+        notesPaneDone = false;
+
+        $timeout(function () {
+            notesPaneDone = true;
+            $scope.showWelcome = false;
+        }, 250);
+    };
+
+    //Notify the notebook controller that a notebook item was clicked
+    $scope.selectNotesItem = function(item) {
+        if (notesDeleteClick) {
+            notesDeleteClick = !notesDeleteClick;
+            return;
+        }
+
+        if ($scope.notesRenaming == "") {
+            if ($scope.curIsSection) {
+                 $rootScope.$broadcast("notebookSetEditorDisabled", false);
+            }
+            
+            $rootScope.$broadcast("notebookItemSelected", item);
+        }
+    };
+
+    //Go back in the notes view
+    $scope.notesBack = function() {
+        $rootScope.$broadcast("notebookBack");
+    };
+
+    //Begin renaming a notes item
+    $scope.notesRenameItem = function(item) {
+        $scope.notesCurRename.val = item;
+        $scope.notesRenaming = item;
+    };
+
+    //Begin sharing a notebook note
+    $scope.notesShareItem = function(item) {
+       $rootScope.$broadcast("notebookShareItem", item);
+    };
+
+    //Add a new note
+    $scope.notesAddNew = function() {
+        if ($scope.currentNotebook["Untitled Section"] != undefined) {
+            $scope.notesCurRename.val = "Untitled Section";
+            $scope.notesRenaming = "Untitled Section";
+        } else if ($scope.currentNotebook["Untitled Note"] != undefined) {
+            $scope.notesCurRename.val = "Untitled Note";
+            $scope.notesRenaming = "Untitled Note";
+        } else if ($scope.notebookSection == "Notebook Sections") {
+            $rootScope.$broadcast("notebookAddNewSection", "Untitled Section");
+            $scope.notesCurRename.val = "Untitled Section";
+            $scope.notesRenaming = "Untitled Section";
+        } else {
+            $http({
+                method  : 'POST',
+                url     : '/notebook/save',
+                data    : $.param({section : $scope.notebookSection, title : "Untitled Note", content : ""}),
+                headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .success(function(resp) {
+                if (angular.fromJson(resp).status == 'success') {
+                    $rootScope.$broadcast("notebookAddNewNote", "Untitled Note");
+                    $rootScope.$broadcast("notebookSetEditorDisabled", false);
+                    $scope.notesCurRename.val = "Untitled Note";
+                    $scope.notesRenaming = "Untitled Note";
+                }
+            });
+        }
+    }
+
+    //Save the rename
+    $scope.notesSaveRename = function() {
+        if ($scope.notesCurRename.val != $scope.notesRenaming && $scope.notesCurRename.val != "") {
+            if (!$scope.curIsSection) {
+                var data = {section : $scope.notesRenaming, newSection : $scope.notesCurRename.val};
+
+                $http({
+                    method  : 'POST',
+                    url     : '/notebook/renameSection',
+                    data    : $.param(data),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                .success(function(resp) {
+                    if (angular.fromJson(resp).status == 'success') {
+                        $rootScope.$broadcast("notebookSectionRenamed", data);
+                    }
+                });
+
+            } else {
+                var data = {section : $scope.notebookSection, title : $scope.notesRenaming, newTitle : $scope.notesCurRename.val};
+                
+                $http({
+                    method  : 'POST',
+                    url     : '/notebook/rename',
+                    data    : $.param(data),
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+                .success(function(resp) {
+                    if (angular.fromJson(resp).status == 'success') {
+                        $rootScope.$broadcast("notebookItemRenamed", data);
+                    }
+                });
+            }
+        }
+        
+        $scope.notesRenaming = "";
+        $scope.notesCurRename = {val : ""};
+    }
+
+    //Handles enter key in the edit field of a note name
+    $scope.notebookRenameItem = function (keyEvent) {
+        if (keyEvent.which === 13) {
+            $scope.notesSaveRename();
+
+            keyEvent.stopPropagation();
+            keyEvent.preventDefault();  
+            return false;
+        }
+    };
+
+    //The notebook changed  sections
+    $rootScope.$on("notebookChangedSection", function (event, item) {
+        if (item != null && item != undefined) {
+            if (item == "Notebook Sections") {
+                $scope.curIsSection = false;
+            } else {
+                $scope.curIsSection = true;
+            }
+            
+            $scope.notebookSection = item;
+        }
+    });
+
+    //Check if we should show the welcome panel
+    $rootScope.$on('notebookShowWelcome', function(event, args) {
+       $scope.showWelcome = true;
+    });
+
+    //Watch for changes to the current notebook view
+    $scope.$watch(function () {return currentNotebook}, function (newValue, oldValue) {
+        $scope.currentNotebook = newValue;
+    });
+
+    //Delete an item in the notebook ivew
+    $scope.notesDeleteItem = function (item) {
+        var data;
+        notesDeleteClick = true;
+
+        if (!$scope.curIsSection) {
+            data = {section : item};
+        } else {
+            data = {section : $scope.notebookSection, title : item};
+        }
+
+        $rootScope.$broadcast("notebookItemDeleted", data);
+    };
 
     //A notebook item was clicked
     $rootScope.$on("notebookItemSelected", function (event, item) {
