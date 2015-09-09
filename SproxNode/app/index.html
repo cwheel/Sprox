@@ -161,42 +161,7 @@
 
     <div id="content-wrapper" style="overflow-x: hidden">
 
-		<!-- Notes welcome -->
-	    <div ng-show="showWelcome" class="help-overlay">
-	    	<div id="notesWelcomeArrow"></div>
-	    	<div class="help-highlight"></div>
-	    	<div id="notes-help-text">Hey there, lets open your notebook</div>
-	    </div>
-
-	    <!-- Notes Sidebar -->
-	    <div id="notesSidebar" ng-show="showNotes" ng-swipe-right="hideNotesPane()" class="shadow-z-2" ng-if="notes">
-	    	<!-- Note Title -->
-	    	<div id="notebookTitle" class="noSelect" ng-class="{true:'help-blur', false:''}[currentNotebook.length == 0 && notebookSection == 'Notebook Sections']">
-	    		<i class="fa fa-chevron-left clickable" ng-show="curIsSection" ng-click="notesBack()"></i>
-	    		<span ng-show="curIsSection" class="noSelect">&nbsp;&nbsp;&nbsp;</span>
-	    		{{ notebookSection }}
-	    	</div>
-
-	    	<div id="notebookHelp" ng-if="currentNotebook.length == 0 && notebookSection == 'Notebook Sections'">Add a New Section</div>
-	    	<div id="notesArrow" ng-if="currentNotebook.length == 0 && notebookSection == 'Notebook Sections'"></div>
-	    	<!-- Note item -->
-	    	<div class="notebookItem noSelect clickable" ng-repeat="item in currentNotebook" sglclick="selectNotesItem(item)" ng-dblclick="notesRenameItem(item)" ng-mouseover="notesCurMouse = item" ng-mouseleave="notesCurMouse = ''">
-	    		<i class="fa fa-book" ng-show="!curIsSection && notesRenaming != item"></i>
-	    		<span ng-show="!curIsSection && notesRenaming != item">&nbsp;&nbsp;&nbsp;</span>
-	    		<div class="form-group" ng-if="notesRenaming == item">
-				    <input ng-model="notesCurRename.val" ng-keypress="notebookRenameItem($event)" show-focus="notesRenaming == item" class="form-control floating-label notebookEditField" ng-blur="notesSaveRename()">
-			   	</div>
-	    		<span ng-if="notesRenaming != item">{{ item }}</span>
-	    		<i class="fa fa-trash-o notebookDeleteItem" ng-click="notesDeleteItem(item)" ng-show="notesCurMouse == item && notesRenaming != item"></i>
-	    		<i class="fa fa-share notebookShareItem" ng-click="notesShareItem(item)" ng-show="notesCurMouse == item && notesRenaming != item && curIsSection"></i>
-	    	</div>
-
-	    	<!-- Add note button -->
-	    	<a href="javascript:void(0)" ng-click="notesAddNew()" class="btn btn-primary btn-fab btn-raised" id="addButton">
-	    		<i class="fa fa-plus noSelect clickable" id="addButtonIcon"></i>
-	    		<div class="ripple-wrapper" material-ripple data-ripple=false id="fsdfsd"></div>
-	    	</a>
-	    </div>
+		
 
       <div class="page-content">
         <!-- Header Bar -->
