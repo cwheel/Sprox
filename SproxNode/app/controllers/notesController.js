@@ -70,12 +70,14 @@ sprox.controller('notesController',['$scope', '$location', '$timeout', '$http', 
                 params: noteState
             })
             .success(function(content) {
-                notebook[$scope.notebookSection][noteState.title] = content;
-                curNote = noteState.title;
-                $scope.editorTitle = noteState.title;
-                $scope.editorContent = notebook[$scope.notebookSection][noteState.title];
-                $scope.editorDisabled = false;
-                autosave = true;
+                if (content != "error") {
+                    notebook[$scope.notebookSection][noteState.title] = content;
+                    curNote = noteState.title;
+                    $scope.editorTitle = noteState.title;
+                    $scope.editorContent = notebook[$scope.notebookSection][noteState.title];
+                    $scope.editorDisabled = false;
+                    autosave = true;
+                }
             });
         }
 

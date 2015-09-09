@@ -289,7 +289,12 @@ module.exports = function(app) {
    		
    		Note.findOne({user : req.user.netid, section : req.query.section, title : req.query.title}, function(err, note) {
    			if (err) return res.send(500, { error: err });
-   			res.send(note.content);
+
+   			if (note == null) {
+   				res.send("error");
+   			} else {
+   				res.send(note.content);
+   			}
    		});
    	});
 
