@@ -186,6 +186,10 @@ module.exports = function(passport, strategy, whitelist) {
 					//Remove <br> tags from certain elements creating an array of each line
 					spireUser.homeAddress = spireUser.homeAddress.split("<br>");
 					spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
+					for (var finals in spireUser.finals){
+						spireUser.finals[finals].name = spireUser.finals[finals].name.split("<br>")[0];
+						spireUser.finals[finals].time = spireUser.finals[finals].time.split(".")[0];
+					}
 
 					//Keep a hash of the users password on hand, useful for verification later
 					//TODO: Delete it after caching, its useless to keep around
