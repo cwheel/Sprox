@@ -119,7 +119,7 @@
 
   <div id="loginBack"></div>
   <body ng-controller="mainController">
-  <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak ng-click="hideNotesPane($event)">
+  <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
 
     <!-- Sidebar -->
     <div ng-show="showTopbar" id="sidebar-wrapper" ng-swipe-left="toggleSidebar()" ng-swipe-right="toggleSidebar()" class="noSelect">
@@ -160,9 +160,6 @@
     <!-- End Sidebar -->
 
     <div id="content-wrapper" style="overflow-x: hidden">
-
-		
-
       <div class="page-content">
         <!-- Header Bar -->
         <!-- showNotes = !showNotes  to show the notes-->

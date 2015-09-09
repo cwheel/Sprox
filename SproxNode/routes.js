@@ -286,7 +286,7 @@ module.exports = function(app) {
    		if (req.user.netid == null || req.query.section == null || req.query.title == null) {
    			res.send(400, "Missing or invalid request parameters.");
    		}
-
+   		
    		Note.findOne({user : req.user.netid, section : req.query.section, title : req.query.title}, function(err, note) {
    			if (err) return res.send(500, { error: err });
    			res.send(note.content);
