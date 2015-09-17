@@ -47,7 +47,7 @@ module.exports = function(app) {
 
 	//Logout
 	app.get('/logout', requireAuth, function(req, res){
-		if (userSession[req.user.spireId] != undefined) {
+		if (userSession[req.user.netid] != undefined) {
 			delete userSession[req.user.spireId];
 		}
 		
@@ -228,7 +228,7 @@ module.exports = function(app) {
 			setSessionCacheEntry(req.body.username, "parking", vals, minutes(30));
 
 			res.send(vals);
-			console.log("[Service-Parking] Fetching Parking information for user: '" + req.body.username + "'!");
+			console.log("[Service-Parking] Finished fetching Parking information for user: '" + req.body.username + "'!");
 		});
 
 		parking.on('authFailure', function() {
