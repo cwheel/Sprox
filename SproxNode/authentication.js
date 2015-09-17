@@ -186,9 +186,22 @@ module.exports = function(passport, strategy, whitelist) {
 					//Remove <br> tags from certain elements creating an array of each line
 					spireUser.homeAddress = spireUser.homeAddress.split("<br>");
 					spireUser.schoolAddress = spireUser.schoolAddress.split("<br>");
+
 					for (var finals in spireUser.finals){
+
 						spireUser.finals[finals].name = spireUser.finals[finals].name.split("<br>")[0];
 						spireUser.finals[finals].time = spireUser.finals[finals].time.split(".")[0];
+
+						var arrayName = spireUser.finals[finals].name.split('-')[0];
+						
+						//If it exists in the array give it the same number.
+						var indexArray = classesArray.indexOf(arrayName);
+						if (indexArray == -1) {
+							spireUser.finals[finals].classID = classesArray.length;
+							classesArray.push(arrayName);
+						} else {
+							spireUser.finals[finals].classID = indexArray;
+						}
 					}
 
 					//Keep a hash of the users password on hand, useful for verification later

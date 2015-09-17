@@ -41,18 +41,17 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-1"></div>
-		<div class="col-md-10">
+		<div class="col-md-12">
 			<div class="panel panel-material-light-blue" ng-show="showFinals" edgeless-panel="">
 				<div class="panel-heading">
 					<div>Finals</div>
 				</div>
 				<div class="panel-body">
-					<div class="col-md-2 shFinal" ng-repeat="class in finals">
-						<div>{{ class.date }}</div>
-						<div>{{ class.name }}</div>
-						<div>{{ class.time }}</div>
-						<div class="shClassLocation">{{ class.location }}</div>
+					<div class="row shfinalBlock" ng-class="{shfinalBlockPading:!$first}" ng-repeat="class in finals" style="background: {{ colors[class.classID] }};">
+						<div class="col-md-3">{{ class.name }} </div>
+						<div class="col-md-2">{{ class.date }} </div>
+						<div class="col-md-3">{{ class.time }} </div>
+						<div class="col-md-4">{{ class.location }} </div>
 					</div>
 				</div>	
 			</div>

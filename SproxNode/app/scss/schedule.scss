@@ -101,10 +101,11 @@ All tags in this stylesheet start with "sh"
 .shClasslocation {
 	position: absolute;
 	bottom: 0;
+	left:0;
 	font-size: 9px;
 	text-overflow: ellipsis;
   	width: 100%;
-  	display: block;
+  	display: inline;
   	white-space: nowrap;
   	overflow: hidden;
 
@@ -145,5 +146,15 @@ All tags in this stylesheet start with "sh"
 	
 .shFirstTime{
 	margin-top:45px;
+}
+.shfinalBlock{
+	color: #DDD;
+	border-radius: 5px;
+	text-overflow: ellipsis;
+	white-space: hidden;
+	overflow: hidden;
+}
+.shfinalBlockpading{
+	margin-top : 10px;
 }
 
