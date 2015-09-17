@@ -132,8 +132,10 @@ sprox.directive('customTopbar', function($timeout) {
             $timeout(function() {
                 if (attr.customTopbar == "true"){
                     $("#standardTopbar").css("display","none");
+                    $("#standardTopbar").css("width","0%");
                 }else {
-                    $("#standardTopbar").css("display","block");
+                    $("#standardTopbar").css("display","table");
+                    $("#standardTopbar").css("width","100%");
                 }
             }, 10);
         }
