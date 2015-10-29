@@ -1,8 +1,7 @@
-sftp-config.json*
-SproxLocal/
-SproxNode/db
-SproxNode/node_modules
-SproxNode/.sass-cache/
-SproxNode/.sass-cache/
-SproxNode/css
-Clients/OS X/Sprox.xcodeproj/
+sftp-config.json
+db
+node_modules
+.sass-cache
+.sass-cache
+css
+whitelist.json
